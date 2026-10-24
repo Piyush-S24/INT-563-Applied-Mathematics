@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE563 &middot; Applied Mathematics Unit IV &mdash; Graph Theory &mdash; Visual Walkthrough</title>
+<style>
+:root{--navy:#182B49;--navy2:#253E64;--cyan:#0096C7;--ice:#7EC5E2;--purple:#5C2D91;
+      --orange:#ED771F;--green:#107C41;--red:#B42318;--grey:#586476;--rule:#D8DFE8;
+      --bg:#F6F9FC;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);
+     font:15px/1.65 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--navy);color:#fff;padding:28px 0 24px;border-bottom:4px solid var(--cyan)}
+header .eyebrow{color:var(--ice);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+header h1{margin:7px 0 6px;font-size:32px;font-weight:600;line-height:1.2}
+header p{margin:0;color:#C9D8E6;font-size:15.5px;max-width:860px}
+nav{background:var(--navy2);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(24,43,73,.2)}
+nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:11px 14px;color:#D8E6F2;text-decoration:none;font-size:13.5px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,.13);color:#fff}
+section{padding:34px 0 12px;border-bottom:1px solid var(--rule)}
+h2{font-size:24px;margin:0 0 6px;font-weight:600}
+h2 .num{display:inline-block;background:var(--cyan);color:#fff;font-size:13px;
+        padding:3px 9px;border-radius:4px;margin-right:10px;vertical-align:3px}
+h3{font-size:17.5px;margin:24px 0 8px;font-weight:600;color:var(--navy)}
+.lede{color:var(--grey);font-size:15.5px;margin:0 0 16px;max-width:920px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* ---- formula sheet ---- */
+.fsheet{border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:4px;
+        background:var(--card);margin:18px 0;padding:15px 20px 8px}
+.fshd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:8px}
+.fst{width:100%;border-collapse:collapse;margin:0;font-size:14px;box-shadow:none}
+.fst td{border:0;border-top:1px solid #E1EAF3;padding:9px 8px;vertical-align:middle;
+        background:none}
+.fst tr:first-child td{border-top:0}
+.fst tbody tr:nth-child(even){background:none}
+td.fsn{width:23%;font-weight:600;color:var(--navy);font-size:13.5px}
+td.fsf{width:42%}
+td.fsf .math{font-size:16.5px;line-height:1.9;white-space:normal}
+td.fsw{color:var(--grey);font-size:13px}
+/* ---- the method ---- */
+.meth{border:1px solid var(--rule);border-left:3px solid var(--navy);border-radius:4px;
+      background:var(--card);margin:18px 0;padding:15px 20px 16px}
+.methd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);margin-bottom:9px}
+.meth ol{margin:0;padding-left:22px}
+.meth li{font-size:14.8px;line-height:1.68;padding:4px 0;color:var(--navy)}
+.meth li::marker{color:var(--grey);font-weight:700}
+/* ---- practice ---- */
+.prac{border:1px solid var(--rule);border-radius:4px;background:var(--card);
+      margin:18px 0;padding:15px 20px 16px}
+.prhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pall{margin-left:auto;font-size:12px;padding:5px 11px}
+.prac ol{margin:0;padding-left:22px}
+.prac>ol>li{padding:11px 0;border-top:1px solid #EEF2F6}
+.prac>ol>li:first-child{border-top:0}
+.prac li::marker{color:var(--grey);font-weight:700}
+/* Numericals pages run quiet: panels are white with a thin rule, and colour is
+   reserved for meaning (a revealed answer, a caution) rather than decoration. */
+body.quiet .formula{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--navy);border-radius:4px}
+body.quiet .formula .flabel{color:var(--navy)}
+body.quiet .ex{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .exgiven{background:#F7FAFC;border-color:var(--rule)}
+body.quiet .why{background:var(--card)}
+body.quiet .whygrid{background:var(--rule)}
+body.quiet .wq.w3{background:var(--card)}
+body.quiet .take{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .warn{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--orange);border-radius:4px}
+.pq{font-size:14.8px;line-height:1.68;color:var(--navy);margin-bottom:7px}
+.pbtn{font-size:12px;padding:4px 10px}
+.pa{display:none;margin-top:9px;background:#E4F6EB;border-left:3px solid var(--green);
+    border-radius:5px;padding:9px 13px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.pa.on{display:block}
+.pa b{color:var(--green)}
+.ex{border:1.5px solid #BFD9CB;border-left:5px solid var(--green);border-radius:9px;
+    background:#FBFEFC;margin:18px 0;padding:14px 18px 16px}
+.exhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--green);margin-bottom:9px}
+.exgiven{font-size:14.5px;background:#fff;border:1px solid #DCE9E1;border-radius:6px;
+         padding:9px 13px;margin-bottom:12px}
+.exsteps{list-style:none;counter-reset:exs;margin:0;padding:0}
+.exsteps li{counter-increment:exs;display:grid;grid-template-columns:26px 1fr;gap:11px;
+            padding:7px 0;border-top:1px solid #E7F0EA;align-items:baseline}
+.exsteps li:first-child{border-top:0}
+.exsteps li::before{content:counter(exs);display:block;width:21px;height:21px;
+                    border-radius:50%;background:var(--green);color:#fff;font-size:11.5px;
+                    font-weight:700;text-align:center;line-height:21px}
+.exb{min-width:0}
+.exl{font-size:13.5px;color:var(--grey);display:block;margin-bottom:3px}
+.exw{font-size:15.5px;color:var(--navy);font-family:"Cambria Math",Cambria,Georgia,serif;
+     display:block;line-height:1.8}
+.exans{margin-top:12px;background:#E4F6EB;border-radius:6px;padding:10px 14px;
+       font-size:15px;color:var(--navy);font-weight:600}
+.exans b{color:var(--green)}
+@media(max-width:700px){.exsteps li{grid-template-columns:22px 1fr;gap:8px}}
+.why{border:1.5px solid #CBD9E6;border-radius:9px;margin:18px 0;overflow:hidden;
+     background:linear-gradient(180deg,#F4F9FD 0,#fff 54px)}
+.whyhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);padding:13px 18px 0}
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E3EAF1;
+         margin-top:12px;border-top:1px solid #E3EAF1}
+.wq{background:var(--card);padding:14px 17px 16px}
+.wq h5{margin:0 0 7px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wq p{margin:0;font-size:14px;line-height:1.62}
+.wq.w1 h5{color:var(--cyan)}
+.wq.w2 h5{color:var(--purple)}
+.wq.w3 h5{color:var(--orange)}
+.wq.w3{background:#FFFBF7}
+@media(max-width:900px){.whygrid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 7px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan)}
+.card p{margin:0;font-size:14.5px}
+.take{background:#E4F6EB;border-left:5px solid var(--green);border-radius:6px;padding:12px 16px;margin:14px 0}
+.take b.hd{color:var(--green);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.take b{color:var(--navy)}
+.warn{background:#FDEEEC;border-left:5px solid var(--orange);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn b.hd{color:var(--orange);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.warn b{color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+tbody tr:nth-child(even){background:#F2F7FB}
+td.hi{background:#FFF3E0;font-weight:700}
+code{background:#EEF3F8;padding:1px 5px;border-radius:4px;font-size:13.5px}
+footer{background:var(--navy);color:#9FB4CA;padding:22px 0;font-size:13.5px}
+
+/* ---------------- formula block ---------------- */
+.formula{background:#F3EEFB;border-left:5px solid var(--purple);border-radius:6px;
+         padding:14px 18px;margin:14px 0;overflow-x:auto}
+.formula .flabel{display:block;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+                 text-transform:uppercase;color:var(--purple);margin-bottom:9px}
+.formula small{display:block;font:13.5px/1.55 "Segoe UI",sans-serif;color:var(--grey);margin-top:10px}
+
+/* ---------------- real maths ---------------- */
+.math{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;
+      font-size:20px;line-height:2.1;color:var(--navy);white-space:nowrap}
+.math i,.math .var{font-style:italic;font-family:inherit}
+.math .op{font-style:normal;padding:0 .22em}
+.math b.vecb{font-weight:700;font-style:normal}
+.math sub{font-size:.62em;vertical-align:-.3em}
+.math sup{font-size:.62em;vertical-align:.45em}
+.cases{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .2em}
+.cases .cb{font-size:2.5em;font-weight:300;line-height:.86;margin-right:.14em}
+.cases table{border-collapse:collapse;margin:0;width:auto;box-shadow:none;font-size:.86em}
+.cases tbody tr,.cases tbody tr:nth-child(even){border:0;background:none}
+.cases td{border:0;padding:.14em .2em;background:none;white-space:nowrap;
+          line-height:1.5;vertical-align:middle}
+.cases td.cc{font-size:.8em;font-style:normal;color:var(--grey);padding-left:1.5em;
+             font-family:"Segoe UI",system-ui,sans-serif}
+.frac{display:inline-block;vertical-align:-.52em;text-align:center;margin:0 .26em}
+.frac .num{display:block;padding:0 .4em .12em;border-bottom:1.7px solid currentColor;line-height:1.22}
+.frac .den{display:block;padding:.12em .4em 0;line-height:1.22}
+.sqrt{display:inline-block;position:relative;margin:0 .15em}
+.sqrt .rad{font-size:1.12em;vertical-align:-.06em}
+.sqrt .rand{border-top:1.6px solid currentColor;padding:.1em .22em 0 .12em;margin-left:-.12em}
+.bigop{display:inline-block;text-align:center;vertical-align:-.5em;margin:0 .2em;line-height:1}
+.bigop .glyph{display:block;font-size:1.5em;line-height:.88}
+.bigop.int .glyph{font-size:1.75em}
+.bigop .lim{display:block;font-size:.5em;line-height:1.25;font-style:italic}
+.paren{font-size:1.18em;padding:0 .06em}
+.paren.big{font-size:1.5em;vertical-align:-.16em}
+.bar{padding:0 .09em}
+.hat{position:relative;display:inline-block;font-style:italic}
+.hat::after{content:"\0302";position:absolute;left:0;right:0;top:-.46em;
+            text-align:center;font-size:.72em;font-style:normal;line-height:1;
+            font-family:"Cambria Math",Cambria,serif}
+.matrix{display:inline-block;vertical-align:middle;margin:0 .18em}
+.matrix .mb{display:inline-block;font-size:2.1em;vertical-align:middle;font-weight:300}
+.matrix table{display:inline-table;width:auto;border:0;margin:0 .1em;vertical-align:middle}
+.matrix td{border:0;padding:.08em .38em;text-align:center;font-size:.86em;background:none}
+
+/* ---------------- visualisation ---------------- */
+.viz{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px;margin:16px 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button{font:600 13.5px "Segoe UI",sans-serif;padding:8px 14px;border-radius:6px;
+       border:1px solid var(--cyan);background:var(--cyan);color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.ghost{background:#fff;color:var(--cyan)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select{font:14px "Segoe UI";padding:7px 9px;border-radius:6px;border:1px solid var(--rule);background:#fff}
+svg{width:100%;height:auto;display:block;background:#fff;border-radius:6px;max-width:1040px;margin:0 auto}
+.status{font-size:15.5px;line-height:1.6;background:#EAF4FA;border-left:4px solid var(--cyan);
+        border-radius:6px;padding:12px 16px;margin-top:12px;min-height:48px;color:var(--navy)}
+.status b{color:var(--cyan)}
+.stepcount{font-size:12.5px;font-weight:700;color:var(--grey);letter-spacing:.03em;
+           margin-left:auto;padding-right:4px;white-space:nowrap}
+.stepcount em{font-style:normal;color:var(--cyan);font-size:14.5px}
+.viz.done .stepcount em{color:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--grey);margin-top:9px;justify-content:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+</style>
+</head>
+<body class="">
+<header><div class="wrap">
+  <div class="eyebrow">CSE563 &middot; Applied Mathematics &middot; Unit IV</div>
+  <h1>Graph Theory &mdash; Visual Walkthrough</h1>
+  <p>Every algorithm on the Unit IV syllabus, animated step by step. Press <b>Step</b> and watch what the algorithm actually does &mdash; the table on screen is the same table you would write by hand in the exam.</p>
+</div></header>
+<nav><div class="wrap"><ul><li><a href="#basics">1 &middot; Graph basics</a></li><li><a href="#types">2 &middot; Graph types</a></li><li><a href="#traverse">3 &middot; Traversing</a></li><li><a href="#search">4 &middot; Searching</a></li><li><a href="#colour">5 &middot; Colouring</a></li><li><a href="#flow">6 &middot; Max-flow min-cut</a></li></ul></div></nav>
+<section id="basics"><div class="wrap"><h2><span class="num">1</span>Graph basics</h2><p class="lede">A graph is a set of dots joined by lines. Every question in this unit is a question about those dots and lines.</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>Everything else in this unit is defined in terms of vertices, edges and degree. Get these three right and Dijkstra, colouring and max-flow are all just rules about them; get them wrong and nothing later can be stated precisely.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Just draw the picture and look at it&rdquo;</b> works for six vertices and collapses at sixty. A drawing also has no notion of <i>the same graph drawn differently</i> &mdash; two pictures that look nothing alike can be identical graphs. The degree sequence and the adjacency matrix are what let you compare them.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>You cannot check your own answer. The handshaking lemma is the cheapest correctness test in the unit &mdash; if your degrees do not sum to twice the edge count, you have miscounted, and you find out in ten seconds instead of at the end of the question.</p></div></div></div><div class="formula"><span class="flabel">Degree of a vertex</span><div class="math"><span class="op">deg</span>(<i>v</i>) = number of edges touching <i>v</i></div><small>A self-loop counts twice &mdash; both of its ends touch the same vertex.</small></div><div class="formula"><span class="flabel">Handshaking lemma</span><div class="math"><span class="bigop"><span class="lim">&nbsp;</span><span class="glyph">&#8721;</span><span class="lim"><i>v</i> &#8712; <i>V</i></span></span>&nbsp;<span class="op">deg</span><span class="paren">(</span><i>v</i><span class="paren">)</span> = 2<span class="bar">|</span><i>E</i><span class="bar">|</span></div><small><b>Handshaking lemma.</b> Every edge has two ends, so adding up all the degrees counts every edge exactly twice.</small></div><div class="take"><b class="hd">Consequence</b><br>The number of odd-degree vertices is always <b>even</b>. You can never build a graph with exactly three odd vertices &mdash; try it and the handshaking sum comes out odd.</div><div class="viz"><div style="font-size:13px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Try it &mdash; click any edge to remove or restore it, and watch the degrees change</div><svg id="svg-basics" viewBox="0 0 460 262"></svg><div class="status" id="st-basics"></div></div><h3>Adjacency matrix and adjacency list</h3><p class="lede">Two ways to store the same graph. The matrix answers &ldquo;is <i>u</i> joined to <i>v</i>?&rdquo; instantly; the list is far smaller when the graph is sparse.</p><div class="grid"><div class="card"><h4>Adjacency matrix</h4><div id="matBasics"></div><p style="font-size:13px;color:var(--grey);margin:8px 0 0">Row sums are the degrees. Space is always <code>n&sup2;</code>.</p></div><div class="card"><h4>Adjacency list</h4><div id="listBasics" style="font-size:14px"></div><p style="font-size:13px;color:var(--grey);margin:8px 0 0">Space is <code>O(n + m)</code> &mdash; the usual choice.</p></div></div><div class="ex"><div class="exhd">Worked example &mdash; verifying the handshaking lemma</div><div class="exgiven">The graph in the panel above: <i>V</i> = {A, B, C, D, E} with <b>7</b> edges &mdash; AB, AD, BC, BD, BE, CE, DE.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Count the edges touching each vertex</span><span class="exw">deg(A) = 2, deg(B) = 4, deg(C) = 2, deg(D) = 3, deg(E) = 3</span></div></li><li><div class="exb"><span class="exl">Add the degrees up</span><span class="exw">2 + 4 + 2 + 3 + 3 = <b>14</b></span></div></li><li><div class="exb"><span class="exl">Compare with twice the edge count</span><span class="exw">2|<i>E</i>| = 2 &#215; 7 = <b>14</b> &nbsp;&#10003;</span></div></li><li><div class="exb"><span class="exl">Now count the odd-degree vertices</span><span class="exw">D and E have odd degree &mdash; <b>2</b> of them, an even number, exactly as the lemma forces</span></div></li></ol><div class="exans">Both checks pass. Had your degree sum come to 13, you would know at once that an edge was miscounted &mdash; <b>an odd total is impossible in any graph</b>. Click an edge off in the panel above and watch the sum drop by exactly 2.</div></div></div></section>
+<section id="types"><div class="wrap"><h2><span class="num">2</span>Graph types</h2><p class="lede">The name of a graph tells you exactly what you may assume about it.</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>The type of a graph is a <b>licence to assume things</b>. Knowing a graph is a tree tells you instantly that it has <i>n</i> &#8722; 1 edges, no cycles, and exactly one path between any two vertices &mdash; three facts you would otherwise have to prove.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Why not treat every graph as a general graph?&rdquo;</b> You can, and you will do far more work than necessary. Shortest path on a tree is a single walk; on a general weighted graph it needs Dijkstra. Two-colouring a bipartite graph is one BFS; deciding &#967; in general is NP-hard. The structure <i>is</i> the shortcut.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>You reach for the heavy algorithm when the light one would do, or &mdash; worse &mdash; you assume a property the graph does not have. Assume a graph is bipartite when it contains a triangle and your two-colouring will simply fail, with no clear reason why.</p></div></div></div><table><thead><tr><th>Type</th><th>Defining property</th><th>Edge count</th><th>One-line test</th></tr></thead><tbody><tr><td><b>Complete</b> K<sub><i>n</i></sub></td><td>every pair joined</td><td><span class="math"><span class="frac"><span class="num"><i>n</i><span class="paren">(</span><i>n</i>&#8722;1<span class="paren">)</span></span><span class="den">2</span></span></span></td><td>K<sub>6</sub> has 15 edges</td></tr><tr><td><b>Bipartite</b> K<sub><i>m</i>,<i>n</i></sub></td><td>two sides, edges only across</td><td><span class="math"><i>m</i>&#183;<i>n</i></span></td><td>contains no odd cycle</td></tr><tr><td><b><i>k</i>-regular</b></td><td>every vertex has the same degree</td><td><span class="math"><span class="frac"><span class="num"><i>n</i>&#183;<i>k</i></span><span class="den">2</span></span></span></td><td>all row sums equal</td></tr><tr><td><b>Tree</b></td><td>connected, no cycle</td><td><span class="math"><i>n</i>&#8722;1</span></td><td>exactly one path between any pair</td></tr><tr><td><b>DAG</b></td><td>directed, no directed cycle</td><td>&mdash;</td><td>a topological order exists</td></tr><tr><td><b>Eulerian circuit</b></td><td>uses every <i>edge</i> once, returns to start</td><td>&mdash;</td><td><b>0</b> odd-degree vertices</td></tr><tr><td><b>Eulerian path</b></td><td>uses every <i>edge</i> once</td><td>&mdash;</td><td><b>exactly 2</b> odd-degree vertices</td></tr><tr><td><b>Hamiltonian</b></td><td>visits every <i>vertex</i> once</td><td>&mdash;</td><td>no efficient test &mdash; NP-complete</td></tr></tbody></table><div class="warn"><b class="hd">The trap that costs marks</b><br>Euler is about <b>edges</b> and has a one-line test you can apply in seconds. Hamilton is about <b>vertices</b> and has no known efficient test at all. The names rhyme; the problems could not be further apart.</div><div class="viz"><div class="controls"><span style="font-weight:600">Check the Eulerian condition:</span><select id="selEuler"><option value="path">Graph A &mdash; two odd vertices</option><option value="circuit">Graph B &mdash; all even</option><option value="none">Graph C &mdash; four odd vertices</option></select></div><svg id="svg-euler" viewBox="0 0 460 260"></svg><div class="status" id="st-euler"></div><div class="legend"><span><i style="background:#B42318"></i>odd degree</span><span><i style="background:#0096C7"></i>even degree</span></div></div><div class="ex"><div class="exhd">Worked example &mdash; counting edges from the type alone</div><div class="exgiven">Four graphs, each on the stated number of vertices. No drawing required.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Complete graph <i>K</i><sub>5</sub></span><span class="exw">every pair joined &#8594; <span class="frac"><span class="num">5 &#215; 4</span><span class="den">2</span></span> = <b>10</b> edges</span></div></li><li><div class="exb"><span class="exl">Complete bipartite <i>K</i><sub>3,4</sub></span><span class="exw">every left vertex joins every right vertex &#8594; 3 &#215; 4 = <b>12</b> edges</span></div></li><li><div class="exb"><span class="exl">Any tree on 7 vertices</span><span class="exw">a tree always has <i>n</i> &#8722; 1 edges &#8594; 7 &#8722; 1 = <b>6</b> edges</span></div></li><li><div class="exb"><span class="exl">3-regular graph on 8 vertices</span><span class="exw">handshaking: <span class="frac"><span class="num">8 &#215; 3</span><span class="den">2</span></span> = <b>12</b> edges</span></div></li></ol><div class="exans">Not one of these needed a picture. <b>The name of the graph gave the answer</b>, which is exactly what the classification is for.</div></div></div></section>
+<section id="traverse"><div class="wrap"><h2><span class="num">3</span>Graph traversing algorithms</h2><p class="lede">Both visit every reachable vertex exactly once. The only difference is the data structure holding the frontier &mdash; and that single choice changes everything.</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>Before you can find anything in a graph you need a way to visit it systematically, without missing a vertex and without going round a cycle forever. BFS and DFS are the two ways, and almost every graph algorithm is one of them with extra bookkeeping.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Why have two, if both visit everything?&rdquo;</b> Because the <i>order</i> is what you actually use. BFS reaches every vertex by the fewest hops, so it solves unweighted shortest path for free; DFS goes deep first, which is what cycle detection, topological sort and connected components need. Swapping the queue for a stack changes the whole character of the search.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>Forget the <b>visited</b> set and the traversal never terminates on a cyclic graph &mdash; it walks round the cycle indefinitely. This is the single most common bug in first implementations, and it is why the mark scheme asks you to show the visited set.</p></div></div></div><div class="grid"><div class="card"><h4>BFS &mdash; breadth first</h4><p>Frontier is a <b>queue</b> (first in, first out). Explores in rings of increasing distance, so on an unweighted graph it finds the <b>shortest path</b>.</p></div><div class="card"><h4>DFS &mdash; depth first</h4><p>Frontier is a <b>stack</b> (last in, first out). Dives as deep as it can before backing up. Gives discovery/finish times and a <b>topological order</b> on a DAG.</p></div></div><div class="viz"><div class="controls"><select id="selTrav"><option value="bfs">BFS &mdash; queue</option><option value="dfs">DFS &mdash; stack</option></select><button data-act="step" data-viz="trav">Step &#9654;</button><button class="ghost" data-act="auto" data-viz="trav">Auto-play</button><button class="ghost" data-act="reset" data-viz="trav">Reset</button></div><svg id="svg-trav" viewBox="0 0 560 300"></svg><div class="status" id="st-trav"></div><div class="legend"><span><i style="background:#9AA7B5"></i>unvisited</span><span><i style="background:#ED771F"></i>in frontier</span><span><i style="background:#107C41"></i>visited</span><span><i style="background:#0096C7"></i>current</span></div></div><div class="take"><b class="hd">Why BFS gives shortest paths</b><br>A queue hands vertices back in the order they were found, so every vertex at distance <i>k</i> leaves the queue before any vertex at distance <i>k</i> + 1. The first time you reach a vertex is therefore along a shortest route.</div><div class="ex"><div class="exhd">Worked example &mdash; BFS by hand, with the queue written out at every step</div><div class="exgiven">The 6-vertex graph in the panel above. Adjacency: A&nbsp;&rarr;&nbsp;B,&nbsp;C &nbsp;|&nbsp; B&nbsp;&rarr;&nbsp;A,&nbsp;D &nbsp;|&nbsp; C&nbsp;&rarr;&nbsp;A,&nbsp;E &nbsp;|&nbsp; D&nbsp;&rarr;&nbsp;B,&nbsp;F &nbsp;|&nbsp; E&nbsp;&rarr;&nbsp;C,&nbsp;F &nbsp;|&nbsp; F&nbsp;&rarr;&nbsp;D,&nbsp;E. Start at A.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Start</span><span class="exw">queue = [A] &nbsp; visited = {A}</span></div></li><li><div class="exb"><span class="exl">Pop A &mdash; push its unvisited neighbours B and C</span><span class="exw">queue = [B, C] &nbsp; visited = {A, B, C}</span></div></li><li><div class="exb"><span class="exl">Pop B &mdash; A is already visited, so only D is added</span><span class="exw">queue = [C, D] &nbsp; visited = {A, B, C, D}</span></div></li><li><div class="exb"><span class="exl">Pop C &mdash; adds E</span><span class="exw">queue = [D, E] &nbsp; visited = {A, B, C, D, E}</span></div></li><li><div class="exb"><span class="exl">Pop D &mdash; adds F</span><span class="exw">queue = [E, F] &nbsp; visited = all six</span></div></li><li><div class="exb"><span class="exl">Pop E, then F</span><span class="exw">every neighbour is already visited &mdash; the queue empties and BFS stops</span></div></li></ol><div class="exans">BFS order: <b>A &rarr; B &rarr; C &rarr; D &rarr; E &rarr; F</b>. Because the frontier is a <b>queue</b>, this is also the order of increasing hop-distance from A: A at 0, B and C at 1, D and E at 2, F at 3. Switch the selector to DFS and the same graph gives a completely different order.</div></div></div></section>
+<section id="search"><div class="wrap"><h2><span class="num">4</span>Graph searching algorithms</h2><p class="lede">Now the edges carry weights, and &ldquo;shortest&rdquo; means smallest total weight, not fewest hops.</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>Once edges carry weights, &ldquo;fewest hops&rdquo; and &ldquo;cheapest&rdquo; stop being the same thing. A three-hop route down a motorway beats a one-hop route down a lane. Dijkstra finds the cheapest route rather than the shortest-looking one.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Why not just use BFS?&rdquo;</b> BFS counts hops and ignores weights entirely, so it will happily return a 1-edge path of cost 40 over a 3-edge path of cost 9. <b>&ldquo;Why not try every path?&rdquo;</b> Because the number of paths grows factorially &mdash; fine for six vertices, hopeless for six hundred.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>Use Dijkstra on a graph with a <b>negative</b> edge and it returns a confidently wrong answer. Dijkstra finalises a vertex the moment it is cheapest on the frontier, assuming no later path can improve it &mdash; which a negative edge breaks. That is exactly the case Bellman&ndash;Ford exists for.</p></div></div></div><h3>Dijkstra&rsquo;s shortest path</h3><div class="formula"><span class="flabel">The relaxation step</span><div class="math"><span class="op">if</span>&nbsp;&nbsp;<i>d</i><span class="paren">[</span><i>u</i><span class="paren">]</span> + <i>w</i><span class="paren">(</span><i>u</i>, <i>v</i><span class="paren">)</span> &lt; <i>d</i><span class="paren">[</span><i>v</i><span class="paren">]</span>&nbsp;&nbsp;<span class="op">then</span>&nbsp;&nbsp;<i>d</i><span class="paren">[</span><i>v</i><span class="paren">]</span> &#8592; <i>d</i><span class="paren">[</span><i>u</i><span class="paren">]</span> + <i>w</i><span class="paren">(</span><i>u</i>, <i>v</i><span class="paren">)</span></div><small>This single operation is called <b>relaxation</b>, and it is the only thing Dijkstra does. Settle the nearest unsettled vertex, relax its edges, repeat.</small></div><div class="viz" id="wrap-dij"><div class="controls"><button class="ghost" data-act="back" data-viz="dij">&#9664; Back</button><button data-act="step" data-viz="dij">Step &#9654;</button><button class="ghost" data-act="auto" data-viz="dij">Auto-play</button><button class="ghost" data-act="reset" data-viz="dij">Reset</button><span class="stepcount" id="sc-dij">step <em>0</em> of 0</span></div><svg id="svg-dij" viewBox="0 0 560 300"></svg><div id="tabDij"></div><div class="status" id="st-dij"></div></div><div class="warn"><b class="hd">Why Dijkstra needs non-negative weights</b><br>It commits to a vertex the instant that vertex is nearest, and never looks at it again. A negative edge discovered later could have made a settled vertex cheaper, so the answer would be wrong. Use <b>Bellman&ndash;Ford</b> instead, which relaxes every edge <i>n</i> &minus; 1 times and also detects negative cycles.</div><table><thead><tr><th>Algorithm</th><th>Solves</th><th>Negative weights?</th><th>Complexity</th></tr></thead><tbody><tr><td>Dijkstra</td><td>one source &#8594; all</td><td>&#10007; no</td><td><span class="math">O<span class="paren">(</span><span class="paren">(</span><i>n</i>+<i>m</i><span class="paren">)</span> <span class="op">log</span> <i>n</i><span class="paren">)</span></span></td></tr><tr><td>Bellman&ndash;Ford</td><td>one source &#8594; all</td><td>&#10003; yes, detects negative cycles</td><td><span class="math">O<span class="paren">(</span><i>n</i>&#183;<i>m</i><span class="paren">)</span></span></td></tr><tr><td>Floyd&ndash;Warshall</td><td>all pairs</td><td>&#10003; yes</td><td><span class="math">O<span class="paren">(</span><i>n</i><sup>3</sup><span class="paren">)</span></span></td></tr></tbody></table><h3>Minimum spanning tree &mdash; Kruskal</h3><p class="lede">A different goal: connect every vertex as cheaply as possible, with no cycles. An MST on <i>n</i> vertices always has exactly <i>n</i> &minus; 1 edges.</p><div class="viz" id="wrap-mst"><div class="controls"><button class="ghost" data-act="back" data-viz="mst">&#9664; Back</button><button data-act="step" data-viz="mst">Step &#9654;</button><button class="ghost" data-act="auto" data-viz="mst">Auto-play</button><button class="ghost" data-act="reset" data-viz="mst">Reset</button><span class="stepcount" id="sc-mst">step <em>0</em> of 0</span></div><svg id="svg-mst" viewBox="0 0 560 300"></svg><div class="status" id="st-mst"></div><div class="legend"><span><i style="background:#107C41"></i>accepted</span><span><i style="background:#B42318"></i>rejected (closes a cycle)</span><span><i style="background:#D8DFE8"></i>not yet considered</span></div></div><div class="take"><b class="hd">Kruskal vs Prim</b><br>Kruskal sorts <i>all</i> edges and grows a forest; Prim grows <i>one</i> tree outward from a start vertex. When every weight is distinct the MST is unique, so both return exactly the same tree.</div><div class="ex"><div class="exhd">Worked example &mdash; one relaxation step, written out in full</div><div class="exgiven">The weighted graph in the panel above. Edge weights include A&ndash;B&nbsp;=&nbsp;4, A&ndash;C&nbsp;=&nbsp;2 and B&ndash;C&nbsp;=&nbsp;1. We are part-way through Dijkstra from A: C has just been finalised with <i>d</i>[C] = 2, and B currently holds <i>d</i>[B] = 4 from the direct edge.</div><ol class="exsteps"><li><div class="exb"><span class="exl">The relaxation rule</span><span class="exw">if <i>d</i>[u] + w(u, v) &lt; <i>d</i>[v], then <i>d</i>[v] &#8594; <i>d</i>[u] + w(u, v)</span></div></li><li><div class="exb"><span class="exl">Substitute the numbers for the edge C&ndash;B</span><span class="exw"><i>d</i>[C] + w(C, B) = 2 + 1 = <b>3</b></span></div></li><li><div class="exb"><span class="exl">Compare with the estimate B already holds</span><span class="exw">3 &lt; 4 &nbsp;&#8594;&nbsp; going via C is cheaper than going direct</span></div></li><li><div class="exb"><span class="exl">Update both the distance and the predecessor</span><span class="exw"><i>d</i>[B] = <b>3</b>, and B's predecessor becomes <b>C</b> instead of A</span></div></li></ol><div class="exans">B was reachable in one hop for cost 4, but <b>two hops through C cost only 3</b>. Relaxation is nothing more than this one comparison, repeated until no estimate can improve &mdash; which is why the final answer to F is 13 via A&nbsp;&rarr;&nbsp;C&nbsp;&rarr;&nbsp;E&nbsp;&rarr;&nbsp;F and not the 1-hop-looking route.</div></div></div></section>
+<section id="colour"><div class="wrap"><h2><span class="num">5</span>Graph colouring problem</h2><p class="lede">Colour the vertices so that no edge joins two of the same colour. The fewest colours needed is the chromatic number &#967;(<i>G</i>).</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>A surprising number of real scheduling problems are this one problem in disguise. Anything of the form <i>these two things clash, so they cannot share a slot</i> is graph colouring &mdash; exam timetables, radio frequencies, registers in a compiler.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Why not just give everything its own slot?&rdquo;</b> That always works and is always wasteful &mdash; it is a 30-day exam timetable when 3 days would do. The whole value is in using the <i>fewest</i> colours. <b>&ldquo;Why not find the true minimum?&rdquo;</b> Because deciding &#967; is NP-hard, so for any real instance you use a greedy heuristic and accept a good answer.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>You assume greedy gives the minimum. Welsh&ndash;Powell is a <b>heuristic</b>: it guarantees at most &#916; + 1 colours, not the fewest. Quoting its output as &#967; is a real mark-losing error unless you can also show a lower bound &mdash; such as a clique that forces that many colours.</p></div></div></div><div class="grid"><div><div class="formula"><span class="flabel">Upper bound on the chromatic number</span><div class="math">&#967;<span class="paren">(</span><i>G</i><span class="paren">)</span> &#8804; &#916;<span class="paren">(</span><i>G</i><span class="paren">)</span> + 1</div><small>The greedy bound. A vertex has at most &#916; neighbours, so among &#916; + 1 colours one is always still free when you reach it.</small></div></div><div><table><thead><tr><th>Graph</th><th>&#967;</th><th>Why</th></tr></thead><tbody><tr><td>Even cycle C<sub>6</sub></td><td>2</td><td>bipartite &mdash; alternate two colours</td></tr><tr><td>Odd cycle C<sub>5</sub></td><td>3</td><td>the two ends clash when you close the loop</td></tr><tr><td>Complete K<sub>4</sub></td><td>4</td><td>every pair is adjacent</td></tr><tr><td>Any tree</td><td>2</td><td>no cycles at all</td></tr></tbody></table></div></div><div class="viz" id="wrap-col"><div class="controls"><button class="ghost" data-act="back" data-viz="col">&#9664; Back</button><button data-act="step" data-viz="col">Step &#9654;</button><button class="ghost" data-act="auto" data-viz="col">Auto-play</button><button class="ghost" data-act="reset" data-viz="col">Reset</button><span class="stepcount" id="sc-col">step <em>0</em> of 0</span></div><svg id="svg-col" viewBox="0 0 560 300"></svg><div class="status" id="st-col"></div></div><div class="take"><b class="hd">Why this matters</b><br>Exam timetabling, register allocation in a compiler and radio-frequency assignment are the same problem wearing different clothes: things that clash must get different slots.</div><div class="ex"><div class="exhd">Worked example &mdash; Welsh&ndash;Powell, and then proving the answer is optimal</div><div class="exgiven">The 6-vertex graph in the panel above: edges AB, AC, BC, CD, CE, EF, DF. Degrees: C=4, and A, B, D, E, F all =2.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Sort the vertices by degree, highest first</span><span class="exw">C(4), A(2), B(2), D(2), E(2), F(2)</span></div></li><li><div class="exb"><span class="exl">Colour 1 &mdash; start with C, then take anything not adjacent to what is already in this colour</span><span class="exw">C takes colour 1. A, B, D and E are all adjacent to C, so they are skipped. F is <b>not</b> adjacent to C &#8594; F joins colour 1. &nbsp;<b>colour 1 = {C, F}</b></span></div></li><li><div class="exb"><span class="exl">Colour 2 &mdash; highest remaining is A</span><span class="exw">A takes colour 2. B is adjacent to A, skip. D is not adjacent to A &#8594; joins. E is adjacent to neither A nor D &#8594; joins. &nbsp;<b>colour 2 = {A, D, E}</b></span></div></li><li><div class="exb"><span class="exl">Colour 3 &mdash; only B is left</span><span class="exw"><b>colour 3 = {B}</b>, so 3 colours were used</span></div></li><li><div class="exb"><span class="exl">Check the upper bound</span><span class="exw">&#967; &#8804; &#916; + 1 = 4 + 1 = 5 &mdash; we did better, at 3</span></div></li><li><div class="exb"><span class="exl">Now the lower bound, which is what proves optimality</span><span class="exw">A, B and C are <b>mutually adjacent</b> (AB, AC and BC are all edges), so they form a triangle and need three different colours between them &#8594; &#967; &#8805; 3</span></div></li></ol><div class="exans">Upper bound 3 from the colouring, lower bound 3 from the triangle, so <b>&#967;(<i>G</i>) = 3 exactly</b>. Welsh&ndash;Powell happens to hit the optimum here &mdash; but it is the <b>triangle</b>, not the algorithm, that entitles you to say so.</div></div></div></section>
+<section id="flow"><div class="wrap"><h2><span class="num">6</span>Max-flow min-cut algorithm</h2><p class="lede">How much can you push from source <i>s</i> to sink <i>t</i> without exceeding any pipe&rsquo;s capacity?</p><div class="why"><div class="whyhd">Why this, and why not something else</div><div class="whygrid"><div class="wq w1"><h5>Why we do this</h5><p>Capacity problems are everywhere &mdash; bandwidth, pipelines, roads, assigning staff to shifts. Max-flow answers &ldquo;how much can get through?&rdquo; and, through the min-cut, also tells you <b>which specific links are the bottleneck</b>, which is the part you can act on.</p></div><div class="wq w2"><h5>Why not just do the simpler thing?</h5><p><b>&ldquo;Why not just add up the capacities leaving the source?&rdquo;</b> Because a narrow pipe further downstream caps everything behind it &mdash; the limit is rarely at the source. <b>&ldquo;Why not push greedily down the fattest path?&rdquo;</b> Greedy can commit flow to an edge that a better routing needed, and get stuck below the maximum. The residual graph exists precisely so flow can be <i>undone</i>.</p></div><div class="wq w3"><h5>What goes wrong if you skip it</h5><p>You report a flow that is not maximal and cannot tell. Without computing the cut you have no certificate &mdash; <b>finding a cut whose capacity equals your flow is the proof that you are finished</b>, and it is the only way to be sure.</p></div></div></div><div class="formula"><span class="flabel">The theorem</span><div class="math"><span class="op">max flow</span> = <span class="op">min cut capacity</span></div><small>Ford&ndash;Fulkerson: while an augmenting path still exists in the residual graph, push its bottleneck along it. When no path remains, the flow is maximum &mdash; and equals the capacity of the smallest cut.</small></div><div class="viz" id="wrap-flow"><svg id="svg-flow" viewBox="0 0 560 280"></svg><div class="controls" style="margin:10px 0 0"><button data-act="step" data-viz="flow">Step &#9654;</button><button class="ghost" data-act="reset" data-viz="flow">Reset</button></div><div class="status" id="st-flow"></div></div><div class="take"><b class="hd">Reading the minimum cut off the final picture</b><br>When no augmenting path remains, mark every vertex still reachable from <i>s</i>. The edges leaving that set form the minimum cut, and their capacities add up to exactly the maximum flow.</div><div class="ex"><div class="exhd">Worked example &mdash; using the cut to prove a flow is maximal</div><div class="exgiven">A flow of value 13 has been found. The two edges leaving <i>s</i> have capacities 8 and 5.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Pick the cut</span><span class="exw">put only <i>s</i> on the source side: <i>S</i> = {<i>s</i>}, <i>T</i> = everything else</span></div></li><li><div class="exb"><span class="exl">Add the capacities of edges crossing forwards</span><span class="exw">8 + 5 = <b>13</b></span></div></li><li><div class="exb"><span class="exl">Apply the theorem</span><span class="exw">every flow &#8804; every cut, so max flow &#8804; 13</span></div></li><li><div class="exb"><span class="exl">Compare with the flow we have</span><span class="exw">our flow is 13, which already meets that ceiling</span></div></li></ol><div class="exans">Flow 13 = cut 13, so <b>the flow is maximal and this cut is minimal</b>. Both edges out of <i>s</i> are saturated &mdash; widening anything else in the network would change nothing.</div></div></div></section>
+<footer><div class="wrap">CSE563 &middot; Applied Mathematics &middot; Unit IV &mdash; Graph Theory &mdash; Visual Walkthrough &middot;
+School of Computer Science &amp; Engineering &middot; Session 2026&ndash;27</div></footer>
+<script>
+
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var C={navy:"#182B49",cyan:"#0096C7",purple:"#5C2D91",orange:"#ED771F",
+       green:"#107C41",red:"#B42318",grey:"#9AA7B5",rule:"#D8DFE8",ice:"#7EC5E2"};
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+  p.appendChild(e);return e;}
+function clr(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function line(s,A,B,col,w,dash){var l=el(s,"line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,
+  stroke:col,"stroke-width":w,"stroke-linecap":"round"});
+  if(dash)l.setAttribute("stroke-dasharray",dash);return l;}
+function dot(s,p,r,fill){return el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill});}
+function nodeC(s,p,label,fill,r){r=r||17;
+  el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill,stroke:"#fff","stroke-width":2.5});
+  var t=el(s,"text",{x:p.x,y:p.y+5,"text-anchor":"middle",fill:"#fff","font-size":"14",
+    "font-weight":"600","font-family":"Segoe UI,sans-serif"});t.textContent=label;}
+function txt(s,x,y,str,col,size,anchor,weight){
+  var t=el(s,"text",{x:x,y:y,"text-anchor":anchor||"middle",fill:col||C.navy,
+    "font-size":size||12,"font-weight":weight||"600","font-family":"Segoe UI,sans-serif"});
+  t.textContent=str;return t;}
+function box(s,x,y,w,h,fill,stroke,rx){return el(s,"rect",{x:x,y:y,width:w,height:h,
+  rx:rx===undefined?6:rx,fill:fill,stroke:stroke||"none","stroke-width":1.6});}
+function badge(s,A,B,str){var mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  el(s,"circle",{cx:mx,cy:my,r:11,fill:"#fff",stroke:C.rule});
+  txt(s,mx,my+4,str,C.navy,12);}
+function arrow(s,A,B,col,w){
+  var dx=B.x-A.x,dy=B.y-A.y,L=Math.sqrt(dx*dx+dy*dy);if(!L)return;
+  var ux=dx/L,uy=dy/L,ex=B.x-ux*20,ey=B.y-uy*20;
+  el(s,"line",{x1:A.x+ux*20,y1:A.y+uy*20,x2:ex,y2:ey,stroke:col,"stroke-width":w||2.6,
+    "stroke-linecap":"round"});
+  var a=8;
+  el(s,"polygon",{points:[ex+","+ey,(ex-ux*a-uy*a*0.6)+","+(ey-uy*a+ux*a*0.6),
+    (ex-ux*a+uy*a*0.6)+","+(ey-uy*a-ux*a*0.6)].join(" "),fill:col});}
+
+/* ---- generic step player, wired to data-viz buttons ---- */
+var VIZ={};
+function register(id,build,render){
+  VIZ[id]={build:build,render:render,steps:[],i:0,timer:null};
+  resetViz(id);
+}
+function resetViz(id){var m=VIZ[id];if(!m)return;
+  m.steps=m.build();m.i=0;stopViz(id);drawViz(id);}
+function drawViz(id){var m=VIZ[id];
+  m.render(document.getElementById("svg-"+id),m.steps[m.i],m.i,m.steps);
+  var st=document.getElementById("st-"+id);
+  if(st)st.innerHTML=m.steps[m.i].msg||"";
+  syncViz(id);}
+/* keep the counter and the buttons honest about where we are */
+function syncViz(id){var m=VIZ[id],last=m.steps.length-1;
+  function btn(a){return document.querySelector(
+    'button[data-act="'+a+'"][data-viz="'+id+'"]');}
+  var b;
+  if((b=btn("step")))b.disabled=m.i>=last;
+  if((b=btn("back")))b.disabled=m.i<=0;
+  var sc=document.getElementById("sc-"+id);
+  if(sc)sc.innerHTML="step <em>"+m.i+"</em> of "+last;
+  var wrap=document.getElementById("wrap-"+id);
+  if(wrap){if(m.i>=last&&last>0)wrap.classList.add("done");
+           else wrap.classList.remove("done");}}
+function stepViz(id){var m=VIZ[id];
+  if(m.i<m.steps.length-1){m.i++;drawViz(id);}
+  if(m.i>=m.steps.length-1)stopViz(id);}
+/* step backwards, so a student can flip between before and after */
+function stepBackViz(id){var m=VIZ[id];
+  if(m.i>0){stopViz(id);m.i--;drawViz(id);}}
+function stopViz(id){var m=VIZ[id];if(m.timer){clearInterval(m.timer);m.timer=null;}
+  var b=document.querySelector('button[data-act="auto"][data-viz="'+id+'"]');
+  if(b)b.textContent="Auto-play";}
+/* ---- practice answers: reveal one, or all of a block ---- */
+document.addEventListener("click",function(e){
+  if(!e.target.closest)return;
+  var one=e.target.closest("button[data-ans]");
+  if(one){var p=document.getElementById(one.getAttribute("data-ans"));
+    if(p){var on=p.classList.toggle("on");
+      one.textContent=on?"Hide answer":"Show answer";}
+    return;}
+  var all=e.target.closest("button[data-all]");
+  if(all){var g=all.getAttribute("data-all"),
+      blk=all.closest(".prac"),show=all.textContent.indexOf("Show")===0;
+    blk.querySelectorAll(".pa").forEach(function(p){
+      p.classList.toggle("on",show);});
+    blk.querySelectorAll("button[data-ans]").forEach(function(b2){
+      b2.textContent=show?"Hide answer":"Show answer";});
+    all.textContent=show?"Hide all answers":"Show all answers";}
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("button[data-viz]"):null;if(!b)return;
+  var id=b.getAttribute("data-viz"),act=b.getAttribute("data-act"),m=VIZ[id];if(!m)return;
+  if(act==="step")stepViz(id);
+  else if(act==="back")stepBackViz(id);
+  else if(act==="reset")resetViz(id);
+  else if(act==="auto"){
+    if(m.timer){stopViz(id);return;}
+    if(m.i>=m.steps.length-1)resetViz(id);
+    b.textContent="Pause";
+    m.timer=setInterval(function(){if(m.i>=m.steps.length-1)stopViz(id);else stepViz(id);},950);
+  }});
+
+
+/* ---- basics ---- */
+(function(){
+  var svg=document.getElementById("svg-basics"),st=document.getElementById("st-basics");
+  var P={A:{x:70,y:60},B:{x:230,y:40},C:{x:390,y:80},D:{x:120,y:220},E:{x:300,y:230}};
+  var all=[["A","B"],["A","D"],["B","C"],["B","D"],["B","E"],["C","E"],["D","E"]];
+  var on=all.map(function(){return true;});
+  function draw(){
+    clr(svg);
+    all.forEach(function(e,i){
+      var l=line(svg,P[e[0]],P[e[1]],on[i]?C.cyan:"#E3E9EF",on[i]?3.5:2.5,on[i]?null:"6 5");
+      l.style.cursor="pointer";
+      l.addEventListener("click",function(){on[i]=!on[i];draw();});});
+    var deg={};Object.keys(P).forEach(function(k){deg[k]=0;});
+    all.forEach(function(e,i){if(on[i]){deg[e[0]]++;deg[e[1]]++;}});
+    Object.keys(P).forEach(function(k){nodeC(svg,P[k],k,deg[k]%2?C.red:C.navy);});
+    var m=all.filter(function(_,i){return on[i];}).length;
+    var sum=Object.keys(deg).reduce(function(a,k){return a+deg[k];},0);
+    var odd=Object.keys(deg).filter(function(k){return deg[k]%2;});
+    st.innerHTML="Degrees: "+Object.keys(deg).map(function(k){return k+"="+deg[k];}).join(", ")+
+      " &nbsp;&middot;&nbsp; sum = <b>"+sum+"</b> = 2 &times; <b>"+m+"</b> edges &#10003;"+
+      "<br>Odd-degree vertices: <b>"+(odd.length?odd.join(", "):"none")+"</b> ("+odd.length+
+      " &mdash; always even)";
+    var ks=Object.keys(P),h="<table><thead><tr><th></th>";
+    ks.forEach(function(k){h+="<th>"+k+"</th>";});h+="<th>deg</th></tr></thead><tbody>";
+    ks.forEach(function(r){h+="<tr><th>"+r+"</th>";
+      ks.forEach(function(c){
+        var j=all.findIndex(function(e,i){return on[i]&&((e[0]===r&&e[1]===c)||(e[1]===r&&e[0]===c));});
+        h+="<td"+(j>=0?' class="hi"':"")+">"+(j>=0?1:0)+"</td>";});
+      h+="<td><b>"+deg[r]+"</b></td></tr>";});
+    document.getElementById("matBasics").innerHTML=h+"</tbody></table>";
+    document.getElementById("listBasics").innerHTML=ks.map(function(k){
+      var nb=all.filter(function(e,i){return on[i]&&(e[0]===k||e[1]===k);})
+               .map(function(e){return e[0]===k?e[1]:e[0];});
+      return "<div style='padding:3px 0'><b>"+k+"</b> &rarr; ["+nb.join(", ")+"]</div>";}).join("");
+  }
+  draw();
+})();
+/* ---- euler ---- */
+(function(){
+  var svg=document.getElementById("svg-euler"),st=document.getElementById("st-euler"),
+      sel=document.getElementById("selEuler");
+  var P={A:{x:90,y:60},B:{x:230,y:40},C:{x:370,y:70},D:{x:140,y:200},E:{x:320,y:205}};
+  var G={path:[["A","B"],["A","D"],["B","C"],["B","D"],["C","E"],["D","E"]],
+         circuit:[["A","B"],["B","C"],["C","E"],["E","D"],["D","A"]],
+         none:[["A","B"],["A","D"],["B","C"],["B","D"],["B","E"],["C","E"],["D","E"],["A","C"]]};
+  function draw(){
+    var E2=G[sel.value];clr(svg);
+    E2.forEach(function(e){line(svg,P[e[0]],P[e[1]],C.cyan,3.2);});
+    var deg={};Object.keys(P).forEach(function(k){deg[k]=0;});
+    E2.forEach(function(e){deg[e[0]]++;deg[e[1]]++;});
+    Object.keys(P).forEach(function(k){if(deg[k])nodeC(svg,P[k],k,deg[k]%2?C.red:C.cyan);});
+    var odd=Object.keys(deg).filter(function(k){return deg[k]%2;}),verdict;
+    if(odd.length===0)verdict="<b>0 odd vertices</b> &rarr; an <b>Eulerian circuit</b> exists: walk every edge once and finish where you began.";
+    else if(odd.length===2)verdict="<b>2 odd vertices ("+odd.join(", ")+")</b> &rarr; an <b>Eulerian path</b> exists. It must start at one of them and end at the other. No circuit.";
+    else verdict="<b>"+odd.length+" odd vertices</b> &rarr; <b>neither</b> an Eulerian path nor a circuit exists.";
+    st.innerHTML="Degrees: "+Object.keys(deg).map(function(k){return k+"="+deg[k];}).join(", ")+"<br>"+verdict;
+  }
+  sel.addEventListener("change",draw);draw();
+})();
+/* ---- traversal ---- */
+(function(){
+  var sel=document.getElementById("selTrav");
+  var P={A:{x:70,y:150},B:{x:190,y:60},C:{x:190,y:240},D:{x:330,y:60},E:{x:330,y:240},F:{x:470,y:150}};
+  var ADJ={A:["B","C"],B:["A","D"],C:["A","E"],D:["B","F"],E:["C","F"],F:["D","E"]};
+  var EE=[["A","B"],["A","C"],["B","D"],["C","E"],["D","F"],["E","F"]];
+  function build(){
+    var mode=sel.value,out=[],seen={A:true},order=[],f=["A"];
+    out.push({front:["A"],order:[],cur:null,
+      msg:"Start at <b>A</b>. Frontier ("+(mode==="bfs"?"queue":"stack")+"): [A]"});
+    while(f.length){
+      var u=mode==="bfs"?f.shift():f.pop();order.push(u);var added=[];
+      ADJ[u].forEach(function(x){if(!seen[x]){seen[x]=true;f.push(x);added.push(x);}});
+      out.push({front:f.slice(),order:order.slice(),cur:u,
+        msg:"Take <b>"+u+"</b> from the "+(mode==="bfs"?"front of the queue":"top of the stack")+
+            ". "+(added.length?"Discover "+added.join(", ")+".":"No new neighbours.")+
+            "<br>Frontier: ["+f.join(", ")+"] &nbsp;&middot;&nbsp; Visited: "+order.join(" &rarr; ")});}
+    out.push({front:[],order:order.slice(),cur:null,
+      msg:"<b>Done.</b> "+(mode==="bfs"?"BFS":"DFS")+" order: <b>"+order.join(" &rarr; ")+"</b>"+
+          (mode==="bfs"?" &mdash; also the shortest-hop order from A.":" &mdash; note how it dives deep before backing up.")});
+    return out;}
+  function render(svg,s){
+    clr(svg);EE.forEach(function(e){line(svg,P[e[0]],P[e[1]],C.rule,3);});
+    Object.keys(P).forEach(function(k){
+      var fill=C.grey;
+      if(s.order.indexOf(k)>=0)fill=C.green;
+      if(s.front.indexOf(k)>=0)fill=C.orange;
+      if(s.cur===k)fill=C.cyan;
+      nodeC(svg,P[k],k,fill);});}
+  register("trav",build,render);
+  sel.addEventListener("change",function(){resetViz("trav");});
+})();
+/* ---- dijkstra ---- */
+(function(){
+  var P={A:{x:70,y:150},B:{x:210,y:55},C:{x:210,y:245},D:{x:360,y:55},E:{x:360,y:245},F:{x:490,y:150}};
+  var W=[["A","B",4],["A","C",2],["B","C",1],["B","D",5],["C","E",8],["D","F",6],["E","F",3],["D","E",2]];
+  var V=Object.keys(P);
+  function build(){
+    var d={},pi={},done={};V.forEach(function(x){d[x]=Infinity;pi[x]="&ndash;";});
+    d.A=0;var out=[{d:cp(d),pi:cp(pi),done:{},cur:null,
+      msg:"Initialise: <b>d[A] = 0</b>, every other distance = &infin;."}];
+    for(;;){
+      var u=null;V.forEach(function(x){if(!done[x]&&d[x]<Infinity&&(u===null||d[x]<d[u]))u=x;});
+      if(u===null)break;
+      done[u]=true;var rel=[];
+      W.forEach(function(e){
+        var a=e[0],b=e[1],w=e[2],x=null;
+        if(a===u)x=b;else if(b===u)x=a;else return;
+        if(done[x])return;
+        if(d[u]+w<d[x]){d[x]=d[u]+w;pi[x]=u;rel.push(x+"&rarr;"+d[x]);}});
+      out.push({d:cp(d),pi:cp(pi),done:cp(done),cur:u,
+        msg:"Settle <b>"+u+"</b> (smallest unsettled distance = "+d[u]+"). "+
+            (rel.length?"Relax: "+rel.join(", ")+".":"Nothing improved.")});}
+    var path=[],c="F",guard=0;
+    while(c&&c!=="&ndash;"&&guard++<9){path.unshift(c);c=pi[c];}
+    out.push({d:cp(d),pi:cp(pi),done:cp(done),cur:null,
+      msg:"<b>Done.</b> Shortest A&rarr;F = <b>"+d.F+"</b> via <b>"+path.join(" &rarr; ")+
+          "</b>. Note D is reached as 2+1+5 = 8 through C and B, not 4+5 = 9 direct."});
+    return out;}
+  function cp(o){var r={};for(var k in o)r[k]=o[k];return r;}
+  function render(svg,s){
+    clr(svg);
+    W.forEach(function(e){
+      var on=s.pi[e[1]]===e[0]||s.pi[e[0]]===e[1];
+      line(svg,P[e[0]],P[e[1]],on?C.green:C.rule,on?4.5:3);
+      badge(svg,P[e[0]],P[e[1]],e[2]);});
+    V.forEach(function(x){nodeC(svg,P[x],x,
+      s.cur===x?C.cyan:(s.done[x]?C.green:(s.d[x]<Infinity?C.orange:C.grey)));});
+    var h="<table><thead><tr><th>vertex</th>";
+    V.forEach(function(x){h+="<th>"+x+"</th>";});h+="</tr></thead><tbody><tr><th>d</th>";
+    V.forEach(function(x){h+="<td"+(s.cur===x?' class="hi"':"")+">"+(s.d[x]===Infinity?"&infin;":s.d[x])+"</td>";});
+    h+="</tr><tr><th>&pi;</th>";
+    V.forEach(function(x){h+="<td>"+s.pi[x]+"</td>";});
+    document.getElementById("tabDij").innerHTML=h+"</tr></tbody></table>";}
+  register("dij",build,render);
+})();
+/* ---- kruskal ---- */
+(function(){
+  var P={A:{x:80,y:70},B:{x:260,y:50},C:{x:450,y:80},D:{x:150,y:240},E:{x:380,y:245}};
+  var W=[["A","B",1],["B","D",2],["A","C",3],["B","C",4],["C","D",5],["D","E",6],["C","E",7]];
+  function build(){
+    var sorted=W.slice().sort(function(a,b){return a[2]-b[2];});
+    var par={};Object.keys(P).forEach(function(x){par[x]=x;});
+    function find(x){while(par[x]!==x){par[x]=par[par[x]];x=par[x];}return x;}
+    var state={},out=[{state:{},msg:"Sort every edge by weight: "+
+      sorted.map(function(e){return e[0]+e[1]+"("+e[2]+")";}).join(", ")+
+      ". Then take them cheapest first."}],tot=0,cnt=0;
+    sorted.forEach(function(e){
+      var ra=find(e[0]),rb=find(e[1]),key=e[0]+e[1];
+      if(ra!==rb){par[ra]=rb;state[key]="in";tot+=e[2];cnt++;
+        out.push({state:cp(state),msg:"<b>"+e[0]+e[1]+" (w="+e[2]+")</b> joins two separate pieces &rarr; <b>accept</b>. Running weight = "+tot+", edges = "+cnt+"."});}
+      else{state[key]="out";
+        out.push({state:cp(state),msg:"<b>"+e[0]+e[1]+" (w="+e[2]+")</b> &mdash; "+e[0]+" and "+e[1]+" are already connected &rarr; <b>reject</b>, it would close a cycle."});}});
+    out.push({state:cp(state),msg:"<b>Done.</b> MST weight = <b>"+tot+"</b> using <b>"+cnt+"</b> edges = n &minus; 1 = 4. &#10003;"});
+    return out;}
+  function cp(o){var r={};for(var k in o)r[k]=o[k];return r;}
+  function render(svg,s){
+    clr(svg);
+    W.forEach(function(e){
+      var k=s.state[e[0]+e[1]];
+      line(svg,P[e[0]],P[e[1]],k==="in"?C.green:(k==="out"?C.red:C.rule),k==="in"?5:3);
+      badge(svg,P[e[0]],P[e[1]],e[2]);});
+    Object.keys(P).forEach(function(x){nodeC(svg,P[x],x,C.navy);});}
+  register("mst",build,render);
+})();
+/* ---- colouring ---- */
+(function(){
+  var P={A:{x:90,y:70},B:{x:240,y:45},C:{x:230,y:165},D:{x:90,y:245},E:{x:380,y:120},F:{x:360,y:250}};
+  var EE=[["A","B"],["A","C"],["B","C"],["C","D"],["C","E"],["E","F"],["D","F"]];
+  var PAL=[C.cyan,C.orange,C.green,C.purple],ADJ={};
+  Object.keys(P).forEach(function(x){ADJ[x]=[];});
+  EE.forEach(function(e){ADJ[e[0]].push(e[1]);ADJ[e[1]].push(e[0]);});
+  function build(){
+    var deg={};Object.keys(P).forEach(function(x){deg[x]=ADJ[x].length;});
+    var order=Object.keys(P).sort(function(a,b){return deg[b]-deg[a];});
+    var col={},out=[{col:{},msg:"Welsh&ndash;Powell: sort by descending degree &rarr; <b>"+
+      order.map(function(x){return x+"("+deg[x]+")";}).join(", ")+
+      "</b>. Then colour greedily in that order."}];
+    order.forEach(function(x){
+      var used=ADJ[x].filter(function(y){return col[y]!==undefined;}).map(function(y){return col[y];});
+      var c=0;while(used.indexOf(c)>=0)c++;col[x]=c;
+      out.push({col:cp(col),msg:"<b>"+x+"</b> &mdash; neighbours already use colour(s) ["+
+        (used.length?used.map(function(z){return z+1;}).join(", "):"none")+
+        "], so take the lowest free one: <b>colour "+(c+1)+"</b>."});});
+    var k=0;Object.keys(col).forEach(function(x){if(col[x]+1>k)k=col[x]+1;});
+    var slots={};Object.keys(col).forEach(function(x){(slots[col[x]]=slots[col[x]]||[]).push(x);});
+    out.push({col:cp(col),msg:"<b>Done.</b> &chi; = <b>"+k+"</b> colours. Schedule: "+
+      Object.keys(slots).map(function(c){return "Slot "+(+c+1)+" = {"+slots[c].join(", ")+"}";}).join(" &middot; ")+
+      ". A, B, C form a triangle, so 3 is also the minimum possible."});
+    return out;}
+  function cp(o){var r={};for(var k in o)r[k]=o[k];return r;}
+  function render(svg,s){
+    clr(svg);EE.forEach(function(e){line(svg,P[e[0]],P[e[1]],C.rule,3);});
+    Object.keys(P).forEach(function(x){
+      nodeC(svg,P[x],x,s.col[x]===undefined?C.grey:PAL[s.col[x]%PAL.length]);});}
+  register("col",build,render);
+})();
+/* ---- max flow ---- */
+(function(){
+  var P={s:{x:60,y:140},a:{x:220,y:60},b:{x:220,y:220},t:{x:470,y:140}};
+  var CAP=[["s","a",8],["s","b",5],["a","b",3],["a","t",6],["b","t",7]];
+  function build(){
+    var res={};CAP.forEach(function(e){res[e[0]+e[1]]=e[2];});
+    var paths=[[["s","a"],["a","t"]],[["s","b"],["b","t"]],[["s","a"],["a","b"],["b","t"]]];
+    var out=[{res:cp(res),path:null,
+      msg:"Start with zero flow everywhere. Capacities: s&rarr;a 8, s&rarr;b 5, a&rarr;b 3, a&rarr;t 6, b&rarr;t 7."}],flow=0;
+    paths.forEach(function(p){
+      var bn=Math.min.apply(null,p.map(function(e){return res[e[0]+e[1]];}));
+      p.forEach(function(e){res[e[0]+e[1]]-=bn;});flow+=bn;
+      out.push({res:cp(res),path:p.map(function(e){return e[0]+e[1];}),
+        msg:"Augmenting path <b>"+p.map(function(e){return e[0];}).concat("t").join(" &rarr; ")+
+            "</b>, bottleneck = <b>"+bn+"</b>. Total flow = <b>"+flow+"</b>."});});
+    out.push({res:cp(res),path:null,
+      msg:"<b>Done &mdash; max flow = "+flow+".</b> Both edges out of s are saturated, so only {s} is reachable in the residual graph. The cut {s} | {a,b,t} has capacity 8 + 5 = <b>13</b>, equal to the flow &#10003;"});
+    return out;}
+  function cp(o){var r={};for(var k in o)r[k]=o[k];return r;}
+  function render(svg,s){
+    clr(svg);
+    CAP.forEach(function(e){
+      var used=e[2]-s.res[e[0]+e[1]],on=s.path&&s.path.indexOf(e[0]+e[1])>=0;
+      arrow(svg,P[e[0]],P[e[1]],on?C.orange:(used>0?C.green:C.rule),on?5:(used>0?3.6:2.6));
+      var mx=(P[e[0]].x+P[e[1]].x)/2,my=(P[e[0]].y+P[e[1]].y)/2;
+      box(svg,mx-23,my-11,46,22,"#fff",C.rule);
+      txt(svg,mx,my+5,used+"/"+e[2],used>0?C.green:C.navy,12);});
+    Object.keys(P).forEach(function(x){
+      nodeC(svg,P[x],x,x==="s"?C.purple:(x==="t"?C.red:C.navy));});}
+  register("flow",build,render);
+})();
+
+</script>
+</body>
+</html>

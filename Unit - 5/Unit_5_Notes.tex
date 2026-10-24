@@ -1,0 +1,425 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{../cse563_style}
+
+\title{\textbf{\color{NavyPrimary}CSE563: Unit V Study Notes}\\ \Large Algorithm Complexity Analysis}
+\author{\textbf{School of Computer Science \& Engineering}}
+\date{Session 2025--26}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{\faStopwatch\ Unit V: Algorithm Complexity Analysis}
+
+\textbf{Course Outcome CO5:} determine the algorithmic complexity of various mathematical problems.
+
+Two programs that both ``work'' can differ by a factor of a billion in running time. Complexity analysis lets us predict that difference from the code alone, before running anything, and independently of the machine. This unit gives the notation (asymptotics), the tool for recursive algorithms (recurrences and the master theorem), the map of what is and is not feasible (P vs NP), the canonical hard problem (SAT), and the canonical easy ones (searching and sorting).
+
+% ==================================================================
+\subsection{Measuring Running Time}
+
+\begin{keyconcept}{The Model}
+We count \textbf{elementary operations} (comparison, assignment, arithmetic, array access---each $O(1)$ on the RAM model) as a function $T(n)$ of the input size $n$. We usually report the \textbf{worst case} (a guarantee), sometimes the \textbf{average case} (needs a distribution over inputs), rarely the best case. \textbf{Space complexity} counts extra memory beyond the input. Constants and lower-order terms depend on hardware and compiler, so we discard them: what remains is the \emph{growth rate}.
+\end{keyconcept}
+
+\begin{worked}{Counting Operations in Loops}
+\begin{lstlisting}
+for i in range(n):            # n iterations
+    for j in range(i):        # i iterations
+        total += A[i]*A[j]    # O(1)
+\end{lstlisting}
+Inner body runs $\sum_{i=0}^{n-1} i = \frac{n(n-1)}{2}$ times $\Rightarrow$ $\Theta(n^2)$.
+
+\begin{lstlisting}
+i = 1
+while i < n:                  # i = 1, 2, 4, 8, ...
+    i = i * 2
+\end{lstlisting}
+Runs while $2^k < n$, i.e.\ $k < \log_2 n$ $\Rightarrow$ $\Theta(\log n)$. Any loop that halves or doubles is logarithmic.
+
+\begin{lstlisting}
+for i in range(n):
+    j = 1
+    while j < n: j *= 2       # log n each
+\end{lstlisting}
+$\Theta(n \log n)$.
+\end{worked}
+
+% ==================================================================
+\subsection{Asymptotic Notations}
+
+\begin{formulabox}{The Five Notations}
+Let $f, g: \mathbb{N} \to \mathbb{R}^+$.
+\begin{align}
+f(n) = O(g(n)) &\iff \exists\, c > 0, n_0:\ f(n) \le c\,g(n)\ \ \forall n \ge n_0 && \text{(upper bound)} \\
+f(n) = \Omega(g(n)) &\iff \exists\, c > 0, n_0:\ f(n) \ge c\,g(n)\ \ \forall n \ge n_0 && \text{(lower bound)} \\
+f(n) = \Theta(g(n)) &\iff f = O(g) \text{ and } f = \Omega(g) && \text{(tight bound)} \\
+f(n) = o(g(n)) &\iff \lim_{n\to\infty} f(n)/g(n) = 0 && \text{(strictly slower)} \\
+f(n) = \omega(g(n)) &\iff \lim_{n\to\infty} f(n)/g(n) = \infty && \text{(strictly faster)}
+\end{align}
+Read $O$ as ``grows no faster than'', $\Omega$ as ``grows at least as fast as'', $\Theta$ as ``same order as''.
+
+\textbf{Limit test} (when the limit exists): $\lim f/g = c$ with $0 < c < \infty$ $\Rightarrow$ $f = \Theta(g)$; $= 0 \Rightarrow f = o(g)$; $= \infty \Rightarrow f = \omega(g)$. L'H\^opital's rule (Unit I calculus) evaluates the limit.
+\end{formulabox}
+
+\begin{worked}{Proving a Bound from the Definition}
+Show $3n^2 + 5n + 2 = O(n^2)$. For $n \ge 1$: $3n^2 + 5n + 2 \le 3n^2 + 5n^2 + 2n^2 = 10n^2$. So $c = 10$, $n_0 = 1$ works. $\blacksquare$
+
+Show $3n^2 + 5n + 2 = \Omega(n^2)$: $3n^2 + 5n + 2 \ge 3n^2$ for all $n \ge 0$; $c = 3$. Hence $\Theta(n^2)$. $\blacksquare$
+
+Show $n^2 \ne O(n)$: suppose $n^2 \le cn$ for all $n \ge n_0$; then $n \le c$ for all large $n$, contradiction. $\blacksquare$
+
+Limit test: $\lim \frac{n \log n}{n^2} = \lim \frac{\log n}{n} = 0$, so $n \log n = o(n^2)$.
+\end{worked}
+
+\begin{table}[h!]
+\centering
+\small
+\rowcolors{2}{gray!6}{white}
+\begin{tabular}{|l|l|r|l|}
+\hline
+\rowcolor{NavyPrimary}\color{white}\textbf{Class} & \color{white}\textbf{Name} & \color{white}\textbf{Ops at $n = 10^6$} & \color{white}\textbf{Typical algorithm} \\ \hline
+$O(1)$ & constant & 1 & Hash lookup, array index \\ \hline
+$O(\log n)$ & logarithmic & 20 & Binary search, balanced BST \\ \hline
+$O(n)$ & linear & $10^6$ & Linear search, one pass \\ \hline
+$O(n \log n)$ & linearithmic & $2\times 10^7$ & Merge sort, heap sort, FFT \\ \hline
+$O(n^2)$ & quadratic & $10^{12}$ & Bubble/insertion sort, naive pair check \\ \hline
+$O(n^3)$ & cubic & $10^{18}$ & Naive matrix multiply, Floyd--Warshall \\ \hline
+$O(2^n)$ & exponential & $10^{301030}$ & Brute-force subsets, naive Fibonacci \\ \hline
+$O(n!)$ & factorial & astronomically large & Brute-force permutations (TSP) \\ \hline
+\end{tabular}
+\caption{Growth hierarchy: $1 \prec \log n \prec \sqrt n \prec n \prec n\log n \prec n^2 \prec n^3 \prec 2^n \prec n! \prec n^n$. A $10^9$ ops/s machine does $n^2$ for $n = 10^6$ in ~17 minutes and $2^n$ for $n = 60$ in ~36 years.}
+\end{table}
+
+\begin{examtip}{Rules You Will Use Constantly}
+\begin{itemize}
+    \item Drop constants and lower-order terms: $5n^3 + 100n^2 + 7 = \Theta(n^3)$.
+    \item Sum rule (sequential code): $O(f) + O(g) = O(\max(f, g))$. Product rule (nested): $O(f)\cdot O(g) = O(fg)$.
+    \item Logarithm base does not matter: $\log_a n = \log_b n / \log_b a$, a constant factor. But $2^n$ vs $3^n$ \emph{does} matter.
+    \item Polynomial beats polylogarithmic: $\log^k n = o(n^\varepsilon)$ for any $k$, $\varepsilon > 0$. Exponential beats polynomial: $n^k = o(2^n)$.
+    \item $O$ is not ``worst case'' and $\Omega$ is not ``best case''---they are bounds on \emph{any} function. Insertion sort is $O(n^2)$ \emph{and} $\Omega(n)$ in general, $\Theta(n^2)$ in the worst case, $\Theta(n)$ in the best case.
+    \item $O(n^2)$ is technically true of a linear algorithm (it is an upper bound); say $\Theta$ when you mean tight.
+\end{itemize}
+\end{examtip}
+
+% ==================================================================
+\subsection{Recurrence Relations}
+
+\begin{definition}
+A \textbf{recurrence} defines $T(n)$ in terms of $T$ at smaller arguments, plus base cases. Recursive algorithms produce them directly: (number of subproblems) $\times$ $T$(subproblem size) $+$ (work to split and combine).
+\end{definition}
+
+\begin{keyconcept}{Reading a Recurrence Off Code}
+\begin{itemize}
+    \item Binary search: one half, $O(1)$ work $\Rightarrow T(n) = T(n/2) + 1$.
+    \item Merge sort: two halves, linear merge $\Rightarrow T(n) = 2T(n/2) + n$.
+    \item Naive recursive Fibonacci: $T(n) = T(n-1) + T(n-2) + 1$.
+    \item Tower of Hanoi: $T(n) = 2T(n-1) + 1$.
+    \item Selection sort written recursively: $T(n) = T(n-1) + n$.
+    \item Strassen matrix multiply: $T(n) = 7T(n/2) + n^2$.
+\end{itemize}
+\end{keyconcept}
+
+\begin{keyconcept}{Three Solution Methods}
+\begin{enumerate}
+    \item \textbf{Iteration (unrolling):} substitute the recurrence into itself until a pattern appears, then sum.
+    \item \textbf{Recursion tree:} draw the calls; total = sum of work over all levels. Good for guessing.
+    \item \textbf{Substitution:} guess the answer, prove it by induction (Unit I). This is the only method that constitutes a \emph{proof}.
+\end{enumerate}
+\end{keyconcept}
+
+\begin{worked}{Iteration: $T(n) = T(n-1) + n$, $T(1) = 1$}
+$T(n) = T(n-1) + n = T(n-2) + (n-1) + n = \dots = T(1) + 2 + 3 + \dots + n = \frac{n(n+1)}{2} = \Theta(n^2)$.
+\end{worked}
+
+\begin{worked}{Iteration: Tower of Hanoi $T(n) = 2T(n-1) + 1$, $T(1) = 1$}
+$T(n) = 2T(n-1) + 1 = 2(2T(n-2) + 1) + 1 = 4T(n-2) + 2 + 1 = \dots = 2^{k}T(n-k) + (2^k - 1)$. At $k = n - 1$: $T(n) = 2^{n-1}\cdot 1 + 2^{n-1} - 1 = 2^n - 1 = \Theta(2^n)$. With 64 discs and one move per second: $2^{64} - 1$ s $\approx 585$ billion years.
+\end{worked}
+
+\begin{worked}{Recursion Tree: $T(n) = 2T(n/2) + n$}
+\begin{center}
+\begin{tikzpicture}[level distance=11mm, level 1/.style={sibling distance=40mm}, level 2/.style={sibling distance=20mm}, every node/.style={font=\small}]
+\node {$n$}
+  child {node {$n/2$} child {node {$n/4$}} child {node {$n/4$}}}
+  child {node {$n/2$} child {node {$n/4$}} child {node {$n/4$}}};
+\node[anchor=west, GoldTip] at (4,0) {level 0: $n$};
+\node[anchor=west, GoldTip] at (4,-1.1) {level 1: $2\cdot n/2 = n$};
+\node[anchor=west, GoldTip] at (4,-2.2) {level 2: $4\cdot n/4 = n$};
+\node[anchor=west, GoldTip] at (4,-3.1) {$\vdots$ \ $\log_2 n$ levels, $n$ each};
+\end{tikzpicture}
+\end{center}
+Every level does total work $n$; there are $\log_2 n + 1$ levels (the leaves are $T(1)$). Total $= n(\log_2 n + 1) = \Theta(n\log n)$.
+
+\textbf{Substitution proof:} guess $T(n) \le cn\log_2 n$. Inductive step: $T(n) = 2T(n/2) + n \le 2c\frac n2\log_2\frac n2 + n = cn\log_2 n - cn + n \le cn \log_2 n$ whenever $c \ge 1$. $\blacksquare$
+\end{worked}
+
+\begin{formulabox}{Linear Recurrences with Constant Coefficients}
+For $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, try $a_n = r^n$: the \textbf{characteristic equation} is $r^2 - c_1 r - c_2 = 0$ with roots $r_1, r_2$.
+\begin{itemize}
+    \item Distinct roots: $a_n = \alpha r_1^n + \beta r_2^n$.
+    \item Repeated root $r$: $a_n = (\alpha + \beta n) r^n$.
+\end{itemize}
+$\alpha, \beta$ from the initial conditions. \textbf{Fibonacci} $F_n = F_{n-1} + F_{n-2}$: $r^2 - r - 1 = 0$, $r = \frac{1 \pm \sqrt5}{2}$, giving Binet's formula $F_n = \frac{1}{\sqrt5}\left(\varphi^n - \psi^n\right)$ with $\varphi \approx 1.618$. Hence $F_n = \Theta(\varphi^n)$ and naive recursive Fibonacci is exponential.
+\end{formulabox}
+
+\begin{worked}{Solve $a_n = 5a_{n-1} - 6a_{n-2}$, $a_0 = 1$, $a_1 = 4$}
+$r^2 - 5r + 6 = 0 \Rightarrow (r-2)(r-3) = 0$. $a_n = \alpha 2^n + \beta 3^n$. $a_0$: $\alpha + \beta = 1$. $a_1$: $2\alpha + 3\beta = 4$. Subtract twice the first: $\beta = 2$, $\alpha = -1$. So $a_n = 2\cdot 3^n - 2^n$. Check $a_2 = 18 - 4 = 14 = 5(4) - 6(1)$. \checkmark
+\end{worked}
+
+% ==================================================================
+\subsection{The Master Theorem}
+
+\begin{formulabox}{Master Theorem}
+For $T(n) = a\,T(n/b) + f(n)$ with $a \ge 1$, $b > 1$, let $d = \log_b a$ (so $n^d$ is the total work of the leaves). Compare $f(n)$ with $n^{d}$:
+\begin{enumerate}
+    \item[\textbf{Case 1}] If $f(n) = O(n^{d - \varepsilon})$ for some $\varepsilon > 0$ (leaves dominate): $T(n) = \Theta(n^{d})$.
+    \item[\textbf{Case 2}] If $f(n) = \Theta(n^{d})$ (every level equal): $T(n) = \Theta(n^{d}\log n)$.
+    \item[\textbf{Case 3}] If $f(n) = \Omega(n^{d + \varepsilon})$ (root dominates) \emph{and} the regularity condition $a f(n/b) \le k f(n)$ holds for some $k < 1$: $T(n) = \Theta(f(n))$.
+\end{enumerate}
+Intuition: the recursion tree has $\log_b n$ levels; level $i$ has $a^i$ nodes each doing $f(n/b^i)$ work; the leaves number $a^{\log_b n} = n^{\log_b a}$. The theorem just asks which level wins.
+\end{formulabox}
+
+\begin{worked}{One Example per Case}
+\begin{enumerate}
+    \item $T(n) = 9T(n/3) + n$: $a = 9, b = 3, d = \log_3 9 = 2$. $f = n = O(n^{2 - 1})$. \textbf{Case 1:} $\Theta(n^2)$.
+    \item $T(n) = T(2n/3) + 1$: $a = 1, b = 3/2, d = 0$, $n^0 = 1$. $f = 1 = \Theta(n^0)$. \textbf{Case 2:} $\Theta(\log n)$.
+    \item $T(n) = 3T(n/4) + n\log n$: $d = \log_4 3 \approx 0.79$. $f = n\log n = \Omega(n^{0.79 + 0.2})$. Regularity: $3\cdot\frac n4\log\frac n4 \le \frac34 n\log n$ \checkmark. \textbf{Case 3:} $\Theta(n\log n)$.
+\end{enumerate}
+Familiar ones: binary search $T(n) = T(n/2) + 1 \Rightarrow \Theta(\log n)$ [Case 2]; merge sort $2T(n/2) + n \Rightarrow \Theta(n\log n)$ [Case 2]; Strassen $7T(n/2) + n^2$: $d = \log_2 7 \approx 2.81$, $n^2 = O(n^{2.81 - \varepsilon})$ $\Rightarrow \Theta(n^{2.81})$ [Case 1]; Karatsuba $3T(n/2) + n \Rightarrow \Theta(n^{\log_2 3}) = \Theta(n^{1.585})$ [Case 1].
+\end{worked}
+
+\begin{pitfall}{When the Master Theorem Does Not Apply}
+\begin{itemize}
+    \item $T(n) = 2T(n/2) + n\log n$: $d = 1$, but $n \log n$ is bigger than $n$ only by a \emph{log} factor, not a polynomial $n^\varepsilon$. Falls in the gap between Cases 2 and 3. (Extended theorem: if $f = \Theta(n^d\log^k n)$ then $T = \Theta(n^d\log^{k+1} n)$, so $\Theta(n\log^2 n)$.)
+    \item $T(n) = T(n-1) + n$: subtractive, not divisive---use iteration.
+    \item $T(n) = 2^nT(n/2) + n$: $a$ is not a constant.
+    \item $T(n) = T(n/3) + T(2n/3) + n$: unequal splits; use a recursion tree ($\Theta(n\log n)$).
+\end{itemize}
+\end{pitfall}
+
+% ==================================================================
+\subsection{P, NP and NP-Completeness}
+
+\begin{keyconcept}{Decision Problems and the Classes}
+We classify \textbf{decision problems} (yes/no answers; an optimisation problem ``find the shortest tour'' becomes ``is there a tour of length $\le k$?'').
+\begin{itemize}
+    \item \textbf{P}: solvable by a deterministic algorithm in polynomial time $O(n^k)$. Sorting, shortest paths, max flow, primality (AKS, 2002), 2-SAT, linear programming.
+    \item \textbf{NP} (nondeterministic polynomial): a proposed \emph{yes}-answer (\textbf{certificate}) can be \emph{verified} in polynomial time. Equivalently, solvable in polynomial time by a machine that can guess. Every problem in P is in NP (just re-solve it to verify): $\mathrm{P} \subseteq \mathrm{NP}$.
+    \item \textbf{NP-hard}: at least as hard as every problem in NP---every NP problem \emph{reduces} to it in polynomial time. Need not itself be in NP (e.g.\ the halting problem, or optimisation versions).
+    \item \textbf{NP-complete}: in NP \emph{and} NP-hard. The ``hardest problems in NP''. If any one of them is in P, then P $=$ NP.
+\end{itemize}
+\textbf{The open question:} is P $=$ NP? Almost universally believed \emph{no}, unproven; a Clay Millennium Prize problem.
+\end{keyconcept}
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[thick, NavyPrimary, fill=NavyPrimary!4] (0,0) ellipse (4 and 2);
+\draw[thick, GreenUseCase, fill=GreenUseCase!8] (-1.5,0) ellipse (1.6 and 1.1);
+\draw[thick, RedWarning, fill=RedWarning!10] (2.4,0) ellipse (1.1 and 0.9);
+\draw[thick, GoldTip, dashed] (2.4,0.6) ellipse (2.6 and 2.2);
+\node[GreenUseCase] at (-1.5,0) {\textbf{P}};
+\node[NavyPrimary] at (0.6,1.5) {\textbf{NP}};
+\node[RedWarning, font=\small] at (2.4,0) {\textbf{NP-complete}};
+\node[GoldTip] at (3.9,2.3) {\textbf{NP-hard}};
+\node[font=\scriptsize, GoldTip] at (4.2,1.5) {Halting, TSP-opt};
+\node[font=\scriptsize, GreenUseCase] at (-1.5,-0.5) {sort, MST, 2-SAT};
+\node[font=\scriptsize, RedWarning] at (2.4,-0.5) {SAT, 3-colour, TSP-dec};
+\node[font=\scriptsize, NavyPrimary] at (0.5,-1.5) {factoring? graph isomorphism?};
+\end{tikzpicture}
+\end{center}
+
+\begin{formulabox}{Polynomial-Time Reduction}
+$A \le_p B$: there is a polynomial-time function $r$ such that $x$ is a yes-instance of $A$ iff $r(x)$ is a yes-instance of $B$. Consequences: if $B \in$ P then $A \in$ P (``$B$ is at least as hard as $A$''). To prove a new problem $X$ is NP-complete:
+\begin{enumerate}
+    \item Show $X \in$ NP (give a polynomial verifier).
+    \item Pick a known NP-complete problem $Y$ and show $Y \le_p X$.
+\end{enumerate}
+\textbf{Cook--Levin theorem (1971):} SAT is NP-complete---the first one, proved directly from the definition. Karp (1972) then reduced SAT to 21 other problems.
+\end{formulabox}
+
+\begin{table}[h!]
+\centering
+\small
+\rowcolors{2}{gray!6}{white}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\rowcolor{NavyPrimary}\color{white}\textbf{NP-complete problem} & \color{white}\textbf{Question} & \color{white}\textbf{Easy cousin (in P)} \\ \hline
+SAT / 3-SAT & Is there a satisfying assignment? & 2-SAT, Horn-SAT \\ \hline
+Vertex cover & Is there a set of $\le k$ vertices touching every edge? & On bipartite graphs (K\H{o}nig) \\ \hline
+Clique / Independent set & Is there a complete subgraph (or edgeless set) of size $\ge k$? & --- \\ \hline
+Hamiltonian cycle / TSP & Cycle through all vertices? Tour of length $\le k$? & Eulerian circuit \\ \hline
+Graph 3-colouring & Is $\chi(G) \le 3$? & 2-colouring (bipartite test) \\ \hline
+Subset sum / Knapsack & Subset summing to exactly $k$? & Pseudo-polynomial DP $O(nW)$ \\ \hline
+Partition / Bin packing & Split into equal halves? Pack into $k$ bins? & --- \\ \hline
+\end{tabularx}
+\caption{Canonical NP-complete problems. Each pair of ``hard / easy cousin'' shows how a small change in the problem statement crosses the boundary.}
+\end{table}
+
+\begin{examtip}{What NP-Completeness Means for an Engineer}
+An NP-complete label does \textbf{not} mean ``give up''. It means no known algorithm is polynomial in the worst case, so you choose among: (i) \textbf{exact} exponential algorithms with pruning (backtracking, branch and bound, Unit VI) for small $n$; (ii) \textbf{approximation} algorithms with guaranteed ratio (2-approx vertex cover, 1.5-approx metric TSP); (iii) \textbf{heuristics / metaheuristics} (greedy, genetic algorithms, Unit VI); (iv) \textbf{special cases} that are in P (trees, bipartite, bounded treewidth); (v) \textbf{SAT/ILP solvers}, which handle many practical instances with millions of variables despite worst-case exponential behaviour.
+\end{examtip}
+
+% ==================================================================
+\subsection{The Satisfiability Problem (SAT)}
+
+\begin{definition}
+A Boolean formula in \textbf{conjunctive normal form (CNF)} is an AND of \textbf{clauses}, each an OR of \textbf{literals} (a variable or its negation). \textbf{SAT} asks: is there an assignment of true/false to the variables making the formula true? \textbf{$k$-SAT} restricts every clause to exactly $k$ literals.
+\end{definition}
+
+\begin{keyconcept}{Where the Boundary Lies}
+\begin{itemize}
+    \item \textbf{2-SAT} is in P: build the implication graph (clause $(a \lor b)$ gives $\lnot a \to b$ and $\lnot b \to a$); unsatisfiable iff some $x$ and $\lnot x$ are in the same strongly connected component. $O(n + m)$ with DFS.
+    \item \textbf{3-SAT} is NP-complete (any CNF converts to 3-CNF with polynomial blow-up). 3-SAT is the standard starting point for reductions.
+    \item \textbf{Horn-SAT} (each clause has at most one positive literal---logic programming / Prolog) is in P by unit propagation.
+    \item Brute force: $2^n$ assignments $\times$ $O(m)$ to check. For $n = 100$ that is $10^{30}$.
+\end{itemize}
+\end{keyconcept}
+
+\begin{worked}{Deciding Satisfiability by Hand}
+$\Phi = (x \lor y) \land (\lnot x \lor z) \land (\lnot y \lor \lnot z) \land (x \lor \lnot z)$.
+
+Try $x = \mathrm{T}$: clauses 1 and 4 satisfied. Clause 2 forces $z = \mathrm{T}$. Clause 3 then forces $y = \mathrm{F}$. Assignment $(x, y, z) = (\mathrm T, \mathrm F, \mathrm T)$: check $(\mathrm T) \land (\mathrm T) \land (\mathrm T \lor \mathrm F) \land (\mathrm T) = \mathrm T$. \textbf{Satisfiable.}
+
+$\Psi = (x \lor y) \land (x \lor \lnot y) \land (\lnot x \lor y) \land (\lnot x \lor \lnot y)$.
+Resolution on clauses 1, 2 (on $y$): $x$. On 3, 4: $\lnot x$. Resolving $x$ with $\lnot x$ gives the empty clause. \textbf{Unsatisfiable.} (Also visible: the four clauses rule out all four assignments, one each.)
+\end{worked}
+
+\begin{formulabox}{DPLL: How SAT Solvers Actually Work}
+\begin{enumerate}
+    \item \textbf{Unit propagation:} a clause with a single unassigned literal forces that literal.
+    \item \textbf{Pure literal elimination:} a variable appearing with only one polarity can be set to satisfy all its clauses.
+    \item \textbf{Branch:} pick an unassigned variable, try T; on conflict, backtrack and try F.
+\end{enumerate}
+Modern CDCL solvers add \emph{clause learning} from conflicts and \emph{non-chronological backjumping}. This is backtracking (Unit VI) plus the resolution rule of inference (Unit I).
+\end{formulabox}
+
+\begin{usecase}{SAT in Practice}
+Hardware verification (does this circuit equal that one? --- assert they differ and check unsatisfiability), software model checking, package dependency resolution (\texttt{apt}, \texttt{conda}), automated planning, cryptanalysis, and timetabling all get encoded into CNF and handed to a SAT solver. The theoretical hardness is worst-case; structured industrial instances are usually solved fast.
+\end{usecase}
+
+% ==================================================================
+\subsection{Searching and Sorting}
+
+\subsubsection{Searching}
+
+\begin{keyconcept}{Linear vs.\ Binary Search}
+\begin{itemize}
+    \item \textbf{Linear search}: scan until found. Worst and average $\Theta(n)$. Works on unsorted data.
+    \item \textbf{Binary search}: requires sorted data. Compare with the middle; discard half. $T(n) = T(n/2) + 1 = \Theta(\log n)$. At most $\lfloor \log_2 n\rfloor + 1$ comparisons.
+\end{itemize}
+\begin{lstlisting}
+def binary_search(A, key):
+    lo, hi = 0, len(A) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2          # lo + (hi - lo)//2 avoids overflow in C
+        if A[mid] == key: return mid
+        elif A[mid] < key: lo = mid + 1
+        else: hi = mid - 1
+    return -1
+\end{lstlisting}
+\end{keyconcept}
+
+\begin{worked}{Binary Search Trace}
+$A = [3, 8, 12, 17, 23, 31, 40, 48, 56]$, key $= 31$.
+\begin{center}
+\begin{tabular}{c|c|c|c|l}
+\toprule
+lo & hi & mid & $A[\text{mid}]$ & action \\ \midrule
+0 & 8 & 4 & 23 & $23 < 31 \Rightarrow$ lo $= 5$ \\
+5 & 8 & 6 & 40 & $40 > 31 \Rightarrow$ hi $= 5$ \\
+5 & 5 & 5 & 31 & found at index 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Three comparisons for $n = 9$; linear search would need six. For $n = 10^9$, binary search needs at most 30.
+
+\textbf{Lower bound:} any comparison-based search on $n$ sorted items needs $\Omega(\log n)$ comparisons---a decision tree with $n$ leaves has height $\ge \log_2 n$. So binary search is optimal.
+\end{worked}
+
+\subsubsection{Sorting}
+
+\begin{table}[h!]
+\centering
+\small
+\rowcolors{2}{gray!6}{white}
+\begin{tabularx}{\textwidth}{|l|c|c|c|c|c|X|}
+\hline
+\rowcolor{NavyPrimary}\color{white}\textbf{Algorithm} & \color{white}\textbf{Best} & \color{white}\textbf{Average} & \color{white}\textbf{Worst} & \color{white}\textbf{Space} & \color{white}\textbf{Stable} & \color{white}\textbf{Notes} \\ \hline
+Bubble & $n$ & $n^2$ & $n^2$ & $1$ & yes & Teaching only; early exit if no swaps \\ \hline
+Selection & $n^2$ & $n^2$ & $n^2$ & $1$ & no & Fewest swaps ($n-1$) \\ \hline
+Insertion & $n$ & $n^2$ & $n^2$ & $1$ & yes & Best for small or nearly-sorted input; online \\ \hline
+Merge & $n\log n$ & $n\log n$ & $n\log n$ & $n$ & yes & Guaranteed; external sorting; linked lists \\ \hline
+Quick & $n\log n$ & $n\log n$ & $n^2$ & $\log n$ & no & Fastest in practice; worst case on sorted input with bad pivot \\ \hline
+Heap & $n\log n$ & $n\log n$ & $n\log n$ & $1$ & no & In-place guarantee; priority queues \\ \hline
+Counting & $n + k$ & $n + k$ & $n+k$ & $n + k$ & yes & Integers in $[0,k]$; not comparison-based \\ \hline
+Radix & $d(n+k)$ & $d(n+k)$ & $d(n+k)$ & $n+k$ & yes & $d$ digits; uses counting sort per digit \\ \hline
+\end{tabularx}
+\caption{Sorting algorithms ($\Theta$ bounds, ``$n\log n$'' means $\Theta(n\log n)$). \emph{Stable} = equal keys keep their original order. Python's \texttt{sorted} is Timsort (merge + insertion, stable, $O(n\log n)$); C++ \texttt{std::sort} is introsort (quick + heap + insertion).}
+\end{table}
+
+\begin{formulabox}{The $\Omega(n\log n)$ Lower Bound for Comparison Sorting}
+A comparison sort is a decision tree: each internal node compares two elements, each leaf is one of the $n!$ possible output orderings. A binary tree with $n!$ leaves has height $h \ge \log_2 (n!)$. By Stirling (or the sum--integral bound from Unit I),
+\[
+\log_2(n!) = \sum_{k=1}^n \log_2 k \ \ge\ \frac n2 \log_2 \frac n2 = \Omega(n\log n).
+\]
+So merge sort and heap sort are asymptotically optimal among comparison sorts. Counting and radix sort beat the bound only because they do not compare---they inspect the keys' digits, assuming bounded integers.
+\end{formulabox}
+
+\begin{worked}{Merge Sort}
+Sort $[38, 27, 43, 3, 9, 82, 10]$.
+\begin{center}
+\small
+\begin{tabular}{l}
+Split: $[38, 27, 43, 3] \mid [9, 82, 10]$ \\
+\quad $[38, 27] \mid [43, 3]$ \qquad $[9, 82] \mid [10]$ \\
+\quad\quad $[38] [27]$ \ $[43] [3]$ \qquad $[9] [82]$ \ $[10]$ \\
+Merge: $[27, 38]$ \ $[3, 43]$ \qquad $[9, 82]$ \ $[10]$ \\
+\quad $[3, 27, 38, 43]$ \qquad $[9, 10, 82]$ \\
+\quad $[3, 9, 10, 27, 38, 43, 82]$ \\
+\end{tabular}
+\end{center}
+Merging two sorted lists of total length $k$ takes $k - 1$ comparisons at most. $\lceil\log_2 7\rceil = 3$ levels of merging, $\le 7$ work each: $T(n) = 2T(n/2) + n = \Theta(n \log n)$ regardless of input order.
+\end{worked}
+
+\begin{worked}{Quicksort Partition (Lomuto, pivot = last element)}
+$A = [7, 2, 9, 4, 6]$, pivot $= 6$. Maintain $i$ = end of the ``$\le$ pivot'' zone (start $i = -1$); scan $j$ from 0 to 3.
+\begin{center}
+\begin{tabular}{c|c|l|l}
+\toprule
+$j$ & $A[j]$ & $\le 6$? & array after \\ \midrule
+0 & 7 & no & $[7, 2, 9, 4, 6]$ \\
+1 & 2 & yes: $i = 0$, swap $A[0], A[1]$ & $[2, 7, 9, 4, 6]$ \\
+2 & 9 & no & $[2, 7, 9, 4, 6]$ \\
+3 & 4 & yes: $i = 1$, swap $A[1], A[3]$ & $[2, 4, 9, 7, 6]$ \\
+end & & swap pivot into $A[i+1] = A[2]$ & $[2, 4, \mathbf{6}, 7, 9]$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Pivot is now at its final index 2; recurse on $[2, 4]$ and $[7, 9]$. Balanced partitions give $T(n) = 2T(n/2) + n = \Theta(n\log n)$; a pivot that is always the min or max gives $T(n) = T(n-1) + n = \Theta(n^2)$ (already-sorted input with last-element pivot). Randomised pivot or median-of-three makes the expected time $\Theta(n\log n)$ on \emph{every} input.
+\end{worked}
+
+\begin{examtip}{Choosing a Sort}
+Small $n$ or nearly sorted $\to$ insertion. Need stability + guarantee $\to$ merge. Memory-tight + guarantee $\to$ heap. General in-memory speed $\to$ quicksort (randomised). Bounded integers / fixed-width keys $\to$ counting or radix. Data on disk $\to$ external merge sort. Only need the top $k$ $\to$ heap ($O(n\log k)$) or quickselect ($O(n)$ expected).
+\end{examtip}
+
+% ==================================================================
+\subsection{Unit V Quick-Revision Sheet}
+
+\begin{examtip}{Ten Things to Carry Into the Exam}
+\begin{enumerate}
+    \item $O$ = upper, $\Omega$ = lower, $\Theta$ = tight; prove with explicit $c, n_0$ or the limit test.
+    \item Hierarchy: $1 \prec \log n \prec n \prec n\log n \prec n^2 \prec 2^n \prec n!$. Halving loop = $\log n$; nested loops multiply.
+    \item Recurrence from code: (subproblems) $\times$ $T$(size) + (split/merge work). Solve by iteration, recursion tree, or substitution (= induction).
+    \item $T(n-1) + n \to n^2$; $2T(n-1) + 1 \to 2^n$; $T(n/2) + 1 \to \log n$; $2T(n/2) + n \to n\log n$.
+    \item Master theorem: compare $f(n)$ with $n^{\log_b a}$. Smaller by $n^\varepsilon$ $\to$ $\Theta(n^{\log_b a})$; equal $\to$ $\times \log n$; larger by $n^\varepsilon$ (+ regularity) $\to$ $\Theta(f)$.
+    \item Characteristic equation for $a_n = c_1a_{n-1} + c_2a_{n-2}$; Fibonacci grows as $\varphi^n$.
+    \item P: solve in poly time. NP: \emph{verify} in poly time. NP-complete: in NP and everything in NP reduces to it. P $\subseteq$ NP; equality open.
+    \item Prove NP-completeness: (1) in NP, (2) reduce a known NP-complete problem \emph{to} it. Cook--Levin: SAT was first.
+    \item 2-SAT $\in$ P (implication graph); 3-SAT NP-complete. DPLL = unit propagation + pure literals + backtracking.
+    \item Binary search $\Theta(\log n)$, needs sorted input. Comparison sorting is $\Omega(n\log n)$; merge/heap achieve it; quicksort $\Theta(n^2)$ worst but fastest on average; counting/radix are linear for bounded keys.
+\end{enumerate}
+\end{examtip}
+
+\end{document}
