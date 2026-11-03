@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE563 &middot; Applied Mathematics Unit V &mdash; Algorithm Complexity Analysis &mdash; Important Topics, Formulas and Solved Questions</title>
+<style>
+:root{--navy:#182B49;--navy2:#253E64;--cyan:#0096C7;--ice:#7EC5E2;--purple:#5C2D91;
+      --orange:#ED771F;--green:#107C41;--red:#B42318;--grey:#586476;--rule:#D8DFE8;
+      --bg:#F6F9FC;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);
+     font:15px/1.65 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--navy);color:#fff;padding:28px 0 24px;border-bottom:4px solid var(--cyan)}
+header .eyebrow{color:var(--ice);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+header h1{margin:7px 0 6px;font-size:32px;font-weight:600;line-height:1.2}
+header p{margin:0;color:#C9D8E6;font-size:15.5px;max-width:860px}
+nav{background:var(--navy2);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(24,43,73,.2)}
+nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:11px 14px;color:#D8E6F2;text-decoration:none;font-size:13.5px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,.13);color:#fff}
+section{padding:34px 0 12px;border-bottom:1px solid var(--rule)}
+h2{font-size:24px;margin:0 0 6px;font-weight:600}
+h2 .num{display:inline-block;background:var(--cyan);color:#fff;font-size:13px;
+        padding:3px 9px;border-radius:4px;margin-right:10px;vertical-align:3px}
+h3{font-size:17.5px;margin:24px 0 8px;font-weight:600;color:var(--navy)}
+.lede{color:var(--grey);font-size:15.5px;margin:0 0 16px;max-width:920px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* ---- formula sheet ---- */
+.fsheet{border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:4px;
+        background:var(--card);margin:18px 0;padding:15px 20px 8px}
+.fshd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:8px}
+.fst{width:100%;border-collapse:collapse;margin:0;font-size:14px;box-shadow:none}
+.fst td{border:0;border-top:1px solid #E1EAF3;padding:9px 8px;vertical-align:middle;
+        background:none}
+.fst tr:first-child td{border-top:0}
+.fst tbody tr:nth-child(even){background:none}
+td.fsn{width:23%;font-weight:600;color:var(--navy);font-size:13.5px}
+td.fsf{width:42%}
+td.fsf .math{font-size:16.5px;line-height:1.9;white-space:normal}
+td.fsw{color:var(--grey);font-size:13px}
+/* ---- the method ---- */
+.meth{border:1px solid var(--rule);border-left:3px solid var(--navy);border-radius:4px;
+      background:var(--card);margin:18px 0;padding:15px 20px 16px}
+.methd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);margin-bottom:9px}
+.meth ol{margin:0;padding-left:22px}
+.meth li{font-size:14.8px;line-height:1.68;padding:4px 0;color:var(--navy)}
+.meth li::marker{color:var(--grey);font-weight:700}
+/* ---- practice ---- */
+.prac{border:1px solid var(--rule);border-radius:4px;background:var(--card);
+      margin:18px 0;padding:15px 20px 16px}
+.prhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pall{margin-left:auto;font-size:12px;padding:5px 11px}
+.prac ol{margin:0;padding-left:22px}
+.prac>ol>li{padding:11px 0;border-top:1px solid #EEF2F6}
+.prac>ol>li:first-child{border-top:0}
+.prac li::marker{color:var(--grey);font-weight:700}
+/* Numericals pages run quiet: panels are white with a thin rule, and colour is
+   reserved for meaning (a revealed answer, a caution) rather than decoration. */
+body.quiet .formula{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--navy);border-radius:4px}
+body.quiet .formula .flabel{color:var(--navy)}
+body.quiet .ex{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .exgiven{background:#F7FAFC;border-color:var(--rule)}
+body.quiet .why{background:var(--card)}
+body.quiet .whygrid{background:var(--rule)}
+body.quiet .wq.w3{background:var(--card)}
+body.quiet .take{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .warn{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--orange);border-radius:4px}
+.pq{font-size:14.8px;line-height:1.68;color:var(--navy);margin-bottom:7px}
+.pbtn{font-size:12px;padding:4px 10px}
+.pa{display:none;margin-top:9px;background:#E4F6EB;border-left:3px solid var(--green);
+    border-radius:5px;padding:9px 13px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.pa.on{display:block}
+.pa b{color:var(--green)}
+.ex{border:1.5px solid #BFD9CB;border-left:5px solid var(--green);border-radius:9px;
+    background:#FBFEFC;margin:18px 0;padding:14px 18px 16px}
+.exhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--green);margin-bottom:9px}
+.exgiven{font-size:14.5px;background:#fff;border:1px solid #DCE9E1;border-radius:6px;
+         padding:9px 13px;margin-bottom:12px}
+.exsteps{list-style:none;counter-reset:exs;margin:0;padding:0}
+.exsteps li{counter-increment:exs;display:grid;grid-template-columns:26px 1fr;gap:11px;
+            padding:7px 0;border-top:1px solid #E7F0EA;align-items:baseline}
+.exsteps li:first-child{border-top:0}
+.exsteps li::before{content:counter(exs);display:block;width:21px;height:21px;
+                    border-radius:50%;background:var(--green);color:#fff;font-size:11.5px;
+                    font-weight:700;text-align:center;line-height:21px}
+.exb{min-width:0}
+.exl{font-size:13.5px;color:var(--grey);display:block;margin-bottom:3px}
+.exw{font-size:15.5px;color:var(--navy);font-family:"Cambria Math",Cambria,Georgia,serif;
+     display:block;line-height:1.8}
+.exans{margin-top:12px;background:#E4F6EB;border-radius:6px;padding:10px 14px;
+       font-size:15px;color:var(--navy);font-weight:600}
+.exans b{color:var(--green)}
+@media(max-width:700px){.exsteps li{grid-template-columns:22px 1fr;gap:8px}}
+.why{border:1.5px solid #CBD9E6;border-radius:9px;margin:18px 0;overflow:hidden;
+     background:linear-gradient(180deg,#F4F9FD 0,#fff 54px)}
+.whyhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);padding:13px 18px 0}
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E3EAF1;
+         margin-top:12px;border-top:1px solid #E3EAF1}
+.wq{background:var(--card);padding:14px 17px 16px}
+.wq h5{margin:0 0 7px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wq p{margin:0;font-size:14px;line-height:1.62}
+.wq.w1 h5{color:var(--cyan)}
+.wq.w2 h5{color:var(--purple)}
+.wq.w3 h5{color:var(--orange)}
+.wq.w3{background:#FFFBF7}
+@media(max-width:900px){.whygrid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 7px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan)}
+.card p{margin:0;font-size:14.5px}
+.take{background:#E4F6EB;border-left:5px solid var(--green);border-radius:6px;padding:12px 16px;margin:14px 0}
+.take b.hd{color:var(--green);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.take b{color:var(--navy)}
+.warn{background:#FDEEEC;border-left:5px solid var(--orange);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn b.hd{color:var(--orange);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.warn b{color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+tbody tr:nth-child(even){background:#F2F7FB}
+td.hi{background:#FFF3E0;font-weight:700}
+code{background:#EEF3F8;padding:1px 5px;border-radius:4px;font-size:13.5px}
+footer{background:var(--navy);color:#9FB4CA;padding:22px 0;font-size:13.5px}
+
+/* ---------------- formula block ---------------- */
+.formula{background:#F3EEFB;border-left:5px solid var(--purple);border-radius:6px;
+         padding:14px 18px;margin:14px 0;overflow-x:auto}
+.formula .flabel{display:block;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+                 text-transform:uppercase;color:var(--purple);margin-bottom:9px}
+.formula small{display:block;font:13.5px/1.55 "Segoe UI",sans-serif;color:var(--grey);margin-top:10px}
+
+/* ---------------- real maths ---------------- */
+.math{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;
+      font-size:20px;line-height:2.1;color:var(--navy);white-space:nowrap}
+.math i,.math .var{font-style:italic;font-family:inherit}
+.math .op{font-style:normal;padding:0 .22em}
+.math b.vecb{font-weight:700;font-style:normal}
+.math sub{font-size:.62em;vertical-align:-.3em}
+.math sup{font-size:.62em;vertical-align:.45em}
+.cases{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .2em}
+.cases .cb{font-size:2.5em;font-weight:300;line-height:.86;margin-right:.14em}
+.cases table{border-collapse:collapse;margin:0;width:auto;box-shadow:none;font-size:.86em}
+.cases tbody tr,.cases tbody tr:nth-child(even){border:0;background:none}
+.cases td{border:0;padding:.14em .2em;background:none;white-space:nowrap;
+          line-height:1.5;vertical-align:middle}
+.cases td.cc{font-size:.8em;font-style:normal;color:var(--grey);padding-left:1.5em;
+             font-family:"Segoe UI",system-ui,sans-serif}
+.frac{display:inline-block;vertical-align:-.52em;text-align:center;margin:0 .26em}
+.frac .num{display:block;padding:0 .4em .12em;border-bottom:1.7px solid currentColor;line-height:1.22}
+.frac .den{display:block;padding:.12em .4em 0;line-height:1.22}
+.sqrt{display:inline-block;position:relative;margin:0 .15em}
+.sqrt .rad{font-size:1.12em;vertical-align:-.06em}
+.sqrt .rand{border-top:1.6px solid currentColor;padding:.1em .22em 0 .12em;margin-left:-.12em}
+.bigop{display:inline-block;text-align:center;vertical-align:-.5em;margin:0 .2em;line-height:1}
+.bigop .glyph{display:block;font-size:1.5em;line-height:.88}
+.bigop.int .glyph{font-size:1.75em}
+.bigop .lim{display:block;font-size:.5em;line-height:1.25;font-style:italic}
+.paren{font-size:1.18em;padding:0 .06em}
+.paren.big{font-size:1.5em;vertical-align:-.16em}
+.bar{padding:0 .09em}
+.hat{position:relative;display:inline-block;font-style:italic}
+.hat::after{content:"\0302";position:absolute;left:0;right:0;top:-.46em;
+            text-align:center;font-size:.72em;font-style:normal;line-height:1;
+            font-family:"Cambria Math",Cambria,serif}
+.matrix{display:inline-block;vertical-align:middle;margin:0 .18em}
+.matrix .mb{display:inline-block;font-size:2.1em;vertical-align:middle;font-weight:300}
+.matrix table{display:inline-table;width:auto;border:0;margin:0 .1em;vertical-align:middle}
+.matrix td{border:0;padding:.08em .38em;text-align:center;font-size:.86em;background:none}
+
+/* ---------------- visualisation ---------------- */
+.viz{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px;margin:16px 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button{font:600 13.5px "Segoe UI",sans-serif;padding:8px 14px;border-radius:6px;
+       border:1px solid var(--cyan);background:var(--cyan);color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.ghost{background:#fff;color:var(--cyan)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select{font:14px "Segoe UI";padding:7px 9px;border-radius:6px;border:1px solid var(--rule);background:#fff}
+svg{width:100%;height:auto;display:block;background:#fff;border-radius:6px;max-width:1040px;margin:0 auto}
+.status{font-size:15.5px;line-height:1.6;background:#EAF4FA;border-left:4px solid var(--cyan);
+        border-radius:6px;padding:12px 16px;margin-top:12px;min-height:48px;color:var(--navy)}
+.status b{color:var(--cyan)}
+.stepcount{font-size:12.5px;font-weight:700;color:var(--grey);letter-spacing:.03em;
+           margin-left:auto;padding-right:4px;white-space:nowrap}
+.stepcount em{font-style:normal;color:var(--cyan);font-size:14.5px}
+.viz.done .stepcount em{color:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--grey);margin-top:9px;justify-content:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.ptask{display:block;font-size:12.5px;font-weight:700;color:var(--purple);letter-spacing:.02em;margin-bottom:2px}
+.stars{color:#ED771F;font-weight:700;letter-spacing:1px;white-space:nowrap}
+.glance td:nth-child(4){font-family:Cambria,'Times New Roman',serif}
+</style>
+</head>
+<body class="quiet">
+<header><div class="wrap">
+  <div class="eyebrow">CSE563 &middot; Applied Mathematics &middot; Unit V</div>
+  <h1>Algorithm Complexity Analysis &mdash; Important Topics, Formulas and Solved Questions</h1>
+  <p>Only the topics that matter most for the exam. For each one: what it solves, the concept, the formula, how to solve it on paper, one fully worked question and practice with answers.</p>
+</div></header>
+<nav><div class="wrap"><ul><li><a href="#glance">At a glance</a></li><li><a href="#asym">1 &middot; Asymptotic</a></li><li><a href="#recur">2 &middot; Recurrences</a></li><li><a href="#master">3 &middot; Master theorem</a></li><li><a href="#pnp">4 &middot; P vs NP</a></li><li><a href="#sat">5 &middot; SAT</a></li><li><a href="#sort">6 &middot; Search &amp; sort</a></li></ul></div></nav>
+<section id="glance"><div class="wrap"><h2><span class="num">&#9673;</span>Important topics at a glance</h2><p class="lede">&#9733;&#9733;&#9733; = asked in most papers (question bank, sample papers, final-exam practice, CA). &#9733;&#9733; = asked regularly. Learn the formula, know what it solves, and practise the worked question under each topic.</p><table class="glance"><thead><tr><th>#</th><th>Topic</th><th>What it solves</th><th>Key formula</th><th>Weight</th></tr></thead><tbody><tr><td>1</td><td><b>Asymptotic notations: O, &Omega;, &Theta;</b></td><td>Describes how fast an algorithm's running time grows as the input gets large, ignoring constants.</td><td>c<sub>1</sub>g(n) &le; f(n) &le; c<sub>2</sub>g(n) for n &ge; n<sub>0</sub></td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>2</td><td><b>Recurrence relations: iteration and the characteristic equation</b></td><td>Turns “the cost of n in terms of smaller n” into a closed formula or a growth rate.</td><td>a<sub>n</sub> = c<sub>1</sub>a<sub>n&minus;1</sub> + c<sub>2</sub>a<sub>n&minus;2</sub> &rarr; r&sup2; = c<sub>1</sub>r + c<sub>2</sub></td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>3</td><td><b>The Master theorem</b></td><td>Gives the growth rate of divide-and-conquer recurrences T(n) = aT(n/b) + f(n) in one step.</td><td>compare f(n) with n<sup>log<sub>b</sub> a</sup></td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>4</td><td><b>P, NP, NP-complete and NP-hard</b></td><td>Classifies problems by whether they can be solved, or only checked, in polynomial time.</td><td>P &sube; NP; NP-complete = NP &cap; NP-hard</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>5</td><td><b>The satisfiability problem (SAT)</b></td><td>Decides whether a logic formula can be made true by some assignment of true/false values.</td><td>CNF: (x &or; y) &and; (&not;x &or; z) &and; &hellip;</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>6</td><td><b>Searching and sorting: costs and the n log n lower bound</b></td><td>Picks the right search or sort for the situation and predicts how many comparisons it needs.</td><td>binary search &le; &lceil;log<sub>2</sub>(n + 1)&rceil; comparisons</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr></tbody></table></div></section>
+<section id="asym"><div class="wrap"><h2><span class="num">1</span>Asymptotic notations: O, &Omega;, &Theta; &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Describes how fast an algorithm's running time grows as the input gets large, ignoring constants.</p></div><div class="wq w2"><h5>The concept</h5><p>O gives an upper bound, &Omega; a lower bound, &Theta; a tight bound (both). To prove f(n) = &Theta;(g(n)), find constants c<sub>1</sub>, c<sub>2</sub>, n<sub>0</sub> that sandwich f.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Comparing algorithms before writing code; predicting whether a program will scale.</p></div></div></div><div class="formula"><span class="flabel">Definitions</span><div class="math"><i>f</i> = O(<i>g</i>): <i>f</i>(<i>n</i>) &le; <i>c</i>&middot;<i>g</i>(<i>n</i>); &nbsp; <i>f</i> = &Omega;(<i>g</i>): <i>f</i>(<i>n</i>) &ge; <i>c</i>&middot;<i>g</i>(<i>n</i>); &nbsp; &Theta; = both, for all <i>n</i> &ge; <i>n</i><sub>0</sub></div></div><div class="formula"><span class="flabel">Growth order</span><div class="math">1 &lt; log <i>n</i> &lt; <span class="sqrt"><span class="rad">&#8730;</span><span class="rand"><i>n</i></span></span> &lt; <i>n</i> &lt; <i>n</i> log <i>n</i> &lt; <i>n</i><sup>2</sup> &lt; <i>n</i><sup>3</sup> &lt; 2<sup><i>n</i></sup> &lt; <i>n</i>!</div><small>From slowest-growing to fastest.</small></div><div class="ex"><div class="exhd">Worked example &mdash; prove 3n&sup2; + 5n + 2 = &Theta;(n&sup2;)</div><div class="exgiven">Find c<sub>1</sub>, c<sub>2</sub> and n<sub>0</sub>.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Lower bound</span><span class="exw">3n&sup2; + 5n + 2 &ge; 3n&sup2; for n &ge; 1 &rarr; c<sub>1</sub> = 3</span></div></li><li><div class="exb"><span class="exl">Upper bound</span><span class="exw">5n &le; 5n&sup2; and 2 &le; 2n&sup2; for n &ge; 1, so the sum &le; 10n&sup2; &rarr; c<sub>2</sub> = 10</span></div></li><li><div class="exb"><span class="exl">Conclude</span><span class="exw">3n&sup2; &le; f(n) &le; 10n&sup2; for all n &ge; n<sub>0</sub> = 1</span></div></li></ol><div class="exans"><b>f(n) = &Theta;(n&sup2;) with c<sub>1</sub> = 3, c<sub>2</sub> = 10, n<sub>0</sub> = 1.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr30">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Order: slowest to fastest growth.</span>n log n, n&sup2;, 2<sup>n</sup>, log n.</div><button class="ghost pbtn" data-ans="pr30-1">Show answer</button><div class="pa" id="pr30-1"><b>log n &lt; n log n &lt; n&sup2; &lt; 2<sup>n</sup></b>.</div></li><li><div class="pq"><span class="ptask">Answer: true or false? Give the reason.</span>2<sup>n+1</sup> = O(2<sup>n</sup>).</div><button class="ghost pbtn" data-ans="pr30-2">Show answer</button><div class="pa" id="pr30-2"><b>True</b>: 2<sup>n+1</sup> = 2 &times; 2<sup>n</sup>, so c = 2 works.</div></li></ol></div></div></section>
+<section id="recur"><div class="wrap"><h2><span class="num">2</span>Recurrence relations: iteration and the characteristic equation &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Turns “the cost of n in terms of smaller n” into a closed formula or a growth rate.</p></div><div class="wq w2"><h5>The concept</h5><p>Iteration: expand T(n) repeatedly and spot the pattern. Linear recurrences with constant coefficients: solve the characteristic equation; distinct roots r<sub>1</sub>, r<sub>2</sub> give a<sub>n</sub> = A r<sub>1</sub><sup>n</sup> + B r<sub>2</sub><sup>n</sup>.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Analysing recursive algorithms; counting problems (Fibonacci-type).</p></div></div></div><div class="formula"><span class="flabel">Common patterns</span><div class="math">T(<i>n</i>) = T(<i>n</i>&minus;1) + <i>n</i> &rArr; &Theta;(<i>n</i><sup>2</sup>); &nbsp; T(<i>n</i>) = T(<i>n</i>/2) + 1 &rArr; &Theta;(log <i>n</i>); &nbsp; T(<i>n</i>) = 2T(<i>n</i>/2) + <i>n</i> &rArr; &Theta;(<i>n</i> log <i>n</i>)</div><small>Worth remembering.</small></div><div class="formula"><span class="flabel">Characteristic equation</span><div class="math"><i>a<sub>n</sub></i> = <i>c</i><sub>1</sub><i>a</i><sub><i>n</i>&minus;1</sub> + <i>c</i><sub>2</sub><i>a</i><sub><i>n</i>&minus;2</sub> &rarr; <i>r</i><sup>2</sup> &minus; <i>c</i><sub>1</sub><i>r</i> &minus; <i>c</i><sub>2</sub> = 0 &rarr; <i>a<sub>n</sub></i> = <i>A r</i><sub>1</sub><sup><i>n</i></sup> + <i>B r</i><sub>2</sub><sup><i>n</i></sup></div><small>Use the initial values to find A and B.</small></div><div class="ex"><div class="exhd">Worked example &mdash; a linear recurrence</div><div class="exgiven">a<sub>n</sub> = 5a<sub>n&minus;1</sub> &minus; 6a<sub>n&minus;2</sub>, a<sub>0</sub> = 2, a<sub>1</sub> = 5.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Characteristic equation</span><span class="exw">r&sup2; &minus; 5r + 6 = 0 &rarr; (r &minus; 2)(r &minus; 3) = 0 &rarr; r = 2, 3</span></div></li><li><div class="exb"><span class="exl">General solution</span><span class="exw">a<sub>n</sub> = A&middot;2<sup>n</sup> + B&middot;3<sup>n</sup></span></div></li><li><div class="exb"><span class="exl">Use a<sub>0</sub> and a<sub>1</sub></span><span class="exw">A + B = 2; &nbsp;2A + 3B = 5 &rarr; B = 1, A = 1</span></div></li><li><div class="exb"><span class="exl">Check a<sub>2</sub></span><span class="exw">formula 4 + 9 = 13; recurrence 5&middot;5 &minus; 6&middot;2 = 13 &#10003;</span></div></li></ol><div class="exans"><b>a<sub>n</sub> = 2<sup>n</sup> + 3<sup>n</sup>.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr31">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the growth rate.</span>T(n) = T(n/2) + 1 (binary search).</div><button class="ghost pbtn" data-ans="pr31-1">Show answer</button><div class="pa" id="pr31-1">Halving until 1 takes log<sub>2</sub> n steps: <b>&Theta;(log n)</b>.</div></li><li><div class="pq"><span class="ptask">Find: the closed form.</span>a<sub>n</sub> = 3a<sub>n&minus;1</sub>, a<sub>0</sub> = 2.</div><button class="ghost pbtn" data-ans="pr31-2">Show answer</button><div class="pa" id="pr31-2"><b>a<sub>n</sub> = 2 &middot; 3<sup>n</sup></b>.</div></li></ol></div></div></section>
+<section id="master"><div class="wrap"><h2><span class="num">3</span>The Master theorem &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Gives the growth rate of divide-and-conquer recurrences T(n) = aT(n/b) + f(n) in one step.</p></div><div class="wq w2"><h5>The concept</h5><p>Compare f(n) with n<sup>log<sub>b</sub>a</sup> (the work done by the leaves). Whichever is bigger wins; if they are equal, multiply by log n.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Merge sort, binary search, Karatsuba, Strassen and any recursive split.</p></div></div></div><div class="formula"><span class="flabel">Form</span><div class="math">T(<i>n</i>) = <i>a</i>T(<i>n</i>/<i>b</i>) + <i>f</i>(<i>n</i>), &nbsp; <i>a</i> &ge; 1, <i>b</i> &gt; 1; &nbsp; let <i>p</i> = log<sub><i>b</i></sub> <i>a</i></div></div><div class="formula"><span class="flabel">The three cases</span><div class="math">Case 1: <i>f</i> = O(<i>n</i><sup><i>p</i>&minus;&epsilon;</sup>) &rArr; &Theta;(<i>n<sup>p</sup></i>); &nbsp; Case 2: <i>f</i> = &Theta;(<i>n<sup>p</sup></i>) &rArr; &Theta;(<i>n<sup>p</sup></i> log <i>n</i>); &nbsp; Case 3: <i>f</i> = &Omega;(<i>n</i><sup><i>p</i>+&epsilon;</sup>) and <i>a f</i>(<i>n</i>/<i>b</i>) &le; <i>c f</i>(<i>n</i>) &rArr; &Theta;(<i>f</i>(<i>n</i>))</div></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>Read off a, b and f(n).</li><li>Compute p = log<sub>b</sub> a.</li><li>Compare f(n) with n<sup>p</sup> and pick the case.</li><li>For case 3, check the regularity condition.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; three recurrences</div><div class="exgiven">(i) T(n) = 9T(n/3) + n &nbsp; (ii) T(n) = 2T(n/2) + n &nbsp; (iii) T(n) = 3T(n/4) + n&sup2;</div><ol class="exsteps"><li><div class="exb"><span class="exl">(i)</span><span class="exw">p = log<sub>3</sub> 9 = 2; f = n is smaller &rarr; Case 1 &rarr; <b>&Theta;(n&sup2;)</b></span></div></li><li><div class="exb"><span class="exl">(ii)</span><span class="exw">p = log<sub>2</sub> 2 = 1; f = n equal &rarr; Case 2 &rarr; <b>&Theta;(n log n)</b> (merge sort)</span></div></li><li><div class="exb"><span class="exl">(iii)</span><span class="exw">p = log<sub>4</sub> 3 &asymp; 0.79; f = n&sup2; bigger &rarr; Case 3; check 3(n/4)&sup2; = (3/16)n&sup2; &le; c n&sup2; &#10003; &rarr; <b>&Theta;(n&sup2;)</b></span></div></li></ol><div class="exans"><b>&Theta;(n&sup2;), &Theta;(n log n), &Theta;(n&sup2;).</b></div></div><div class="warn"><b class="hd">Common trap</b><br>It does not apply to every recurrence: T(n) = T(n &minus; 1) + n has no n/b form, and 2T(n/2) + n/log n falls between the cases.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr32">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the growth rate.</span>T(n) = 4T(n/2) + n.</div><button class="ghost pbtn" data-ans="pr32-1">Show answer</button><div class="pa" id="pr32-1">p = log<sub>2</sub> 4 = 2 &gt; 1 &rarr; Case 1 &rarr; <b>&Theta;(n&sup2;)</b>.</div></li><li><div class="pq"><span class="ptask">Find: the growth rate.</span>T(n) = T(2n/3) + 1.</div><button class="ghost pbtn" data-ans="pr32-2">Show answer</button><div class="pa" id="pr32-2">a = 1, b = 3/2, p = 0, f = 1 = n<sup>0</sup> &rarr; Case 2 &rarr; <b>&Theta;(log n)</b>.</div></li></ol></div></div></section>
+<section id="pnp"><div class="wrap"><h2><span class="num">4</span>P, NP, NP-complete and NP-hard &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Classifies problems by whether they can be solved, or only checked, in polynomial time.</p></div><div class="wq w2"><h5>The concept</h5><p>P: solvable in polynomial time. NP: a proposed answer can be checked in polynomial time. NP-complete: in NP, and every NP problem reduces to it. NP-hard: at least as hard as NP-complete (may not be in NP).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Knowing when to stop looking for a fast exact algorithm and use approximation or heuristics instead.</p></div></div></div><div class="formula"><span class="flabel">Relationships</span><div class="math">P &sube; NP; &nbsp; NP-complete = NP &cap; NP-hard; &nbsp; if any NP-complete problem is in P, then P = NP</div><small>To show X is NP-complete: show X &isin; NP, then reduce a known NP-complete problem to X.</small></div><div class="ex"><div class="exhd">Worked example &mdash; classify four problems</div><div class="exgiven">Sorting, checking a Sudoku solution, 3-SAT, the halting problem.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Sorting</span><span class="exw">solvable in O(n log n) &rarr; <b>P</b></span></div></li><li><div class="exb"><span class="exl">Checking a filled Sudoku</span><span class="exw">verify rows, columns, boxes quickly &rarr; <b>in NP</b> (and in P)</span></div></li><li><div class="exb"><span class="exl">3-SAT</span><span class="exw">Cook&ndash;Levin: <b>NP-complete</b></span></div></li><li><div class="exb"><span class="exl">Halting problem</span><span class="exw">not even decidable &rarr; <b>NP-hard</b>, not in NP</span></div></li></ol><div class="exans"><b>P; NP; NP-complete; NP-hard.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>The reduction goes <b>from</b> the known NP-complete problem <b>to</b> the new one, not the other way round.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr33">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Answer: what follows?</span>Someone finds a polynomial-time algorithm for an NP-complete problem.</div><button class="ghost pbtn" data-ans="pr33-1">Show answer</button><div class="pa" id="pr33-1">Then <b>P = NP</b>.</div></li><li><div class="pq"><span class="ptask">Answer: which class?</span>Problems whose proposed solutions can be checked in polynomial time.</div><button class="ghost pbtn" data-ans="pr33-2">Show answer</button><div class="pa" id="pr33-2"><b>NP</b>.</div></li></ol></div></div></section>
+<section id="sat"><div class="wrap"><h2><span class="num">5</span>The satisfiability problem (SAT) &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Decides whether a logic formula can be made true by some assignment of true/false values.</p></div><div class="wq w2"><h5>The concept</h5><p>Write the formula in CNF (an AND of clauses, each an OR of literals). 2-SAT (two literals per clause) is in P; 3-SAT is NP-complete. DPLL solvers use unit propagation and backtracking.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Hardware and software verification, scheduling, planning, puzzle solving.</p></div></div></div><div class="formula"><span class="flabel">Definitions</span><div class="math">CNF = &and; of clauses; clause = &or; of literals; satisfied &hArr; every clause has at least one true literal</div><small>n variables give 2<sup>n</sup> possible assignments to try by brute force.</small></div><div class="ex"><div class="exhd">Worked example &mdash; find a satisfying assignment</div><div class="exgiven">&phi; = (x &or; y) &and; (&not;x &or; z) &and; (&not;y &or; &not;z).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Try x = T</span><span class="exw">clause 1 is true; clause 2 forces z = T</span></div></li><li><div class="exb"><span class="exl">z = T</span><span class="exw">clause 3 needs &not;y, so y = F</span></div></li><li><div class="exb"><span class="exl">Check</span><span class="exw">(T &or; F) = T, (F &or; T) = T, (T &or; F) = T &#10003;</span></div></li></ol><div class="exans"><b>Satisfiable: x = T, y = F, z = T.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr34">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Answer: satisfiable? Give the reason.</span>(x) &and; (&not;x).</div><button class="ghost pbtn" data-ans="pr34-1">Show answer</button><div class="pa" id="pr34-1"><b>No</b>: x cannot be both true and false.</div></li><li><div class="pq"><span class="ptask">Answer: which is in P?</span>2-SAT or 3-SAT?</div><button class="ghost pbtn" data-ans="pr34-2">Show answer</button><div class="pa" id="pr34-2"><b>2-SAT</b> is in P; 3-SAT is NP-complete.</div></li></ol></div></div></section>
+<section id="sort"><div class="wrap"><h2><span class="num">6</span>Searching and sorting: costs and the n log n lower bound &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Picks the right search or sort for the situation and predicts how many comparisons it needs.</p></div><div class="wq w2"><h5>The concept</h5><p>Linear search checks every item (O(n)); binary search halves a sorted list (O(log n)). Comparison sorts cannot beat &Omega;(n log n); counting and radix sort avoid comparisons.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Every database, search engine and spreadsheet.</p></div></div></div><div class="formula"><span class="flabel">Bounds</span><div class="math">binary search worst case = &lceil;log<sub>2</sub>(<i>n</i> + 1)&rceil; comparisons; &nbsp; comparison sort &ge; log<sub>2</sub>(<i>n</i>!) &asymp; <i>n</i> log<sub>2</sub> <i>n</i></div></div><div class="ex"><div class="exhd">Worked example &mdash; comparison counts and a sort table</div><div class="exgiven">A sorted list of 1000 items. Compare the common sorts.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Linear search, worst</span><span class="exw"><b>1000</b> comparisons</span></div></li><li><div class="exb"><span class="exl">Binary search, worst</span><span class="exw">&lceil;log<sub>2</sub> 1001&rceil; = <b>10</b></span></div></li><li><div class="exb"><span class="exl">Bubble / insertion sort</span><span class="exw">O(n&sup2;) worst; insertion is O(n) on nearly sorted data</span></div></li><li><div class="exb"><span class="exl">Merge sort</span><span class="exw">O(n log n) always, needs extra memory</span></div></li><li><div class="exb"><span class="exl">Quick sort</span><span class="exw">O(n log n) on average, O(n&sup2;) worst (bad pivots)</span></div></li></ol><div class="exans"><b>Binary search needs at most 10 comparisons on 1000 sorted items, against 1000 for linear search.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>Binary search only works on <b>sorted</b> data.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr35">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the worst case.</span>Binary search on 1 000 000 sorted items.</div><button class="ghost pbtn" data-ans="pr35-1">Show answer</button><div class="pa" id="pr35-1">&lceil;log<sub>2</sub> 1 000 001&rceil; = <b>20</b> comparisons.</div></li><li><div class="pq"><span class="ptask">Answer: which sort?</span>Which sort guarantees O(n log n) even in the worst case: quick sort or merge sort?</div><button class="ghost pbtn" data-ans="pr35-2">Show answer</button><div class="pa" id="pr35-2"><b>Merge sort</b>.</div></li></ol></div></div></section>
+<footer><div class="wrap">CSE563 &middot; Applied Mathematics &middot; Unit V &mdash; Algorithm Complexity Analysis &mdash; Important Topics, Formulas and Solved Questions &middot;
+School of Computer Science &amp; Engineering &middot; Session 2026&ndash;27</div></footer>
+<script>
+
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var C={navy:"#182B49",cyan:"#0096C7",purple:"#5C2D91",orange:"#ED771F",
+       green:"#107C41",red:"#B42318",grey:"#9AA7B5",rule:"#D8DFE8",ice:"#7EC5E2"};
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+  p.appendChild(e);return e;}
+function clr(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function line(s,A,B,col,w,dash){var l=el(s,"line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,
+  stroke:col,"stroke-width":w,"stroke-linecap":"round"});
+  if(dash)l.setAttribute("stroke-dasharray",dash);return l;}
+function dot(s,p,r,fill){return el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill});}
+function nodeC(s,p,label,fill,r){r=r||17;
+  el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill,stroke:"#fff","stroke-width":2.5});
+  var t=el(s,"text",{x:p.x,y:p.y+5,"text-anchor":"middle",fill:"#fff","font-size":"14",
+    "font-weight":"600","font-family":"Segoe UI,sans-serif"});t.textContent=label;}
+function txt(s,x,y,str,col,size,anchor,weight){
+  var t=el(s,"text",{x:x,y:y,"text-anchor":anchor||"middle",fill:col||C.navy,
+    "font-size":size||12,"font-weight":weight||"600","font-family":"Segoe UI,sans-serif"});
+  t.textContent=str;return t;}
+function box(s,x,y,w,h,fill,stroke,rx){return el(s,"rect",{x:x,y:y,width:w,height:h,
+  rx:rx===undefined?6:rx,fill:fill,stroke:stroke||"none","stroke-width":1.6});}
+function badge(s,A,B,str){var mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  el(s,"circle",{cx:mx,cy:my,r:11,fill:"#fff",stroke:C.rule});
+  txt(s,mx,my+4,str,C.navy,12);}
+function arrow(s,A,B,col,w){
+  var dx=B.x-A.x,dy=B.y-A.y,L=Math.sqrt(dx*dx+dy*dy);if(!L)return;
+  var ux=dx/L,uy=dy/L,ex=B.x-ux*20,ey=B.y-uy*20;
+  el(s,"line",{x1:A.x+ux*20,y1:A.y+uy*20,x2:ex,y2:ey,stroke:col,"stroke-width":w||2.6,
+    "stroke-linecap":"round"});
+  var a=8;
+  el(s,"polygon",{points:[ex+","+ey,(ex-ux*a-uy*a*0.6)+","+(ey-uy*a+ux*a*0.6),
+    (ex-ux*a+uy*a*0.6)+","+(ey-uy*a-ux*a*0.6)].join(" "),fill:col});}
+
+/* ---- generic step player, wired to data-viz buttons ---- */
+var VIZ={};
+function register(id,build,render){
+  VIZ[id]={build:build,render:render,steps:[],i:0,timer:null};
+  resetViz(id);
+}
+function resetViz(id){var m=VIZ[id];if(!m)return;
+  m.steps=m.build();m.i=0;stopViz(id);drawViz(id);}
+function drawViz(id){var m=VIZ[id];
+  m.render(document.getElementById("svg-"+id),m.steps[m.i],m.i,m.steps);
+  var st=document.getElementById("st-"+id);
+  if(st)st.innerHTML=m.steps[m.i].msg||"";
+  syncViz(id);}
+/* keep the counter and the buttons honest about where we are */
+function syncViz(id){var m=VIZ[id],last=m.steps.length-1;
+  function btn(a){return document.querySelector(
+    'button[data-act="'+a+'"][data-viz="'+id+'"]');}
+  var b;
+  if((b=btn("step")))b.disabled=m.i>=last;
+  if((b=btn("back")))b.disabled=m.i<=0;
+  var sc=document.getElementById("sc-"+id);
+  if(sc)sc.innerHTML="step <em>"+m.i+"</em> of "+last;
+  var wrap=document.getElementById("wrap-"+id);
+  if(wrap){if(m.i>=last&&last>0)wrap.classList.add("done");
+           else wrap.classList.remove("done");}}
+function stepViz(id){var m=VIZ[id];
+  if(m.i<m.steps.length-1){m.i++;drawViz(id);}
+  if(m.i>=m.steps.length-1)stopViz(id);}
+/* step backwards, so a student can flip between before and after */
+function stepBackViz(id){var m=VIZ[id];
+  if(m.i>0){stopViz(id);m.i--;drawViz(id);}}
+function stopViz(id){var m=VIZ[id];if(m.timer){clearInterval(m.timer);m.timer=null;}
+  var b=document.querySelector('button[data-act="auto"][data-viz="'+id+'"]');
+  if(b)b.textContent="Auto-play";}
+/* ---- practice answers: reveal one, or all of a block ---- */
+document.addEventListener("click",function(e){
+  if(!e.target.closest)return;
+  var one=e.target.closest("button[data-ans]");
+  if(one){var p=document.getElementById(one.getAttribute("data-ans"));
+    if(p){var on=p.classList.toggle("on");
+      one.textContent=on?"Hide answer":"Show answer";}
+    return;}
+  var all=e.target.closest("button[data-all]");
+  if(all){var g=all.getAttribute("data-all"),
+      blk=all.closest(".prac"),show=all.textContent.indexOf("Show")===0;
+    blk.querySelectorAll(".pa").forEach(function(p){
+      p.classList.toggle("on",show);});
+    blk.querySelectorAll("button[data-ans]").forEach(function(b2){
+      b2.textContent=show?"Hide answer":"Show answer";});
+    all.textContent=show?"Hide all answers":"Show all answers";}
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("button[data-viz]"):null;if(!b)return;
+  var id=b.getAttribute("data-viz"),act=b.getAttribute("data-act"),m=VIZ[id];if(!m)return;
+  if(act==="step")stepViz(id);
+  else if(act==="back")stepBackViz(id);
+  else if(act==="reset")resetViz(id);
+  else if(act==="auto"){
+    if(m.timer){stopViz(id);return;}
+    if(m.i>=m.steps.length-1)resetViz(id);
+    b.textContent="Pause";
+    m.timer=setInterval(function(){if(m.i>=m.steps.length-1)stopViz(id);else stepViz(id);},950);
+  }});
+
+
+</script>
+</body>
+</html>
