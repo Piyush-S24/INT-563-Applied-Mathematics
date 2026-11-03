@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE563 &middot; Applied Mathematics Unit III &mdash; Probability and Statistics &mdash; Important Topics, Formulas and Solved Questions</title>
+<style>
+:root{--navy:#182B49;--navy2:#253E64;--cyan:#0096C7;--ice:#7EC5E2;--purple:#5C2D91;
+      --orange:#ED771F;--green:#107C41;--red:#B42318;--grey:#586476;--rule:#D8DFE8;
+      --bg:#F6F9FC;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);
+     font:15px/1.65 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--navy);color:#fff;padding:28px 0 24px;border-bottom:4px solid var(--cyan)}
+header .eyebrow{color:var(--ice);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+header h1{margin:7px 0 6px;font-size:32px;font-weight:600;line-height:1.2}
+header p{margin:0;color:#C9D8E6;font-size:15.5px;max-width:860px}
+nav{background:var(--navy2);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(24,43,73,.2)}
+nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:11px 14px;color:#D8E6F2;text-decoration:none;font-size:13.5px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,.13);color:#fff}
+section{padding:34px 0 12px;border-bottom:1px solid var(--rule)}
+h2{font-size:24px;margin:0 0 6px;font-weight:600}
+h2 .num{display:inline-block;background:var(--cyan);color:#fff;font-size:13px;
+        padding:3px 9px;border-radius:4px;margin-right:10px;vertical-align:3px}
+h3{font-size:17.5px;margin:24px 0 8px;font-weight:600;color:var(--navy)}
+.lede{color:var(--grey);font-size:15.5px;margin:0 0 16px;max-width:920px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* ---- formula sheet ---- */
+.fsheet{border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:4px;
+        background:var(--card);margin:18px 0;padding:15px 20px 8px}
+.fshd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:8px}
+.fst{width:100%;border-collapse:collapse;margin:0;font-size:14px;box-shadow:none}
+.fst td{border:0;border-top:1px solid #E1EAF3;padding:9px 8px;vertical-align:middle;
+        background:none}
+.fst tr:first-child td{border-top:0}
+.fst tbody tr:nth-child(even){background:none}
+td.fsn{width:23%;font-weight:600;color:var(--navy);font-size:13.5px}
+td.fsf{width:42%}
+td.fsf .math{font-size:16.5px;line-height:1.9;white-space:normal}
+td.fsw{color:var(--grey);font-size:13px}
+/* ---- the method ---- */
+.meth{border:1px solid var(--rule);border-left:3px solid var(--navy);border-radius:4px;
+      background:var(--card);margin:18px 0;padding:15px 20px 16px}
+.methd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);margin-bottom:9px}
+.meth ol{margin:0;padding-left:22px}
+.meth li{font-size:14.8px;line-height:1.68;padding:4px 0;color:var(--navy)}
+.meth li::marker{color:var(--grey);font-weight:700}
+/* ---- practice ---- */
+.prac{border:1px solid var(--rule);border-radius:4px;background:var(--card);
+      margin:18px 0;padding:15px 20px 16px}
+.prhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pall{margin-left:auto;font-size:12px;padding:5px 11px}
+.prac ol{margin:0;padding-left:22px}
+.prac>ol>li{padding:11px 0;border-top:1px solid #EEF2F6}
+.prac>ol>li:first-child{border-top:0}
+.prac li::marker{color:var(--grey);font-weight:700}
+/* Numericals pages run quiet: panels are white with a thin rule, and colour is
+   reserved for meaning (a revealed answer, a caution) rather than decoration. */
+body.quiet .formula{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--navy);border-radius:4px}
+body.quiet .formula .flabel{color:var(--navy)}
+body.quiet .ex{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .exgiven{background:#F7FAFC;border-color:var(--rule)}
+body.quiet .why{background:var(--card)}
+body.quiet .whygrid{background:var(--rule)}
+body.quiet .wq.w3{background:var(--card)}
+body.quiet .take{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .warn{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--orange);border-radius:4px}
+.pq{font-size:14.8px;line-height:1.68;color:var(--navy);margin-bottom:7px}
+.pbtn{font-size:12px;padding:4px 10px}
+.pa{display:none;margin-top:9px;background:#E4F6EB;border-left:3px solid var(--green);
+    border-radius:5px;padding:9px 13px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.pa.on{display:block}
+.pa b{color:var(--green)}
+.ex{border:1.5px solid #BFD9CB;border-left:5px solid var(--green);border-radius:9px;
+    background:#FBFEFC;margin:18px 0;padding:14px 18px 16px}
+.exhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--green);margin-bottom:9px}
+.exgiven{font-size:14.5px;background:#fff;border:1px solid #DCE9E1;border-radius:6px;
+         padding:9px 13px;margin-bottom:12px}
+.exsteps{list-style:none;counter-reset:exs;margin:0;padding:0}
+.exsteps li{counter-increment:exs;display:grid;grid-template-columns:26px 1fr;gap:11px;
+            padding:7px 0;border-top:1px solid #E7F0EA;align-items:baseline}
+.exsteps li:first-child{border-top:0}
+.exsteps li::before{content:counter(exs);display:block;width:21px;height:21px;
+                    border-radius:50%;background:var(--green);color:#fff;font-size:11.5px;
+                    font-weight:700;text-align:center;line-height:21px}
+.exb{min-width:0}
+.exl{font-size:13.5px;color:var(--grey);display:block;margin-bottom:3px}
+.exw{font-size:15.5px;color:var(--navy);font-family:"Cambria Math",Cambria,Georgia,serif;
+     display:block;line-height:1.8}
+.exans{margin-top:12px;background:#E4F6EB;border-radius:6px;padding:10px 14px;
+       font-size:15px;color:var(--navy);font-weight:600}
+.exans b{color:var(--green)}
+@media(max-width:700px){.exsteps li{grid-template-columns:22px 1fr;gap:8px}}
+.why{border:1.5px solid #CBD9E6;border-radius:9px;margin:18px 0;overflow:hidden;
+     background:linear-gradient(180deg,#F4F9FD 0,#fff 54px)}
+.whyhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);padding:13px 18px 0}
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E3EAF1;
+         margin-top:12px;border-top:1px solid #E3EAF1}
+.wq{background:var(--card);padding:14px 17px 16px}
+.wq h5{margin:0 0 7px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wq p{margin:0;font-size:14px;line-height:1.62}
+.wq.w1 h5{color:var(--cyan)}
+.wq.w2 h5{color:var(--purple)}
+.wq.w3 h5{color:var(--orange)}
+.wq.w3{background:#FFFBF7}
+@media(max-width:900px){.whygrid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 7px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan)}
+.card p{margin:0;font-size:14.5px}
+.take{background:#E4F6EB;border-left:5px solid var(--green);border-radius:6px;padding:12px 16px;margin:14px 0}
+.take b.hd{color:var(--green);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.take b{color:var(--navy)}
+.warn{background:#FDEEEC;border-left:5px solid var(--orange);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn b.hd{color:var(--orange);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.warn b{color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+tbody tr:nth-child(even){background:#F2F7FB}
+td.hi{background:#FFF3E0;font-weight:700}
+code{background:#EEF3F8;padding:1px 5px;border-radius:4px;font-size:13.5px}
+footer{background:var(--navy);color:#9FB4CA;padding:22px 0;font-size:13.5px}
+
+/* ---------------- formula block ---------------- */
+.formula{background:#F3EEFB;border-left:5px solid var(--purple);border-radius:6px;
+         padding:14px 18px;margin:14px 0;overflow-x:auto}
+.formula .flabel{display:block;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+                 text-transform:uppercase;color:var(--purple);margin-bottom:9px}
+.formula small{display:block;font:13.5px/1.55 "Segoe UI",sans-serif;color:var(--grey);margin-top:10px}
+
+/* ---------------- real maths ---------------- */
+.math{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;
+      font-size:20px;line-height:2.1;color:var(--navy);white-space:nowrap}
+.math i,.math .var{font-style:italic;font-family:inherit}
+.math .op{font-style:normal;padding:0 .22em}
+.math b.vecb{font-weight:700;font-style:normal}
+.math sub{font-size:.62em;vertical-align:-.3em}
+.math sup{font-size:.62em;vertical-align:.45em}
+.cases{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .2em}
+.cases .cb{font-size:2.5em;font-weight:300;line-height:.86;margin-right:.14em}
+.cases table{border-collapse:collapse;margin:0;width:auto;box-shadow:none;font-size:.86em}
+.cases tbody tr,.cases tbody tr:nth-child(even){border:0;background:none}
+.cases td{border:0;padding:.14em .2em;background:none;white-space:nowrap;
+          line-height:1.5;vertical-align:middle}
+.cases td.cc{font-size:.8em;font-style:normal;color:var(--grey);padding-left:1.5em;
+             font-family:"Segoe UI",system-ui,sans-serif}
+.frac{display:inline-block;vertical-align:-.52em;text-align:center;margin:0 .26em}
+.frac .num{display:block;padding:0 .4em .12em;border-bottom:1.7px solid currentColor;line-height:1.22}
+.frac .den{display:block;padding:.12em .4em 0;line-height:1.22}
+.sqrt{display:inline-block;position:relative;margin:0 .15em}
+.sqrt .rad{font-size:1.12em;vertical-align:-.06em}
+.sqrt .rand{border-top:1.6px solid currentColor;padding:.1em .22em 0 .12em;margin-left:-.12em}
+.bigop{display:inline-block;text-align:center;vertical-align:-.5em;margin:0 .2em;line-height:1}
+.bigop .glyph{display:block;font-size:1.5em;line-height:.88}
+.bigop.int .glyph{font-size:1.75em}
+.bigop .lim{display:block;font-size:.5em;line-height:1.25;font-style:italic}
+.paren{font-size:1.18em;padding:0 .06em}
+.paren.big{font-size:1.5em;vertical-align:-.16em}
+.bar{padding:0 .09em}
+.hat{position:relative;display:inline-block;font-style:italic}
+.hat::after{content:"\0302";position:absolute;left:0;right:0;top:-.46em;
+            text-align:center;font-size:.72em;font-style:normal;line-height:1;
+            font-family:"Cambria Math",Cambria,serif}
+.matrix{display:inline-block;vertical-align:middle;margin:0 .18em}
+.matrix .mb{display:inline-block;font-size:2.1em;vertical-align:middle;font-weight:300}
+.matrix table{display:inline-table;width:auto;border:0;margin:0 .1em;vertical-align:middle}
+.matrix td{border:0;padding:.08em .38em;text-align:center;font-size:.86em;background:none}
+
+/* ---------------- visualisation ---------------- */
+.viz{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px;margin:16px 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button{font:600 13.5px "Segoe UI",sans-serif;padding:8px 14px;border-radius:6px;
+       border:1px solid var(--cyan);background:var(--cyan);color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.ghost{background:#fff;color:var(--cyan)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select{font:14px "Segoe UI";padding:7px 9px;border-radius:6px;border:1px solid var(--rule);background:#fff}
+svg{width:100%;height:auto;display:block;background:#fff;border-radius:6px;max-width:1040px;margin:0 auto}
+.status{font-size:15.5px;line-height:1.6;background:#EAF4FA;border-left:4px solid var(--cyan);
+        border-radius:6px;padding:12px 16px;margin-top:12px;min-height:48px;color:var(--navy)}
+.status b{color:var(--cyan)}
+.stepcount{font-size:12.5px;font-weight:700;color:var(--grey);letter-spacing:.03em;
+           margin-left:auto;padding-right:4px;white-space:nowrap}
+.stepcount em{font-style:normal;color:var(--cyan);font-size:14.5px}
+.viz.done .stepcount em{color:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--grey);margin-top:9px;justify-content:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.ptask{display:block;font-size:12.5px;font-weight:700;color:var(--purple);letter-spacing:.02em;margin-bottom:2px}
+.stars{color:#ED771F;font-weight:700;letter-spacing:1px;white-space:nowrap}
+.glance td:nth-child(4){font-family:Cambria,'Times New Roman',serif}
+</style>
+</head>
+<body class="quiet">
+<header><div class="wrap">
+  <div class="eyebrow">CSE563 &middot; Applied Mathematics &middot; Unit III</div>
+  <h1>Probability and Statistics &mdash; Important Topics, Formulas and Solved Questions</h1>
+  <p>Only the topics that matter most for the exam. For each one: what it solves, the concept, the formula, how to solve it on paper, one fully worked question and practice with answers.</p>
+</div></header>
+<nav><div class="wrap"><ul><li><a href="#glance">At a glance</a></li><li><a href="#prob">1 &middot; Basic probability</a></li><li><a href="#bayes">2 &middot; Bayes' theorem</a></li><li><a href="#dist">3 &middot; Distributions</a></li><li><a href="#infer">4 &middot; CI &amp; tests</a></li><li><a href="#bayesinf">5 &middot; Bayesian inference</a></li><li><a href="#reg">6 &middot; Regression</a></li></ul></div></nav>
+<section id="glance"><div class="wrap"><h2><span class="num">&#9673;</span>Important topics at a glance</h2><p class="lede">&#9733;&#9733;&#9733; = asked in most papers (question bank, sample papers, final-exam practice, CA). &#9733;&#9733; = asked regularly. Learn the formula, know what it solves, and practise the worked question under each topic.</p><table class="glance"><thead><tr><th>#</th><th>Topic</th><th>What it solves</th><th>Key formula</th><th>Weight</th></tr></thead><tbody><tr><td>1</td><td><b>Basic probability and the addition rule</b></td><td>Finds the chance of an event, or of “A or B”, without counting overlaps twice.</td><td>P(A&cup;B) = P(A) + P(B) &minus; P(A&cap;B)</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>2</td><td><b>Conditional probability, total probability and Bayes' theorem</b></td><td>Updates a probability after new evidence: “given a positive test, how likely is the disease?”</td><td>P(A|B) = P(B|A)P(A)/P(B)</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>3</td><td><b>Probability distributions: binomial, Poisson and normal</b></td><td>Gives the probability of each possible count or measurement, plus its mean and variance.</td><td>C(n,k)p<sup>k</sup>q<sup>n&minus;k</sup>; e<sup>&minus;&lambda;</sup>&lambda;<sup>k</sup>/k!; z = (x&minus;&mu;)/&sigma;</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>4</td><td><b>Frequentist inference: standard error, confidence intervals, hypothesis tests</b></td><td>Decides from a sample whether a claim about the population is believable, and gives a range for the true mean.</td><td>SE = s/&radic;n; CI = x&#772; &plusmn; t&middot;SE; t = (x&#772; &minus; &mu;<sub>0</sub>)/SE</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>5</td><td><b>Bayesian inference: prior, likelihood, posterior</b></td><td>Combines what you believed before (prior) with new data (likelihood) to get an updated belief (posterior).</td><td>posterior &prop; likelihood &times; prior</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>6</td><td><b>Regression analysis: least squares, correlation and R&sup2;</b></td><td>Finds the best straight line through data to predict y from x, and measures how good the fit is.</td><td>b = S<sub>xy</sub>/S<sub>xx</sub>, a = y&#772; &minus; b x&#772;, R&sup2; = 1 &minus; SSE/SST</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr></tbody></table></div></section>
+<section id="prob"><div class="wrap"><h2><span class="num">1</span>Basic probability and the addition rule &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds the chance of an event, or of “A or B”, without counting overlaps twice.</p></div><div class="wq w2"><h5>The concept</h5><p>With equally likely outcomes, P(A) = favourable / total. For “A or B” add the two and subtract the overlap.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Games, reliability, the starting point for every other probability topic.</p></div></div></div><div class="formula"><span class="flabel">Basics</span><div class="math"><i>P</i>(<i>A</i>) = <span class="frac"><span class="num">favourable outcomes</span><span class="den">total outcomes</span></span>, &nbsp; <i>P</i>(<i>A</i>&prime;) = 1 &minus; <i>P</i>(<i>A</i>)</div></div><div class="formula"><span class="flabel">Addition rule</span><div class="math"><i>P</i>(<i>A</i> &cup; <i>B</i>) = <i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>) &minus; <i>P</i>(<i>A</i> &cap; <i>B</i>)</div><small>If A and B cannot happen together, the last term is 0.</small></div><div class="ex"><div class="exhd">Worked example &mdash; king or heart</div><div class="exgiven">One card is drawn from a pack of 52. Find P(king or heart).</div><ol class="exsteps"><li><div class="exb"><span class="exl">P(king)</span><span class="exw">4/52</span></div></li><li><div class="exb"><span class="exl">P(heart)</span><span class="exw">13/52</span></div></li><li><div class="exb"><span class="exl">Overlap: king of hearts</span><span class="exw">1/52</span></div></li><li><div class="exb"><span class="exl">Addition rule</span><span class="exw">4/52 + 13/52 &minus; 1/52 = 16/52 = <b>4/13</b></span></div></li></ol><div class="exans"><b>P = 4/13 &asymp; 0.308.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr17">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the probability.</span>Two dice are rolled. P(sum = 7)?</div><button class="ghost pbtn" data-ans="pr17-1">Show answer</button><div class="pa" id="pr17-1">6 favourable out of 36 &rarr; <b>1/6</b>.</div></li><li><div class="pq"><span class="ptask">Find: P(A or B).</span>P(A) = 0.5, P(B) = 0.4, P(A and B) = 0.2.</div><button class="ghost pbtn" data-ans="pr17-2">Show answer</button><div class="pa" id="pr17-2">0.5 + 0.4 &minus; 0.2 = <b>0.7</b>.</div></li></ol></div></div></section>
+<section id="bayes"><div class="wrap"><h2><span class="num">2</span>Conditional probability, total probability and Bayes' theorem &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Updates a probability after new evidence: “given a positive test, how likely is the disease?”</p></div><div class="wq w2"><h5>The concept</h5><p>P(A|B) is the chance of A once we know B happened. Total probability adds up all the ways B can happen. Bayes turns P(B|A) into P(A|B).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Medical tests, spam filters, fault diagnosis, Naive Bayes classifiers.</p></div></div></div><div class="formula"><span class="flabel">Conditional probability</span><div class="math"><i>P</i>(<i>A</i>|<i>B</i>) = <span class="frac"><span class="num"><i>P</i>(<i>A</i> &cap; <i>B</i>)</span><span class="den"><i>P</i>(<i>B</i>)</span></span>; &nbsp; independent &hArr; <i>P</i>(<i>A</i>&cap;<i>B</i>) = <i>P</i>(<i>A</i>)<i>P</i>(<i>B</i>)</div></div><div class="formula"><span class="flabel">Total probability</span><div class="math"><i>P</i>(<i>B</i>) = <i>P</i>(<i>B</i>|<i>A</i>)<i>P</i>(<i>A</i>) + <i>P</i>(<i>B</i>|<i>A</i>&prime;)<i>P</i>(<i>A</i>&prime;)</div></div><div class="formula"><span class="flabel">Bayes' theorem</span><div class="math"><i>P</i>(<i>A</i>|<i>B</i>) = <span class="frac"><span class="num"><i>P</i>(<i>B</i>|<i>A</i>) <i>P</i>(<i>A</i>)</span><span class="den"><i>P</i>(<i>B</i>)</span></span></div></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>Name the events and write the given numbers: prior P(A), P(B|A), P(B|A&prime;).</li><li>Find P(B) by total probability.</li><li>Apply Bayes: P(A|B) = P(B|A)P(A) / P(B).</li><li>Interpret the answer in words.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; a disease test</div><div class="exgiven">1 % of people have a disease. The test is positive for 95 % of sick people and for 5 % of healthy people. A person tests positive.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Given</span><span class="exw">P(D) = 0.01, P(+|D) = 0.95, P(+|D&prime;) = 0.05</span></div></li><li><div class="exb"><span class="exl">Total probability</span><span class="exw">P(+) = 0.95 &times; 0.01 + 0.05 &times; 0.99 = 0.0095 + 0.0495 = <b>0.059</b></span></div></li><li><div class="exb"><span class="exl">Bayes</span><span class="exw">P(D|+) = 0.0095 / 0.059 = <b>0.161</b></span></div></li><li><div class="exb"><span class="exl">Meaning</span><span class="exw">only about 16 % of positives are really sick, because the disease is rare</span></div></li></ol><div class="exans"><b>P(disease | positive) &asymp; 0.161.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>P(A|B) is not P(B|A). Here P(+|D) = 0.95 but P(D|+) is only 0.161.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr18">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: P(A|B).</span>P(A) = 0.3, P(B|A) = 0.8, P(B|A&prime;) = 0.2.</div><button class="ghost pbtn" data-ans="pr18-1">Show answer</button><div class="pa" id="pr18-1">P(B) = 0.24 + 0.14 = 0.38; P(A|B) = 0.24 / 0.38 &asymp; <b>0.632</b>.</div></li><li><div class="pq"><span class="ptask">Answer: independent? Give the reason.</span>P(A) = 0.5, P(B) = 0.4, P(A and B) = 0.2.</div><button class="ghost pbtn" data-ans="pr18-2">Show answer</button><div class="pa" id="pr18-2">0.5 &times; 0.4 = 0.2 = P(A and B), so <b>yes</b>.</div></li></ol></div></div></section>
+<section id="dist"><div class="wrap"><h2><span class="num">3</span>Probability distributions: binomial, Poisson and normal &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Gives the probability of each possible count or measurement, plus its mean and variance.</p></div><div class="wq w2"><h5>The concept</h5><p>Binomial: number of successes in n independent yes/no trials. Poisson: number of rare events in a fixed interval. Normal: continuous bell curve; convert to z to use the table.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Quality control (defects), arrivals and calls (Poisson), heights, marks and errors (normal).</p></div></div></div><div class="formula"><span class="flabel">Binomial</span><div class="math">Binomial: <i>P</i>(<i>X</i>=<i>k</i>) = C(<i>n</i>,<i>k</i>) <i>p</i><sup><i>k</i></sup>(1&minus;<i>p</i>)<sup><i>n</i>&minus;<i>k</i></sup>, &nbsp; mean <i>np</i>, variance <i>np</i>(1&minus;<i>p</i>)</div></div><div class="formula"><span class="flabel">Poisson</span><div class="math">Poisson: <i>P</i>(<i>X</i>=<i>k</i>) = <span class="frac"><span class="num"><i>e</i><sup>&minus;&lambda;</sup> &lambda;<sup><i>k</i></sup></span><span class="den"><i>k</i>!</span></span>, &nbsp; mean = variance = &lambda;</div></div><div class="formula"><span class="flabel">Normal</span><div class="math">Normal: <i>z</i> = <span class="frac"><span class="num"><i>x</i> &minus; &mu;</span><span class="den">&sigma;</span></span>; about 68 % within 1&sigma;, 95 % within 2&sigma;, 99.7 % within 3&sigma;</div></div><div class="ex"><div class="exhd">Worked example &mdash; one of each</div><div class="exgiven">(i) 10 fair coin tosses: P(exactly 3 heads). (ii) Calls arrive at 3 per minute: P(exactly 2 in a minute). (iii) Marks ~ N(70, 10<sup>2</sup>): P(mark &gt; 85).</div><ol class="exsteps"><li><div class="exb"><span class="exl">(i) Binomial</span><span class="exw">C(10, 3)(0.5)<sup>10</sup> = 120/1024 = <b>0.117</b>; mean 5, variance 2.5</span></div></li><li><div class="exb"><span class="exl">(ii) Poisson</span><span class="exw">e<sup>&minus;3</sup> 3<sup>2</sup>/2! = 0.0498 &times; 4.5 = <b>0.224</b></span></div></li><li><div class="exb"><span class="exl">(iii) z-score</span><span class="exw">z = (85 &minus; 70)/10 = 1.5</span></div></li><li><div class="exb"><span class="exl">(iii) Table</span><span class="exw">P(Z &gt; 1.5) = 1 &minus; 0.9332 = <b>0.0668</b></span></div></li></ol><div class="exans"><b>0.117, 0.224 and 0.0668.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr19">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: probability, mean and variance.</span>Binomial with n = 4, p = 0.5: P(X = 2)?</div><button class="ghost pbtn" data-ans="pr19-1">Show answer</button><div class="pa" id="pr19-1">C(4, 2)/16 = 6/16 = <b>0.375</b>; mean 2, variance 1.</div></li><li><div class="pq"><span class="ptask">Find: the probability.</span>X ~ N(70, 10<sup>2</sup>). P(60 &lt; X &lt; 80)?</div><button class="ghost pbtn" data-ans="pr19-2">Show answer</button><div class="pa" id="pr19-2">That is within 1&sigma;: <b>&asymp; 0.683</b>.</div></li></ol></div></div></section>
+<section id="infer"><div class="wrap"><h2><span class="num">4</span>Frequentist inference: standard error, confidence intervals, hypothesis tests &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Decides from a sample whether a claim about the population is believable, and gives a range for the true mean.</p></div><div class="wq w2"><h5>The concept</h5><p>The sample mean varies from sample to sample by about one standard error. A 95 % confidence interval is mean &plusmn; (critical value) &times; SE. A test compares the sample with a claimed value H<sub>0</sub>.</p></div><div class="wq w3"><h5>Where it is used</h5><p>A/B testing, quality checks, scientific studies.</p></div></div></div><div class="formula"><span class="flabel">Standard error and CI</span><div class="math">SE = <span class="frac"><span class="num"><i>s</i></span><span class="den"><span class="sqrt"><span class="rad">&#8730;</span><span class="rand"><i>n</i></span></span></span></span>; &nbsp; 95 % CI: <i>x&#772;</i> &plusmn; <i>z</i><sub>0.025</sub>&middot;SE (z = 1.96) or <i>t</i><sub>0.025, n&minus;1</sub>&middot;SE</div></div><div class="formula"><span class="flabel">Test statistic</span><div class="math"><i>t</i> = <span class="frac"><span class="num"><i>x&#772;</i> &minus; &mu;<sub>0</sub></span><span class="den"><i>s</i> / <span class="sqrt"><span class="rad">&#8730;</span><span class="rand"><i>n</i></span></span></span></span>; &nbsp; reject H<sub>0</sub> if |<i>t</i>| &gt; critical value</div><small>Type I error: rejecting a true H<sub>0</sub>. Type II error: keeping a false H<sub>0</sub>.</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>State H<sub>0</sub> (no change) and H<sub>1</sub>, and the significance level (usually 5 %).</li><li>Compute SE = s / &radic;n and the test statistic t (or z when &sigma; is known or n is large).</li><li>Compare with the critical value from the table (df = n &minus; 1 for t).</li><li>Decide: reject H<sub>0</sub> or fail to reject it, and say what that means.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; a one-sample t-test</div><div class="exgiven">A machine should fill 50 g. A sample of n = 25 gives mean 52 g, s = 5 g. Test at 5 %.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Hypotheses</span><span class="exw">H<sub>0</sub>: &mu; = 50, &nbsp;H<sub>1</sub>: &mu; &ne; 50</span></div></li><li><div class="exb"><span class="exl">Standard error</span><span class="exw">SE = 5 / <span class="sqrt"><span class="rad">&#8730;</span><span class="rand">25</span></span> = 1</span></div></li><li><div class="exb"><span class="exl">Test statistic</span><span class="exw">t = (52 &minus; 50)/1 = <b>2.0</b></span></div></li><li><div class="exb"><span class="exl">Critical value</span><span class="exw">t<sub>0.025, 24</sub> = 2.064</span></div></li><li><div class="exb"><span class="exl">Decide</span><span class="exw">2.0 &lt; 2.064 &rarr; <b>fail to reject H<sub>0</sub></b></span></div></li><li><div class="exb"><span class="exl">Same story as a CI</span><span class="exw">52 &plusmn; 2.064 &times; 1 = (49.94, 54.06), which contains 50</span></div></li></ol><div class="exans"><b>No significant evidence that the machine is off target (t = 2.0 &lt; 2.064).</b></div></div><div class="warn"><b class="hd">Common trap</b><br>“Fail to reject” is not “H<sub>0</sub> is proven true”. Also: a 95 % CI does not mean a 95 % chance this particular interval holds &mu;.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr20">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: SE and the 95 % CI.</span>n = 100, mean 50, s = 20.</div><button class="ghost pbtn" data-ans="pr20-1">Show answer</button><div class="pa" id="pr20-1">SE = 20/10 = 2; CI = 50 &plusmn; 1.96 &times; 2 = <b>(46.08, 53.92)</b>.</div></li><li><div class="pq"><span class="ptask">Answer: which error?</span>The test rejects H<sub>0</sub>, but H<sub>0</sub> was actually true.</div><button class="ghost pbtn" data-ans="pr20-2">Show answer</button><div class="pa" id="pr20-2">A <b>Type I error</b> (false alarm).</div></li></ol></div></div></section>
+<section id="bayesinf"><div class="wrap"><h2><span class="num">5</span>Bayesian inference: prior, likelihood, posterior &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Combines what you believed before (prior) with new data (likelihood) to get an updated belief (posterior).</p></div><div class="wq w2"><h5>The concept</h5><p>Posterior &prop; likelihood &times; prior. With a Beta(a, b) prior on a probability p and k successes in n trials, the posterior is Beta(a + k, b + n &minus; k).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Small-data estimation, A/B testing, spam filtering, medical decision-making.</p></div></div></div><div class="formula"><span class="flabel">Bayes for parameters</span><div class="math"><i>P</i>(&theta;|data) = <span class="frac"><span class="num"><i>P</i>(data|&theta;) <i>P</i>(&theta;)</span><span class="den"><i>P</i>(data)</span></span> &nbsp;&prop;&nbsp; likelihood &times; prior</div></div><div class="formula"><span class="flabel">Beta&ndash;Binomial</span><div class="math">Beta(<i>a</i>, <i>b</i>) + <i>k</i> successes in <i>n</i> &rarr; Beta(<i>a</i> + <i>k</i>, <i>b</i> + <i>n</i> &minus; <i>k</i>); &nbsp; mean = <span class="frac"><span class="num"><i>a</i></span><span class="den"><i>a</i> + <i>b</i></span></span>, &nbsp; MAP = <span class="frac"><span class="num"><i>a</i> &minus; 1</span><span class="den"><i>a</i> + <i>b</i> &minus; 2</span></span></div><small>MLE uses the data only: k / n.</small></div><div class="ex"><div class="exhd">Worked example &mdash; a coin with a prior</div><div class="exgiven">Prior Beta(2, 2). We see 7 heads in 10 tosses.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Posterior</span><span class="exw">Beta(2 + 7, 2 + 3) = <b>Beta(9, 5)</b></span></div></li><li><div class="exb"><span class="exl">Posterior mean</span><span class="exw">9 / 14 = <b>0.643</b></span></div></li><li><div class="exb"><span class="exl">MAP</span><span class="exw">(9 &minus; 1)/(9 + 5 &minus; 2) = 8/12 = <b>0.667</b></span></div></li><li><div class="exb"><span class="exl">MLE (data only)</span><span class="exw">7/10 = <b>0.7</b></span></div></li><li><div class="exb"><span class="exl">Reading</span><span class="exw">the prior pulls the estimate slightly towards 0.5</span></div></li></ol><div class="exans"><b>Posterior Beta(9, 5): mean 0.643, MAP 0.667, versus MLE 0.7.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr21">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the posterior and its mean.</span>Prior Beta(1, 1); 3 heads in 4 tosses.</div><button class="ghost pbtn" data-ans="pr21-1">Show answer</button><div class="pa" id="pr21-1">Beta(4, 2); mean 4/6 = <b>0.667</b> (MLE would be 0.75).</div></li><li><div class="pq"><span class="ptask">Answer: frequentist or Bayesian?</span>Which approach treats the unknown parameter as having a probability distribution?</div><button class="ghost pbtn" data-ans="pr21-2">Show answer</button><div class="pa" id="pr21-2"><b>Bayesian</b>.</div></li></ol></div></div></section>
+<section id="reg"><div class="wrap"><h2><span class="num">6</span>Regression analysis: least squares, correlation and R&sup2; &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds the best straight line through data to predict y from x, and measures how good the fit is.</p></div><div class="wq w2"><h5>The concept</h5><p>Least squares chooses the line that makes the sum of squared errors smallest. r measures the strength and direction of a linear relation (&minus;1 to 1); R&sup2; is the share of variation in y the line explains.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Forecasting, trend lines, the base of machine-learning regression.</p></div></div></div><div class="formula"><span class="flabel">Least-squares line &ycirc; = a + bx</span><div class="math"><i>b</i> = <span class="frac"><span class="num"><i>S</i><sub>xy</sub></span><span class="den"><i>S</i><sub>xx</sub></span></span> = <span class="frac"><span class="num">&Sigma;(<i>x</i>&minus;<i>x&#772;</i>)(<i>y</i>&minus;<i>y&#772;</i>)</span><span class="den">&Sigma;(<i>x</i>&minus;<i>x&#772;</i>)<sup>2</sup></span></span>, &nbsp; <i>a</i> = <i>y&#772;</i> &minus; <i>b x&#772;</i></div></div><div class="formula"><span class="flabel">Correlation and R&sup2;</span><div class="math"><i>r</i> = <span class="frac"><span class="num"><i>S</i><sub>xy</sub></span><span class="den"><span class="sqrt"><span class="rad">&#8730;</span><span class="rand"><i>S</i><sub>xx</sub> <i>S</i><sub>yy</sub></span></span></span></span>, &nbsp; <i>R</i><sup>2</sup> = 1 &minus; <span class="frac"><span class="num">SSE</span><span class="den">SST</span></span></div><small>For a simple line, R&sup2; = r&sup2;.</small></div><div class="ex"><div class="exhd">Worked example &mdash; hours studied vs marks</div><div class="exgiven">x = 1, 2, 3, 4, 5 and y = 3, 4, 6, 7, 10.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Means</span><span class="exw">x&#772; = 3, y&#772; = 6</span></div></li><li><div class="exb"><span class="exl">Sums</span><span class="exw">S<sub>xy</sub> = 6 + 2 + 0 + 1 + 8 = 17; S<sub>xx</sub> = 10; S<sub>yy</sub> = 30</span></div></li><li><div class="exb"><span class="exl">Line</span><span class="exw">b = 17/10 = 1.7; a = 6 &minus; 1.7 &times; 3 = 0.9 &rarr; <b>&ycirc; = 0.9 + 1.7x</b></span></div></li><li><div class="exb"><span class="exl">Fit</span><span class="exw">SSE = 1.10, SST = 30 &rarr; R&sup2; = 1 &minus; 1.1/30 = <b>0.963</b>; r = 17/<span class="sqrt"><span class="rad">&#8730;</span><span class="rand">300</span></span> = 0.981</span></div></li><li><div class="exb"><span class="exl">Predict x = 6</span><span class="exw">0.9 + 1.7 &times; 6 = <b>11.1</b></span></div></li></ol><div class="exans"><b>&ycirc; = 0.9 + 1.7x, R&sup2; = 0.963: the line explains about 96 % of the variation.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>A high correlation does not prove that x causes y.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr22">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the regression line.</span>S<sub>xy</sub> = 20, S<sub>xx</sub> = 10, x&#772; = 3, y&#772; = 8.</div><button class="ghost pbtn" data-ans="pr22-1">Show answer</button><div class="pa" id="pr22-1">b = 2, a = 8 &minus; 6 = 2 &rarr; <b>&ycirc; = 2 + 2x</b>.</div></li><li><div class="pq"><span class="ptask">Answer: what does it mean?</span>A regression has R&sup2; = 0.81.</div><button class="ghost pbtn" data-ans="pr22-2">Show answer</button><div class="pa" id="pr22-2">The line explains <b>81 % of the variation in y</b>; |r| = 0.9.</div></li></ol></div></div></section>
+<footer><div class="wrap">CSE563 &middot; Applied Mathematics &middot; Unit III &mdash; Probability and Statistics &mdash; Important Topics, Formulas and Solved Questions &middot;
+School of Computer Science &amp; Engineering &middot; Session 2026&ndash;27</div></footer>
+<script>
+
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var C={navy:"#182B49",cyan:"#0096C7",purple:"#5C2D91",orange:"#ED771F",
+       green:"#107C41",red:"#B42318",grey:"#9AA7B5",rule:"#D8DFE8",ice:"#7EC5E2"};
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+  p.appendChild(e);return e;}
+function clr(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function line(s,A,B,col,w,dash){var l=el(s,"line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,
+  stroke:col,"stroke-width":w,"stroke-linecap":"round"});
+  if(dash)l.setAttribute("stroke-dasharray",dash);return l;}
+function dot(s,p,r,fill){return el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill});}
+function nodeC(s,p,label,fill,r){r=r||17;
+  el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill,stroke:"#fff","stroke-width":2.5});
+  var t=el(s,"text",{x:p.x,y:p.y+5,"text-anchor":"middle",fill:"#fff","font-size":"14",
+    "font-weight":"600","font-family":"Segoe UI,sans-serif"});t.textContent=label;}
+function txt(s,x,y,str,col,size,anchor,weight){
+  var t=el(s,"text",{x:x,y:y,"text-anchor":anchor||"middle",fill:col||C.navy,
+    "font-size":size||12,"font-weight":weight||"600","font-family":"Segoe UI,sans-serif"});
+  t.textContent=str;return t;}
+function box(s,x,y,w,h,fill,stroke,rx){return el(s,"rect",{x:x,y:y,width:w,height:h,
+  rx:rx===undefined?6:rx,fill:fill,stroke:stroke||"none","stroke-width":1.6});}
+function badge(s,A,B,str){var mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  el(s,"circle",{cx:mx,cy:my,r:11,fill:"#fff",stroke:C.rule});
+  txt(s,mx,my+4,str,C.navy,12);}
+function arrow(s,A,B,col,w){
+  var dx=B.x-A.x,dy=B.y-A.y,L=Math.sqrt(dx*dx+dy*dy);if(!L)return;
+  var ux=dx/L,uy=dy/L,ex=B.x-ux*20,ey=B.y-uy*20;
+  el(s,"line",{x1:A.x+ux*20,y1:A.y+uy*20,x2:ex,y2:ey,stroke:col,"stroke-width":w||2.6,
+    "stroke-linecap":"round"});
+  var a=8;
+  el(s,"polygon",{points:[ex+","+ey,(ex-ux*a-uy*a*0.6)+","+(ey-uy*a+ux*a*0.6),
+    (ex-ux*a+uy*a*0.6)+","+(ey-uy*a-ux*a*0.6)].join(" "),fill:col});}
+
+/* ---- generic step player, wired to data-viz buttons ---- */
+var VIZ={};
+function register(id,build,render){
+  VIZ[id]={build:build,render:render,steps:[],i:0,timer:null};
+  resetViz(id);
+}
+function resetViz(id){var m=VIZ[id];if(!m)return;
+  m.steps=m.build();m.i=0;stopViz(id);drawViz(id);}
+function drawViz(id){var m=VIZ[id];
+  m.render(document.getElementById("svg-"+id),m.steps[m.i],m.i,m.steps);
+  var st=document.getElementById("st-"+id);
+  if(st)st.innerHTML=m.steps[m.i].msg||"";
+  syncViz(id);}
+/* keep the counter and the buttons honest about where we are */
+function syncViz(id){var m=VIZ[id],last=m.steps.length-1;
+  function btn(a){return document.querySelector(
+    'button[data-act="'+a+'"][data-viz="'+id+'"]');}
+  var b;
+  if((b=btn("step")))b.disabled=m.i>=last;
+  if((b=btn("back")))b.disabled=m.i<=0;
+  var sc=document.getElementById("sc-"+id);
+  if(sc)sc.innerHTML="step <em>"+m.i+"</em> of "+last;
+  var wrap=document.getElementById("wrap-"+id);
+  if(wrap){if(m.i>=last&&last>0)wrap.classList.add("done");
+           else wrap.classList.remove("done");}}
+function stepViz(id){var m=VIZ[id];
+  if(m.i<m.steps.length-1){m.i++;drawViz(id);}
+  if(m.i>=m.steps.length-1)stopViz(id);}
+/* step backwards, so a student can flip between before and after */
+function stepBackViz(id){var m=VIZ[id];
+  if(m.i>0){stopViz(id);m.i--;drawViz(id);}}
+function stopViz(id){var m=VIZ[id];if(m.timer){clearInterval(m.timer);m.timer=null;}
+  var b=document.querySelector('button[data-act="auto"][data-viz="'+id+'"]');
+  if(b)b.textContent="Auto-play";}
+/* ---- practice answers: reveal one, or all of a block ---- */
+document.addEventListener("click",function(e){
+  if(!e.target.closest)return;
+  var one=e.target.closest("button[data-ans]");
+  if(one){var p=document.getElementById(one.getAttribute("data-ans"));
+    if(p){var on=p.classList.toggle("on");
+      one.textContent=on?"Hide answer":"Show answer";}
+    return;}
+  var all=e.target.closest("button[data-all]");
+  if(all){var g=all.getAttribute("data-all"),
+      blk=all.closest(".prac"),show=all.textContent.indexOf("Show")===0;
+    blk.querySelectorAll(".pa").forEach(function(p){
+      p.classList.toggle("on",show);});
+    blk.querySelectorAll("button[data-ans]").forEach(function(b2){
+      b2.textContent=show?"Hide answer":"Show answer";});
+    all.textContent=show?"Hide all answers":"Show all answers";}
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("button[data-viz]"):null;if(!b)return;
+  var id=b.getAttribute("data-viz"),act=b.getAttribute("data-act"),m=VIZ[id];if(!m)return;
+  if(act==="step")stepViz(id);
+  else if(act==="back")stepBackViz(id);
+  else if(act==="reset")resetViz(id);
+  else if(act==="auto"){
+    if(m.timer){stopViz(id);return;}
+    if(m.i>=m.steps.length-1)resetViz(id);
+    b.textContent="Pause";
+    m.timer=setInterval(function(){if(m.i>=m.steps.length-1)stopViz(id);else stepViz(id);},950);
+  }});
+
+
+</script>
+</body>
+</html>
