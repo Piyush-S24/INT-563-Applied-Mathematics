@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE563 &middot; Applied Mathematics Unit I &mdash; Basic Mathematics in Computer Science &mdash; Important Topics, Formulas and Solved Questions</title>
+<style>
+:root{--navy:#182B49;--navy2:#253E64;--cyan:#0096C7;--ice:#7EC5E2;--purple:#5C2D91;
+      --orange:#ED771F;--green:#107C41;--red:#B42318;--grey:#586476;--rule:#D8DFE8;
+      --bg:#F6F9FC;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);
+     font:15px/1.65 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--navy);color:#fff;padding:28px 0 24px;border-bottom:4px solid var(--cyan)}
+header .eyebrow{color:var(--ice);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+header h1{margin:7px 0 6px;font-size:32px;font-weight:600;line-height:1.2}
+header p{margin:0;color:#C9D8E6;font-size:15.5px;max-width:860px}
+nav{background:var(--navy2);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(24,43,73,.2)}
+nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:11px 14px;color:#D8E6F2;text-decoration:none;font-size:13.5px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,.13);color:#fff}
+section{padding:34px 0 12px;border-bottom:1px solid var(--rule)}
+h2{font-size:24px;margin:0 0 6px;font-weight:600}
+h2 .num{display:inline-block;background:var(--cyan);color:#fff;font-size:13px;
+        padding:3px 9px;border-radius:4px;margin-right:10px;vertical-align:3px}
+h3{font-size:17.5px;margin:24px 0 8px;font-weight:600;color:var(--navy)}
+.lede{color:var(--grey);font-size:15.5px;margin:0 0 16px;max-width:920px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* ---- formula sheet ---- */
+.fsheet{border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:4px;
+        background:var(--card);margin:18px 0;padding:15px 20px 8px}
+.fshd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:8px}
+.fst{width:100%;border-collapse:collapse;margin:0;font-size:14px;box-shadow:none}
+.fst td{border:0;border-top:1px solid #E1EAF3;padding:9px 8px;vertical-align:middle;
+        background:none}
+.fst tr:first-child td{border-top:0}
+.fst tbody tr:nth-child(even){background:none}
+td.fsn{width:23%;font-weight:600;color:var(--navy);font-size:13.5px}
+td.fsf{width:42%}
+td.fsf .math{font-size:16.5px;line-height:1.9;white-space:normal}
+td.fsw{color:var(--grey);font-size:13px}
+/* ---- the method ---- */
+.meth{border:1px solid var(--rule);border-left:3px solid var(--navy);border-radius:4px;
+      background:var(--card);margin:18px 0;padding:15px 20px 16px}
+.methd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);margin-bottom:9px}
+.meth ol{margin:0;padding-left:22px}
+.meth li{font-size:14.8px;line-height:1.68;padding:4px 0;color:var(--navy)}
+.meth li::marker{color:var(--grey);font-weight:700}
+/* ---- practice ---- */
+.prac{border:1px solid var(--rule);border-radius:4px;background:var(--card);
+      margin:18px 0;padding:15px 20px 16px}
+.prhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pall{margin-left:auto;font-size:12px;padding:5px 11px}
+.prac ol{margin:0;padding-left:22px}
+.prac>ol>li{padding:11px 0;border-top:1px solid #EEF2F6}
+.prac>ol>li:first-child{border-top:0}
+.prac li::marker{color:var(--grey);font-weight:700}
+/* Numericals pages run quiet: panels are white with a thin rule, and colour is
+   reserved for meaning (a revealed answer, a caution) rather than decoration. */
+body.quiet .formula{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--navy);border-radius:4px}
+body.quiet .formula .flabel{color:var(--navy)}
+body.quiet .ex{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .exgiven{background:#F7FAFC;border-color:var(--rule)}
+body.quiet .why{background:var(--card)}
+body.quiet .whygrid{background:var(--rule)}
+body.quiet .wq.w3{background:var(--card)}
+body.quiet .take{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .warn{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--orange);border-radius:4px}
+.pq{font-size:14.8px;line-height:1.68;color:var(--navy);margin-bottom:7px}
+.pbtn{font-size:12px;padding:4px 10px}
+.pa{display:none;margin-top:9px;background:#E4F6EB;border-left:3px solid var(--green);
+    border-radius:5px;padding:9px 13px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.pa.on{display:block}
+.pa b{color:var(--green)}
+.ex{border:1.5px solid #BFD9CB;border-left:5px solid var(--green);border-radius:9px;
+    background:#FBFEFC;margin:18px 0;padding:14px 18px 16px}
+.exhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--green);margin-bottom:9px}
+.exgiven{font-size:14.5px;background:#fff;border:1px solid #DCE9E1;border-radius:6px;
+         padding:9px 13px;margin-bottom:12px}
+.exsteps{list-style:none;counter-reset:exs;margin:0;padding:0}
+.exsteps li{counter-increment:exs;display:grid;grid-template-columns:26px 1fr;gap:11px;
+            padding:7px 0;border-top:1px solid #E7F0EA;align-items:baseline}
+.exsteps li:first-child{border-top:0}
+.exsteps li::before{content:counter(exs);display:block;width:21px;height:21px;
+                    border-radius:50%;background:var(--green);color:#fff;font-size:11.5px;
+                    font-weight:700;text-align:center;line-height:21px}
+.exb{min-width:0}
+.exl{font-size:13.5px;color:var(--grey);display:block;margin-bottom:3px}
+.exw{font-size:15.5px;color:var(--navy);font-family:"Cambria Math",Cambria,Georgia,serif;
+     display:block;line-height:1.8}
+.exans{margin-top:12px;background:#E4F6EB;border-radius:6px;padding:10px 14px;
+       font-size:15px;color:var(--navy);font-weight:600}
+.exans b{color:var(--green)}
+@media(max-width:700px){.exsteps li{grid-template-columns:22px 1fr;gap:8px}}
+.why{border:1.5px solid #CBD9E6;border-radius:9px;margin:18px 0;overflow:hidden;
+     background:linear-gradient(180deg,#F4F9FD 0,#fff 54px)}
+.whyhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);padding:13px 18px 0}
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E3EAF1;
+         margin-top:12px;border-top:1px solid #E3EAF1}
+.wq{background:var(--card);padding:14px 17px 16px}
+.wq h5{margin:0 0 7px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wq p{margin:0;font-size:14px;line-height:1.62}
+.wq.w1 h5{color:var(--cyan)}
+.wq.w2 h5{color:var(--purple)}
+.wq.w3 h5{color:var(--orange)}
+.wq.w3{background:#FFFBF7}
+@media(max-width:900px){.whygrid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 7px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan)}
+.card p{margin:0;font-size:14.5px}
+.take{background:#E4F6EB;border-left:5px solid var(--green);border-radius:6px;padding:12px 16px;margin:14px 0}
+.take b.hd{color:var(--green);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.take b{color:var(--navy)}
+.warn{background:#FDEEEC;border-left:5px solid var(--orange);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn b.hd{color:var(--orange);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.warn b{color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+tbody tr:nth-child(even){background:#F2F7FB}
+td.hi{background:#FFF3E0;font-weight:700}
+code{background:#EEF3F8;padding:1px 5px;border-radius:4px;font-size:13.5px}
+footer{background:var(--navy);color:#9FB4CA;padding:22px 0;font-size:13.5px}
+
+/* ---------------- formula block ---------------- */
+.formula{background:#F3EEFB;border-left:5px solid var(--purple);border-radius:6px;
+         padding:14px 18px;margin:14px 0;overflow-x:auto}
+.formula .flabel{display:block;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+                 text-transform:uppercase;color:var(--purple);margin-bottom:9px}
+.formula small{display:block;font:13.5px/1.55 "Segoe UI",sans-serif;color:var(--grey);margin-top:10px}
+
+/* ---------------- real maths ---------------- */
+.math{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;
+      font-size:20px;line-height:2.1;color:var(--navy);white-space:nowrap}
+.math i,.math .var{font-style:italic;font-family:inherit}
+.math .op{font-style:normal;padding:0 .22em}
+.math b.vecb{font-weight:700;font-style:normal}
+.math sub{font-size:.62em;vertical-align:-.3em}
+.math sup{font-size:.62em;vertical-align:.45em}
+.cases{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .2em}
+.cases .cb{font-size:2.5em;font-weight:300;line-height:.86;margin-right:.14em}
+.cases table{border-collapse:collapse;margin:0;width:auto;box-shadow:none;font-size:.86em}
+.cases tbody tr,.cases tbody tr:nth-child(even){border:0;background:none}
+.cases td{border:0;padding:.14em .2em;background:none;white-space:nowrap;
+          line-height:1.5;vertical-align:middle}
+.cases td.cc{font-size:.8em;font-style:normal;color:var(--grey);padding-left:1.5em;
+             font-family:"Segoe UI",system-ui,sans-serif}
+.frac{display:inline-block;vertical-align:-.52em;text-align:center;margin:0 .26em}
+.frac .num{display:block;padding:0 .4em .12em;border-bottom:1.7px solid currentColor;line-height:1.22}
+.frac .den{display:block;padding:.12em .4em 0;line-height:1.22}
+.sqrt{display:inline-block;position:relative;margin:0 .15em}
+.sqrt .rad{font-size:1.12em;vertical-align:-.06em}
+.sqrt .rand{border-top:1.6px solid currentColor;padding:.1em .22em 0 .12em;margin-left:-.12em}
+.bigop{display:inline-block;text-align:center;vertical-align:-.5em;margin:0 .2em;line-height:1}
+.bigop .glyph{display:block;font-size:1.5em;line-height:.88}
+.bigop.int .glyph{font-size:1.75em}
+.bigop .lim{display:block;font-size:.5em;line-height:1.25;font-style:italic}
+.paren{font-size:1.18em;padding:0 .06em}
+.paren.big{font-size:1.5em;vertical-align:-.16em}
+.bar{padding:0 .09em}
+.hat{position:relative;display:inline-block;font-style:italic}
+.hat::after{content:"\0302";position:absolute;left:0;right:0;top:-.46em;
+            text-align:center;font-size:.72em;font-style:normal;line-height:1;
+            font-family:"Cambria Math",Cambria,serif}
+.matrix{display:inline-block;vertical-align:middle;margin:0 .18em}
+.matrix .mb{display:inline-block;font-size:2.1em;vertical-align:middle;font-weight:300}
+.matrix table{display:inline-table;width:auto;border:0;margin:0 .1em;vertical-align:middle}
+.matrix td{border:0;padding:.08em .38em;text-align:center;font-size:.86em;background:none}
+
+/* ---------------- visualisation ---------------- */
+.viz{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px;margin:16px 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button{font:600 13.5px "Segoe UI",sans-serif;padding:8px 14px;border-radius:6px;
+       border:1px solid var(--cyan);background:var(--cyan);color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.ghost{background:#fff;color:var(--cyan)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select{font:14px "Segoe UI";padding:7px 9px;border-radius:6px;border:1px solid var(--rule);background:#fff}
+svg{width:100%;height:auto;display:block;background:#fff;border-radius:6px;max-width:1040px;margin:0 auto}
+.status{font-size:15.5px;line-height:1.6;background:#EAF4FA;border-left:4px solid var(--cyan);
+        border-radius:6px;padding:12px 16px;margin-top:12px;min-height:48px;color:var(--navy)}
+.status b{color:var(--cyan)}
+.stepcount{font-size:12.5px;font-weight:700;color:var(--grey);letter-spacing:.03em;
+           margin-left:auto;padding-right:4px;white-space:nowrap}
+.stepcount em{font-style:normal;color:var(--cyan);font-size:14.5px}
+.viz.done .stepcount em{color:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--grey);margin-top:9px;justify-content:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.ptask{display:block;font-size:12.5px;font-weight:700;color:var(--purple);letter-spacing:.02em;margin-bottom:2px}
+.stars{color:#ED771F;font-weight:700;letter-spacing:1px;white-space:nowrap}
+.glance td:nth-child(4){font-family:Cambria,'Times New Roman',serif}
+</style>
+</head>
+<body class="quiet">
+<header><div class="wrap">
+  <div class="eyebrow">CSE563 &middot; Applied Mathematics &middot; Unit I</div>
+  <h1>Basic Mathematics in Computer Science &mdash; Important Topics, Formulas and Solved Questions</h1>
+  <p>Only the topics that matter most for the exam. For each one: what it solves, the concept, the formula, how to solve it on paper, one fully worked question and practice with answers.</p>
+</div></header>
+<nav><div class="wrap"><ul><li><a href="#glance">At a glance</a></li><li><a href="#gcd">1 &middot; GCD &amp; LCM</a></li><li><a href="#mod">2 &middot; Modular arithmetic</a></li><li><a href="#sets">3 &middot; Inclusion&ndash;exclusion</a></li><li><a href="#kmap">4 &middot; K-maps</a></li><li><a href="#logic">5 &middot; Logic</a></li><li><a href="#induction">6 &middot; Induction</a></li><li><a href="#rel">7 &middot; Relations &amp; functions</a></li><li><a href="#calc">8 &middot; Calculus</a></li></ul></div></nav>
+<section id="glance"><div class="wrap"><h2><span class="num">&#9673;</span>Important topics at a glance</h2><p class="lede">&#9733;&#9733;&#9733; = asked in most papers (question bank, sample papers, final-exam practice, CA). &#9733;&#9733; = asked regularly. Learn the formula, know what it solves, and practise the worked question under each topic.</p><table class="glance"><thead><tr><th>#</th><th>Topic</th><th>What it solves</th><th>Key formula</th><th>Weight</th></tr></thead><tbody><tr><td>1</td><td><b>GCD and LCM by the Euclidean algorithm</b></td><td>Finds the greatest common divisor of two numbers quickly, and from it the LCM.</td><td>gcd(a,b) = gcd(b, a mod b); lcm = ab / gcd</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>2</td><td><b>Modular arithmetic, inverses and Fermat's theorem</b></td><td>Computes huge powers and divisions “mod n” quickly, and finds a number's inverse mod n.</td><td>a<sup>p&minus;1</sup> &equiv; 1 (mod p); ax &equiv; 1 (mod n)</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>3</td><td><b>Sets and the inclusion&ndash;exclusion principle</b></td><td>Counts how many items are in at least one of several overlapping groups, without double counting.</td><td>|A&cup;B| = |A| + |B| &minus; |A&cap;B|</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>4</td><td><b>Boolean algebra and Karnaugh maps</b></td><td>Simplifies a Boolean function to the fewest terms, which means fewer logic gates.</td><td>Groups of 2<sup>k</sup> ones; Gray-code order 00, 01, 11, 10</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>5</td><td><b>Propositional logic and truth tables</b></td><td>Decides when a compound statement is true, and whether two statements say the same thing.</td><td>p &rarr; q &equiv; &not;p &or; q</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>6</td><td><b>Mathematical induction</b></td><td>Proves that a statement is true for every natural number n.</td><td>P(1) and [P(k) &rArr; P(k+1)] &rArr; P(n) for all n</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>7</td><td><b>Relations and functions</b></td><td>Classifies how elements are linked: grouping (equivalence), ordering (partial order), or mapping (function types).</td><td>Equivalence = R + S + T; partial order = R + A + T</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>8</td><td><b>Calculus: derivatives, partial derivatives and integrals</b></td><td>Finds rates of change and slopes (derivatives), the direction of steepest increase (gradient), and areas or totals (integrals).</td><td>d/dx x<sup>n</sup> = n x<sup>n&minus;1</sup>; chain rule; &int;x<sup>n</sup> = x<sup>n+1</sup>/(n+1)</td><td><span class="stars">&#9733;&#9733;</span></td></tr></tbody></table></div></section>
+<section id="gcd"><div class="wrap"><h2><span class="num">1</span>GCD and LCM by the Euclidean algorithm &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds the greatest common divisor of two numbers quickly, and from it the LCM.</p></div><div class="wq w2"><h5>The concept</h5><p>gcd(a, b) = gcd(b, a mod b). Keep replacing the larger number by the remainder; the last non-zero remainder is the GCD.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Simplifying fractions, scheduling repeating events, modular inverses and RSA.</p></div></div></div><div class="formula"><span class="flabel">Euclidean algorithm</span><div class="math">gcd(<i>a</i>, <i>b</i>) = gcd(<i>b</i>, <i>a</i> mod <i>b</i>), &nbsp;&nbsp; gcd(<i>a</i>, 0) = <i>a</i></div><small>Each step keeps the same GCD but makes the numbers smaller.</small></div><div class="formula"><span class="flabel">LCM from GCD</span><div class="math">lcm(<i>a</i>, <i>b</i>) = <span class="frac"><span class="num"><i>a</i> &times; <i>b</i></span><span class="den">gcd(<i>a</i>, <i>b</i>)</span></span></div><small>Find the GCD first, then the LCM is one division away.</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>Write <i>a</i> = <i>q</i> &times; <i>b</i> + <i>r</i> with 0 &le; <i>r</i> &lt; <i>b</i>.</li><li>Replace (<i>a</i>, <i>b</i>) by (<i>b</i>, <i>r</i>) and repeat.</li><li>Stop when the remainder is 0. The last non-zero remainder is the GCD.</li><li>LCM = product &divide; GCD.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; gcd and lcm of 252 and 105</div><div class="exgiven">Find gcd(252, 105) and lcm(252, 105).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Divide</span><span class="exw">252 = 2 &times; 105 + 42</span></div></li><li><div class="exb"><span class="exl">Divide again</span><span class="exw">105 = 2 &times; 42 + 21</span></div></li><li><div class="exb"><span class="exl">And again</span><span class="exw">42 = 2 &times; 21 + 0 &nbsp;&rarr;&nbsp; remainder 0, stop</span></div></li><li><div class="exb"><span class="exl">GCD</span><span class="exw">last non-zero remainder = <b>21</b></span></div></li><li><div class="exb"><span class="exl">LCM</span><span class="exw"><span class="frac"><span class="num">252 &times; 105</span><span class="den">21</span></span> = <span class="frac"><span class="num">26 460</span><span class="den">21</span></span> = <b>1260</b></span></div></li></ol><div class="exans"><b>gcd = 21, lcm = 1260.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>The GCD is the last <b>non-zero</b> remainder, not the last quotient. Check: 21 divides both 252 and 105.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr1">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: gcd and lcm.</span>Find gcd(84, 36) and lcm(84, 36).</div><button class="ghost pbtn" data-ans="pr1-1">Show answer</button><div class="pa" id="pr1-1">84 = 2(36) + 12; 36 = 3(12) + 0, so <b>gcd = 12</b>. lcm = 84 &times; 36 / 12 = <b>252</b>.</div></li><li><div class="pq"><span class="ptask">Find: when do they meet again?</span>One bus leaves every 12 minutes, another every 18 minutes. Both leave now.</div><button class="ghost pbtn" data-ans="pr1-2">Show answer</button><div class="pa" id="pr1-2">After lcm(12, 18) = <b>36 minutes</b>.</div></li></ol></div></div></section>
+<section id="mod"><div class="wrap"><h2><span class="num">2</span>Modular arithmetic, inverses and Fermat's theorem &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Computes huge powers and divisions “mod n” quickly, and finds a number's inverse mod n.</p></div><div class="wq w2"><h5>The concept</h5><p>a &equiv; b (mod n) means n divides a &minus; b. An inverse of a mod n is x with ax &equiv; 1; it exists only when gcd(a, n) = 1, and the extended Euclidean algorithm finds it.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Cryptography (RSA), hashing, checksums, clock arithmetic.</p></div></div></div><div class="formula"><span class="flabel">Rules</span><div class="math">(<i>a</i> + <i>b</i>) mod <i>n</i> = ((<i>a</i> mod <i>n</i>) + (<i>b</i> mod <i>n</i>)) mod <i>n</i>, &nbsp; same for &times;</div><small>Reduce at every step, so numbers never grow.</small></div><div class="formula"><span class="flabel">Fermat</span><div class="math"><i>a</i><sup><i>p</i>&minus;1</sup> &equiv; 1 (mod <i>p</i>) &nbsp; for prime <i>p</i> and gcd(<i>a</i>, <i>p</i>) = 1</div><small>Fermat's little theorem: cut the exponent down by multiples of p &minus; 1.</small></div><div class="formula"><span class="flabel">Inverse</span><div class="math"><i>a x</i> &equiv; 1 (mod <i>n</i>) &nbsp;&hArr;&nbsp; <i>a x</i> + <i>n y</i> = 1</div><small>Run Euclid, then work backwards (extended Euclid) to write 1 as a combination.</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>For a power: reduce the exponent with Fermat (mod p &minus; 1), then compute the small power.</li><li>For an inverse: check gcd(a, n) = 1, run Euclid on (n, a), then substitute back to get 1 = ax + ny.</li><li>Make the answer positive: add n if x is negative. Check that a &times; x mod n = 1.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; an inverse and a large power</div><div class="exgiven">(i) Find the inverse of 7 mod 26. (ii) Find 3<sup>100</sup> mod 7.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Euclid on (26, 7)</span><span class="exw">26 = 3 &times; 7 + 5; &nbsp;7 = 1 &times; 5 + 2; &nbsp;5 = 2 &times; 2 + 1</span></div></li><li><div class="exb"><span class="exl">Work backwards</span><span class="exw">1 = 5 &minus; 2&middot;2 = 5 &minus; 2(7 &minus; 5) = 3&middot;5 &minus; 2&middot;7 = 3(26 &minus; 3&middot;7) &minus; 2&middot;7 = 3&middot;26 &minus; 11&middot;7</span></div></li><li><div class="exb"><span class="exl">Read off the inverse</span><span class="exw">&minus;11 &equiv; &minus;11 + 26 = <b>15</b> &nbsp; (check 7 &times; 15 = 105 = 4&middot;26 + 1 &#10003;)</span></div></li><li><div class="exb"><span class="exl">Fermat for (ii)</span><span class="exw">7 is prime, so 3<sup>6</sup> &equiv; 1 (mod 7); 100 = 6 &times; 16 + 4</span></div></li><li><div class="exb"><span class="exl">Finish</span><span class="exw">3<sup>100</sup> &equiv; 3<sup>4</sup> = 81 &equiv; <b>4</b> (mod 7)</span></div></li></ol><div class="exans"><b>7<sup>&minus;1</sup> &equiv; 15 (mod 26); 3<sup>100</sup> mod 7 = 4.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>An inverse does not exist if gcd(a, n) &ne; 1 (for example 4 has no inverse mod 6).</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr2">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the remainder.</span>Find 5<sup>117</sup> mod 19.</div><button class="ghost pbtn" data-ans="pr2-1">Show answer</button><div class="pa" id="pr2-1">19 is prime, so 5<sup>18</sup> &equiv; 1. 117 = 6 &times; 18 + 9, so 5<sup>117</sup> &equiv; 5<sup>9</sup>. 5<sup>2</sup> = 25 &equiv; 6, 5<sup>4</sup> &equiv; 36 &equiv; 17, 5<sup>8</sup> &equiv; 289 &equiv; 4, so 5<sup>9</sup> &equiv; 20 &equiv; <b>1</b>.</div></li><li><div class="pq"><span class="ptask">Find: the inverse.</span>Find the inverse of 3 mod 11.</div><button class="ghost pbtn" data-ans="pr2-2">Show answer</button><div class="pa" id="pr2-2">3 &times; 4 = 12 &equiv; 1 (mod 11), so the inverse is <b>4</b>.</div></li></ol></div></div></section>
+<section id="sets"><div class="wrap"><h2><span class="num">3</span>Sets and the inclusion&ndash;exclusion principle &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Counts how many items are in at least one of several overlapping groups, without double counting.</p></div><div class="wq w2"><h5>The concept</h5><p>Add the sizes of the groups, subtract what was counted twice (pairwise overlaps), add back what was removed too often (the triple overlap).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Counting problems, probability of “A or B”, database queries.</p></div></div></div><div class="formula"><span class="flabel">Two sets</span><div class="math">|<i>A</i> &cup; <i>B</i>| = |<i>A</i>| + |<i>B</i>| &minus; |<i>A</i> &cap; <i>B</i>|</div></div><div class="formula"><span class="flabel">Three sets</span><div class="math">|<i>A</i>&cup;<i>B</i>&cup;<i>C</i>| = |<i>A</i>|+|<i>B</i>|+|<i>C</i>| &minus; |<i>A</i>&cap;<i>B</i>| &minus; |<i>A</i>&cap;<i>C</i>| &minus; |<i>B</i>&cap;<i>C</i>| + |<i>A</i>&cap;<i>B</i>&cap;<i>C</i>|</div></div><div class="formula"><span class="flabel">Counting divisibility</span><div class="math">Multiples of <i>k</i> in 1..<i>N</i> = &lfloor;<i>N</i> / <i>k</i>&rfloor;; &nbsp; multiples of both <i>j</i> and <i>k</i> = &lfloor;<i>N</i> / lcm(<i>j</i>, <i>k</i>)&rfloor;</div><small>The overlap of “divisible by 3” and “divisible by 5” is “divisible by 15”.</small></div><div class="ex"><div class="exhd">Worked example &mdash; integers divisible by 3 or 5</div><div class="exgiven">How many integers from 1 to 100 are divisible by 3 or by 5?</div><ol class="exsteps"><li><div class="exb"><span class="exl">Divisible by 3</span><span class="exw">|A| = &lfloor;100/3&rfloor; = 33</span></div></li><li><div class="exb"><span class="exl">Divisible by 5</span><span class="exw">|B| = &lfloor;100/5&rfloor; = 20</span></div></li><li><div class="exb"><span class="exl">Divisible by both (by 15)</span><span class="exw">|A &cap; B| = &lfloor;100/15&rfloor; = 6</span></div></li><li><div class="exb"><span class="exl">Inclusion&ndash;exclusion</span><span class="exw">|A &cup; B| = 33 + 20 &minus; 6 = <b>47</b></span></div></li></ol><div class="exans"><b>47 integers.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>For “divisible by both” use the LCM, not the product, when the numbers share a factor (both 4 and 6 &rarr; 12, not 24).</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr3">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: how many?</span>How many integers from 1 to 100 are divisible by 2, 3 or 5?</div><button class="ghost pbtn" data-ans="pr3-1">Show answer</button><div class="pa" id="pr3-1">50 + 33 + 20 &minus; 16 &minus; 10 &minus; 6 + 3 = <b>74</b>.</div></li><li><div class="pq"><span class="ptask">Find: how many like neither?</span>In a class of 40, 25 like cricket, 20 like football and 10 like both.</div><button class="ghost pbtn" data-ans="pr3-2">Show answer</button><div class="pa" id="pr3-2">Like at least one = 25 + 20 &minus; 10 = 35, so neither = 40 &minus; 35 = <b>5</b>.</div></li></ol></div></div></section>
+<section id="kmap"><div class="wrap"><h2><span class="num">4</span>Boolean algebra and Karnaugh maps &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Simplifies a Boolean function to the fewest terms, which means fewer logic gates.</p></div><div class="wq w2"><h5>The concept</h5><p>Write the minterms (rows where F = 1) in a K-map, whose neighbouring cells differ in one variable. Group 1s in blocks of 1, 2, 4 or 8; each block drops the variables that change inside it.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Digital circuit design, simplifying conditions in programs.</p></div></div></div><div class="formula"><span class="flabel">Key laws</span><div class="math"><i>A</i> + <i>A</i>&prime;<i>B</i> = <i>A</i> + <i>B</i>, &nbsp; <i>A</i> + <i>AB</i> = <i>A</i>, &nbsp; (<i>A</i> + <i>B</i>)&prime; = <i>A</i>&prime;<i>B</i>&prime;</div><small>Absorption and De Morgan, the laws used most when simplifying by hand.</small></div><div class="formula"><span class="flabel">Canonical forms</span><div class="math">F = &Sigma;<i>m</i>(&hellip;) &nbsp;(sum of products) &nbsp;&nbsp; | &nbsp;&nbsp; F = &Pi;<i>M</i>(&hellip;) &nbsp;(product of sums)</div><small>Minterms list the 1-rows; maxterms list the 0-rows.</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>Draw the K-map with Gray-code order (00, 01, 11, 10) so neighbours differ in one bit.</li><li>Put a 1 in each minterm cell.</li><li>Make the largest possible groups of 1, 2, 4 or 8 adjacent 1s (edges wrap around). Every 1 must be covered.</li><li>For each group, keep only the variables that stay the same inside it. Add the group terms.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; simplify F(A, B, C) = &Sigma;m(0, 2, 4, 5, 6)</div><div class="exgiven">Rows A B C: 0 = 000, 2 = 010, 4 = 100, 5 = 101, 6 = 110.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Find a group of 4</span><span class="exw">m0, m2, m4, m6 all have C = 0 (the C&prime; column, which wraps) &rarr; term <b>C&prime;</b></span></div></li><li><div class="exb"><span class="exl">Cover m5</span><span class="exw">m4 and m5 are neighbours with A = 1, B = 0 &rarr; term <b>AB&prime;</b></span></div></li><li><div class="exb"><span class="exl">Add the groups</span><span class="exw">F = C&prime; + AB&prime;</span></div></li><li><div class="exb"><span class="exl">Check one row</span><span class="exw">m5 = 101: C&prime; = 0, AB&prime; = 1 &rarr; F = 1 &#10003;; m1 = 001: both terms 0 &rarr; F = 0 &#10003;</span></div></li></ol><div class="exans"><b>F = C&prime; + AB&prime;</b> (two terms instead of five).</div></div><div class="warn"><b class="hd">Common trap</b><br>Groups must have 1, 2, 4 or 8 cells; a group of 3 or 6 is not allowed. Remember the map wraps left&ndash;right.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr4">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the simplified function.</span>Simplify F(A, B, C) = &Sigma;m(1, 3, 5, 6, 7).</div><button class="ghost pbtn" data-ans="pr4-1">Show answer</button><div class="pa" id="pr4-1">m1, m3, m5, m7 have C = 1 &rarr; <b>C</b>; m6, m7 have A = B = 1 &rarr; <b>AB</b>. So <b>F = C + AB</b>.</div></li><li><div class="pq"><span class="ptask">Answer: why Gray-code order?</span>Why are K-map columns ordered 00, 01, 11, 10 and not 00, 01, 10, 11?</div><button class="ghost pbtn" data-ans="pr4-2">Show answer</button><div class="pa" id="pr4-2">So that <b>neighbouring cells differ in one variable</b>; only then can neighbours be grouped.</div></li></ol></div></div></section>
+<section id="logic"><div class="wrap"><h2><span class="num">5</span>Propositional logic and truth tables &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Decides when a compound statement is true, and whether two statements say the same thing.</p></div><div class="wq w2"><h5>The concept</h5><p>Build a truth table with 2<sup>n</sup> rows for n variables. An implication p &rarr; q is false only when p is true and q is false. A tautology is true in every row.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Checking arguments, program conditions, circuit specifications.</p></div></div></div><div class="formula"><span class="flabel">Implication</span><div class="math"><i>p</i> &rarr; <i>q</i> &equiv; &not;<i>p</i> &or; <i>q</i> &equiv; &not;<i>q</i> &rarr; &not;<i>p</i></div><small>An implication equals its contrapositive (but not its converse q &rarr; p).</small></div><div class="formula"><span class="flabel">De Morgan's laws</span><div class="math">&not;(<i>p</i> &and; <i>q</i>) &equiv; &not;<i>p</i> &or; &not;<i>q</i>, &nbsp; &not;(<i>p</i> &or; <i>q</i>) &equiv; &not;<i>p</i> &and; &not;<i>q</i></div></div><div class="ex"><div class="exhd">Worked example &mdash; is (p &and; q) &rarr; p a tautology?</div><div class="exgiven">Check all four rows.</div><ol class="exsteps"><li><div class="exb"><span class="exl">p = T, q = T</span><span class="exw">p &and; q = T, p = T &rarr; T</span></div></li><li><div class="exb"><span class="exl">p = T, q = F</span><span class="exw">p &and; q = F &rarr; implication T</span></div></li><li><div class="exb"><span class="exl">p = F, q = T</span><span class="exw">p &and; q = F &rarr; T</span></div></li><li><div class="exb"><span class="exl">p = F, q = F</span><span class="exw">p &and; q = F &rarr; T</span></div></li></ol><div class="exans"><b>True in every row, so it is a tautology.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>When the “if” part is false the implication is <b>true</b> (vacuously). Students often write F here.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr5">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Answer: when is it false?</span>When is p &rarr; q false?</div><button class="ghost pbtn" data-ans="pr5-1">Show answer</button><div class="pa" id="pr5-1">Only when <b>p is true and q is false</b>.</div></li><li><div class="pq"><span class="ptask">Write: the contrapositive.</span>“If it rains, the ground is wet.”</div><button class="ghost pbtn" data-ans="pr5-2">Show answer</button><div class="pa" id="pr5-2"><b>If the ground is not wet, it did not rain.</b> (Same meaning as the original.)</div></li></ol></div></div></section>
+<section id="induction"><div class="wrap"><h2><span class="num">6</span>Mathematical induction &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Proves that a statement is true for every natural number n.</p></div><div class="wq w2"><h5>The concept</h5><p>Prove it for the first value (base case). Then assume it for n = k and show it follows for n = k + 1 (inductive step). Like dominoes: the first falls, and each one knocks over the next.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Proving formulas for sums, divisibility, and loop invariants (that an algorithm is correct).</p></div></div></div><div class="formula"><span class="flabel">Principle</span><div class="math"><i>P</i>(1) &nbsp;and&nbsp; [<i>P</i>(<i>k</i>) &rArr; <i>P</i>(<i>k</i>+1)] &nbsp;&rArr;&nbsp; <i>P</i>(<i>n</i>) for all <i>n</i> &ge; 1</div><small>Strong induction assumes P(1), &hellip;, P(k) instead of just P(k).</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li><b>Base case:</b> check the statement for n = 1 (or the first value).</li><li><b>Hypothesis:</b> assume it is true for n = k.</li><li><b>Inductive step:</b> start from the n = k + 1 case and use the hypothesis to reach the required form.</li><li><b>Conclude:</b> by induction it holds for all n.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; 1 + 3 + 5 + &hellip; + (2n &minus; 1) = n<sup>2</sup></div><div class="exgiven">Prove for all n &ge; 1.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Base case n = 1</span><span class="exw">left side = 1, right side = 1<sup>2</sup> = 1 &#10003;</span></div></li><li><div class="exb"><span class="exl">Hypothesis</span><span class="exw">assume 1 + 3 + &hellip; + (2k &minus; 1) = k<sup>2</sup></span></div></li><li><div class="exb"><span class="exl">Add the next odd number</span><span class="exw">1 + &hellip; + (2k &minus; 1) + (2k + 1) = k<sup>2</sup> + 2k + 1</span></div></li><li><div class="exb"><span class="exl">Factorise</span><span class="exw">k<sup>2</sup> + 2k + 1 = (k + 1)<sup>2</sup>, which is the formula for n = k + 1 &#10003;</span></div></li></ol><div class="exans"><b>True for all n &ge; 1 by induction.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>Checking a few values (n = 1, 2, 3) is not a proof. The inductive step must use the hypothesis.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr6">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Prove: by induction.</span>Show that 6 divides n<sup>3</sup> &minus; n for all n &ge; 1.</div><button class="ghost pbtn" data-ans="pr6-1">Show answer</button><div class="pa" id="pr6-1">Base: 1 &minus; 1 = 0, divisible by 6. Step: (k+1)<sup>3</sup> &minus; (k+1) = (k<sup>3</sup> &minus; k) + 3k(k+1). The first part is divisible by 6 (hypothesis); k(k+1) is even, so 3k(k+1) is divisible by 6. <b>Done.</b></div></li><li><div class="pq"><span class="ptask">Answer: name the steps.</span>What are the two parts every induction proof must have?</div><button class="ghost pbtn" data-ans="pr6-2">Show answer</button><div class="pa" id="pr6-2">The <b>base case</b> and the <b>inductive step</b> (assume for k, prove for k + 1).</div></li></ol></div></div></section>
+<section id="rel"><div class="wrap"><h2><span class="num">7</span>Relations and functions &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Classifies how elements are linked: grouping (equivalence), ordering (partial order), or mapping (function types).</p></div><div class="wq w2"><h5>The concept</h5><p>An equivalence relation is reflexive, symmetric and transitive, and splits the set into classes. A partial order is reflexive, antisymmetric and transitive. A function is injective (one-to-one), surjective (onto) or bijective (both).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Grouping data (same remainder, same type), task ordering, hashing, invertible mappings.</p></div></div></div><div class="formula"><span class="flabel">The four properties</span><div class="math">Reflexive: <i>a</i>R<i>a</i>; &nbsp; Symmetric: <i>a</i>R<i>b</i> &rArr; <i>b</i>R<i>a</i>; &nbsp; Antisymmetric: <i>a</i>R<i>b</i> &and; <i>b</i>R<i>a</i> &rArr; <i>a</i> = <i>b</i>; &nbsp; Transitive: <i>a</i>R<i>b</i> &and; <i>b</i>R<i>c</i> &rArr; <i>a</i>R<i>c</i></div></div><div class="formula"><span class="flabel">Function types</span><div class="math">Injective: <i>f</i>(<i>x</i><sub>1</sub>) = <i>f</i>(<i>x</i><sub>2</sub>) &rArr; <i>x</i><sub>1</sub> = <i>x</i><sub>2</sub>; &nbsp; Surjective: every <i>y</i> has some <i>x</i>; &nbsp; Bijective: both (so <i>f</i><sup>&minus;1</sup> exists)</div></div><div class="ex"><div class="exhd">Worked example &mdash; congruence mod 3, and one function</div><div class="exgiven">(i) R: a R b if a &equiv; b (mod 3) on {0, 1, &hellip;, 8}. (ii) f(x) = 2x + 3 on the real numbers.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Reflexive</span><span class="exw">a &minus; a = 0 is divisible by 3 &#10003;</span></div></li><li><div class="exb"><span class="exl">Symmetric</span><span class="exw">if 3 | (a &minus; b) then 3 | (b &minus; a) &#10003;</span></div></li><li><div class="exb"><span class="exl">Transitive</span><span class="exw">a &minus; c = (a &minus; b) + (b &minus; c), a sum of multiples of 3 &#10003;</span></div></li><li><div class="exb"><span class="exl">Classes</span><span class="exw"><b>{0, 3, 6}, {1, 4, 7}, {2, 5, 8}</b> (same remainder)</span></div></li><li><div class="exb"><span class="exl">(ii) f(x) = 2x + 3</span><span class="exw">2x<sub>1</sub> + 3 = 2x<sub>2</sub> + 3 &rArr; x<sub>1</sub> = x<sub>2</sub> (injective); any y has x = (y &minus; 3)/2 (surjective)</span></div></li></ol><div class="exans"><b>R is an equivalence relation with 3 classes; f is bijective with f<sup>&minus;1</sup>(y) = (y &minus; 3)/2.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>“Not symmetric” is not the same as “antisymmetric”. A relation can be neither, or even both.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr7">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Answer: equivalence relation? Give the classes.</span>R = {(1,1), (2,2), (3,3), (1,2), (2,1)} on {1, 2, 3}.</div><button class="ghost pbtn" data-ans="pr7-1">Show answer</button><div class="pa" id="pr7-1">Reflexive, symmetric and transitive, so <b>yes</b>. Classes: <b>{1, 2} and {3}</b>.</div></li><li><div class="pq"><span class="ptask">Answer: injective? Give the reason.</span>f(x) = x<sup>2</sup> on all real numbers.</div><button class="ghost pbtn" data-ans="pr7-2">Show answer</button><div class="pa" id="pr7-2"><b>No</b>: f(2) = f(&minus;2) = 4. (On x &ge; 0 it would be injective.)</div></li></ol></div></div></section>
+<section id="calc"><div class="wrap"><h2><span class="num">8</span>Calculus: derivatives, partial derivatives and integrals &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds rates of change and slopes (derivatives), the direction of steepest increase (gradient), and areas or totals (integrals).</p></div><div class="wq w2"><h5>The concept</h5><p>A derivative measures how fast a function changes. A partial derivative changes one variable and holds the others fixed; together they form the gradient. A definite integral adds up the area under a curve.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Gradient descent in machine learning, optimisation, bounding sums in algorithm analysis.</p></div></div></div><div class="formula"><span class="flabel">Derivatives</span><div class="math"><i>d</i>/<i>dx</i> <i>x</i><sup><i>n</i></sup> = <i>n x</i><sup><i>n</i>&minus;1</sup>; &nbsp; (<i>f</i>(<i>g</i>(<i>x</i>)))&prime; = <i>f</i>&prime;(<i>g</i>(<i>x</i>)) &middot; <i>g</i>&prime;(<i>x</i>)</div><small>Power rule and chain rule.</small></div><div class="formula"><span class="flabel">Gradient</span><div class="math">&nabla;<i>f</i> = (&part;<i>f</i>/&part;<i>x</i>, &nbsp;&part;<i>f</i>/&part;<i>y</i>)</div><small>Points in the direction of steepest increase.</small></div><div class="formula"><span class="flabel">Definite integral</span><div class="math">&int;<sub><i>a</i></sub><sup><i>b</i></sup> <i>x</i><sup><i>n</i></sup> <i>dx</i> = [ <i>x</i><sup><i>n</i>+1</sup>/(<i>n</i>+1) ]<sub><i>a</i></sub><sup><i>b</i></sup></div><small>Find the antiderivative, then subtract its value at a from its value at b.</small></div><div class="ex"><div class="exhd">Worked example &mdash; a gradient and an integral</div><div class="exgiven">(i) f(x, y) = x<sup>2</sup>y + 3y<sup>2</sup>: find &nabla;f at (1, 2). (ii) Find &int;<sub>0</sub><sup>2</sup> (3x<sup>2</sup> + 2x) dx.</div><ol class="exsteps"><li><div class="exb"><span class="exl">&part;f/&part;x (y fixed)</span><span class="exw">2xy &rarr; at (1, 2): 2 &times; 1 &times; 2 = <b>4</b></span></div></li><li><div class="exb"><span class="exl">&part;f/&part;y (x fixed)</span><span class="exw">x<sup>2</sup> + 6y &rarr; at (1, 2): 1 + 12 = <b>13</b></span></div></li><li><div class="exb"><span class="exl">Gradient</span><span class="exw">&nabla;f(1, 2) = (4, 13)</span></div></li><li><div class="exb"><span class="exl">Antiderivative for (ii)</span><span class="exw">x<sup>3</sup> + x<sup>2</sup></span></div></li><li><div class="exb"><span class="exl">Evaluate</span><span class="exw">(8 + 4) &minus; (0 + 0) = <b>12</b></span></div></li></ol><div class="exans"><b>&nabla;f(1, 2) = (4, 13); the integral = 12.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr8">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the derivative.</span>d/dx (x<sup>2</sup> + 1)<sup>3</sup> at x = 1.</div><button class="ghost pbtn" data-ans="pr8-1">Show answer</button><div class="pa" id="pr8-1">Chain rule: 3(x<sup>2</sup> + 1)<sup>2</sup> &times; 2x = 3 &times; 4 &times; 2 = <b>24</b>.</div></li><li><div class="pq"><span class="ptask">Find: the gradient.</span>f(x, y) = x<sup>2</sup> + y<sup>2</sup> at (3, 4).</div><button class="ghost pbtn" data-ans="pr8-2">Show answer</button><div class="pa" id="pr8-2">&nabla;f = (2x, 2y) = <b>(6, 8)</b>, the direction of steepest increase.</div></li></ol></div></div></section>
+<footer><div class="wrap">CSE563 &middot; Applied Mathematics &middot; Unit I &mdash; Basic Mathematics in Computer Science &mdash; Important Topics, Formulas and Solved Questions &middot;
+School of Computer Science &amp; Engineering &middot; Session 2026&ndash;27</div></footer>
+<script>
+
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var C={navy:"#182B49",cyan:"#0096C7",purple:"#5C2D91",orange:"#ED771F",
+       green:"#107C41",red:"#B42318",grey:"#9AA7B5",rule:"#D8DFE8",ice:"#7EC5E2"};
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+  p.appendChild(e);return e;}
+function clr(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function line(s,A,B,col,w,dash){var l=el(s,"line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,
+  stroke:col,"stroke-width":w,"stroke-linecap":"round"});
+  if(dash)l.setAttribute("stroke-dasharray",dash);return l;}
+function dot(s,p,r,fill){return el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill});}
+function nodeC(s,p,label,fill,r){r=r||17;
+  el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill,stroke:"#fff","stroke-width":2.5});
+  var t=el(s,"text",{x:p.x,y:p.y+5,"text-anchor":"middle",fill:"#fff","font-size":"14",
+    "font-weight":"600","font-family":"Segoe UI,sans-serif"});t.textContent=label;}
+function txt(s,x,y,str,col,size,anchor,weight){
+  var t=el(s,"text",{x:x,y:y,"text-anchor":anchor||"middle",fill:col||C.navy,
+    "font-size":size||12,"font-weight":weight||"600","font-family":"Segoe UI,sans-serif"});
+  t.textContent=str;return t;}
+function box(s,x,y,w,h,fill,stroke,rx){return el(s,"rect",{x:x,y:y,width:w,height:h,
+  rx:rx===undefined?6:rx,fill:fill,stroke:stroke||"none","stroke-width":1.6});}
+function badge(s,A,B,str){var mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  el(s,"circle",{cx:mx,cy:my,r:11,fill:"#fff",stroke:C.rule});
+  txt(s,mx,my+4,str,C.navy,12);}
+function arrow(s,A,B,col,w){
+  var dx=B.x-A.x,dy=B.y-A.y,L=Math.sqrt(dx*dx+dy*dy);if(!L)return;
+  var ux=dx/L,uy=dy/L,ex=B.x-ux*20,ey=B.y-uy*20;
+  el(s,"line",{x1:A.x+ux*20,y1:A.y+uy*20,x2:ex,y2:ey,stroke:col,"stroke-width":w||2.6,
+    "stroke-linecap":"round"});
+  var a=8;
+  el(s,"polygon",{points:[ex+","+ey,(ex-ux*a-uy*a*0.6)+","+(ey-uy*a+ux*a*0.6),
+    (ex-ux*a+uy*a*0.6)+","+(ey-uy*a-ux*a*0.6)].join(" "),fill:col});}
+
+/* ---- generic step player, wired to data-viz buttons ---- */
+var VIZ={};
+function register(id,build,render){
+  VIZ[id]={build:build,render:render,steps:[],i:0,timer:null};
+  resetViz(id);
+}
+function resetViz(id){var m=VIZ[id];if(!m)return;
+  m.steps=m.build();m.i=0;stopViz(id);drawViz(id);}
+function drawViz(id){var m=VIZ[id];
+  m.render(document.getElementById("svg-"+id),m.steps[m.i],m.i,m.steps);
+  var st=document.getElementById("st-"+id);
+  if(st)st.innerHTML=m.steps[m.i].msg||"";
+  syncViz(id);}
+/* keep the counter and the buttons honest about where we are */
+function syncViz(id){var m=VIZ[id],last=m.steps.length-1;
+  function btn(a){return document.querySelector(
+    'button[data-act="'+a+'"][data-viz="'+id+'"]');}
+  var b;
+  if((b=btn("step")))b.disabled=m.i>=last;
+  if((b=btn("back")))b.disabled=m.i<=0;
+  var sc=document.getElementById("sc-"+id);
+  if(sc)sc.innerHTML="step <em>"+m.i+"</em> of "+last;
+  var wrap=document.getElementById("wrap-"+id);
+  if(wrap){if(m.i>=last&&last>0)wrap.classList.add("done");
+           else wrap.classList.remove("done");}}
+function stepViz(id){var m=VIZ[id];
+  if(m.i<m.steps.length-1){m.i++;drawViz(id);}
+  if(m.i>=m.steps.length-1)stopViz(id);}
+/* step backwards, so a student can flip between before and after */
+function stepBackViz(id){var m=VIZ[id];
+  if(m.i>0){stopViz(id);m.i--;drawViz(id);}}
+function stopViz(id){var m=VIZ[id];if(m.timer){clearInterval(m.timer);m.timer=null;}
+  var b=document.querySelector('button[data-act="auto"][data-viz="'+id+'"]');
+  if(b)b.textContent="Auto-play";}
+/* ---- practice answers: reveal one, or all of a block ---- */
+document.addEventListener("click",function(e){
+  if(!e.target.closest)return;
+  var one=e.target.closest("button[data-ans]");
+  if(one){var p=document.getElementById(one.getAttribute("data-ans"));
+    if(p){var on=p.classList.toggle("on");
+      one.textContent=on?"Hide answer":"Show answer";}
+    return;}
+  var all=e.target.closest("button[data-all]");
+  if(all){var g=all.getAttribute("data-all"),
+      blk=all.closest(".prac"),show=all.textContent.indexOf("Show")===0;
+    blk.querySelectorAll(".pa").forEach(function(p){
+      p.classList.toggle("on",show);});
+    blk.querySelectorAll("button[data-ans]").forEach(function(b2){
+      b2.textContent=show?"Hide answer":"Show answer";});
+    all.textContent=show?"Hide all answers":"Show all answers";}
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("button[data-viz]"):null;if(!b)return;
+  var id=b.getAttribute("data-viz"),act=b.getAttribute("data-act"),m=VIZ[id];if(!m)return;
+  if(act==="step")stepViz(id);
+  else if(act==="back")stepBackViz(id);
+  else if(act==="reset")resetViz(id);
+  else if(act==="auto"){
+    if(m.timer){stopViz(id);return;}
+    if(m.i>=m.steps.length-1)resetViz(id);
+    b.textContent="Pause";
+    m.timer=setInterval(function(){if(m.i>=m.steps.length-1)stopViz(id);else stepViz(id);},950);
+  }});
+
+
+</script>
+</body>
+</html>
