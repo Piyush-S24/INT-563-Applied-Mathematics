@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSE563 &middot; Applied Mathematics Unit II &mdash; Vectors and Matrices &mdash; Important Topics, Formulas and Solved Questions</title>
+<style>
+:root{--navy:#182B49;--navy2:#253E64;--cyan:#0096C7;--ice:#7EC5E2;--purple:#5C2D91;
+      --orange:#ED771F;--green:#107C41;--red:#B42318;--grey:#586476;--rule:#D8DFE8;
+      --bg:#F6F9FC;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);
+     font:15px/1.65 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:var(--navy);color:#fff;padding:28px 0 24px;border-bottom:4px solid var(--cyan)}
+header .eyebrow{color:var(--ice);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+header h1{margin:7px 0 6px;font-size:32px;font-weight:600;line-height:1.2}
+header p{margin:0;color:#C9D8E6;font-size:15.5px;max-width:860px}
+nav{background:var(--navy2);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(24,43,73,.2)}
+nav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:11px 14px;color:#D8E6F2;text-decoration:none;font-size:13.5px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,.13);color:#fff}
+section{padding:34px 0 12px;border-bottom:1px solid var(--rule)}
+h2{font-size:24px;margin:0 0 6px;font-weight:600}
+h2 .num{display:inline-block;background:var(--cyan);color:#fff;font-size:13px;
+        padding:3px 9px;border-radius:4px;margin-right:10px;vertical-align:3px}
+h3{font-size:17.5px;margin:24px 0 8px;font-weight:600;color:var(--navy)}
+.lede{color:var(--grey);font-size:15.5px;margin:0 0 16px;max-width:920px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+/* ---- formula sheet ---- */
+.fsheet{border:1px solid var(--rule);border-top:3px solid var(--navy);border-radius:4px;
+        background:var(--card);margin:18px 0;padding:15px 20px 8px}
+.fshd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:8px}
+.fst{width:100%;border-collapse:collapse;margin:0;font-size:14px;box-shadow:none}
+.fst td{border:0;border-top:1px solid #E1EAF3;padding:9px 8px;vertical-align:middle;
+        background:none}
+.fst tr:first-child td{border-top:0}
+.fst tbody tr:nth-child(even){background:none}
+td.fsn{width:23%;font-weight:600;color:var(--navy);font-size:13.5px}
+td.fsf{width:42%}
+td.fsf .math{font-size:16.5px;line-height:1.9;white-space:normal}
+td.fsw{color:var(--grey);font-size:13px}
+/* ---- the method ---- */
+.meth{border:1px solid var(--rule);border-left:3px solid var(--navy);border-radius:4px;
+      background:var(--card);margin:18px 0;padding:15px 20px 16px}
+.methd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);margin-bottom:9px}
+.meth ol{margin:0;padding-left:22px}
+.meth li{font-size:14.8px;line-height:1.68;padding:4px 0;color:var(--navy)}
+.meth li::marker{color:var(--grey);font-weight:700}
+/* ---- practice ---- */
+.prac{border:1px solid var(--rule);border-radius:4px;background:var(--card);
+      margin:18px 0;padding:15px 20px 16px}
+.prhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pall{margin-left:auto;font-size:12px;padding:5px 11px}
+.prac ol{margin:0;padding-left:22px}
+.prac>ol>li{padding:11px 0;border-top:1px solid #EEF2F6}
+.prac>ol>li:first-child{border-top:0}
+.prac li::marker{color:var(--grey);font-weight:700}
+/* Numericals pages run quiet: panels are white with a thin rule, and colour is
+   reserved for meaning (a revealed answer, a caution) rather than decoration. */
+body.quiet .formula{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--navy);border-radius:4px}
+body.quiet .formula .flabel{color:var(--navy)}
+body.quiet .ex{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .exgiven{background:#F7FAFC;border-color:var(--rule)}
+body.quiet .why{background:var(--card)}
+body.quiet .whygrid{background:var(--rule)}
+body.quiet .wq.w3{background:var(--card)}
+body.quiet .take{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--green);border-radius:4px}
+body.quiet .warn{background:var(--card);border:1px solid var(--rule);
+      border-left:3px solid var(--orange);border-radius:4px}
+.pq{font-size:14.8px;line-height:1.68;color:var(--navy);margin-bottom:7px}
+.pbtn{font-size:12px;padding:4px 10px}
+.pa{display:none;margin-top:9px;background:#E4F6EB;border-left:3px solid var(--green);
+    border-radius:5px;padding:9px 13px;font-size:14.5px;line-height:1.7;color:var(--navy)}
+.pa.on{display:block}
+.pa b{color:var(--green)}
+.ex{border:1.5px solid #BFD9CB;border-left:5px solid var(--green);border-radius:9px;
+    background:#FBFEFC;margin:18px 0;padding:14px 18px 16px}
+.exhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+      color:var(--green);margin-bottom:9px}
+.exgiven{font-size:14.5px;background:#fff;border:1px solid #DCE9E1;border-radius:6px;
+         padding:9px 13px;margin-bottom:12px}
+.exsteps{list-style:none;counter-reset:exs;margin:0;padding:0}
+.exsteps li{counter-increment:exs;display:grid;grid-template-columns:26px 1fr;gap:11px;
+            padding:7px 0;border-top:1px solid #E7F0EA;align-items:baseline}
+.exsteps li:first-child{border-top:0}
+.exsteps li::before{content:counter(exs);display:block;width:21px;height:21px;
+                    border-radius:50%;background:var(--green);color:#fff;font-size:11.5px;
+                    font-weight:700;text-align:center;line-height:21px}
+.exb{min-width:0}
+.exl{font-size:13.5px;color:var(--grey);display:block;margin-bottom:3px}
+.exw{font-size:15.5px;color:var(--navy);font-family:"Cambria Math",Cambria,Georgia,serif;
+     display:block;line-height:1.8}
+.exans{margin-top:12px;background:#E4F6EB;border-radius:6px;padding:10px 14px;
+       font-size:15px;color:var(--navy);font-weight:600}
+.exans b{color:var(--green)}
+@media(max-width:700px){.exsteps li{grid-template-columns:22px 1fr;gap:8px}}
+.why{border:1.5px solid #CBD9E6;border-radius:9px;margin:18px 0;overflow:hidden;
+     background:linear-gradient(180deg,#F4F9FD 0,#fff 54px)}
+.whyhd{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+       color:var(--navy);padding:13px 18px 0}
+.whygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E3EAF1;
+         margin-top:12px;border-top:1px solid #E3EAF1}
+.wq{background:var(--card);padding:14px 17px 16px}
+.wq h5{margin:0 0 7px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wq p{margin:0;font-size:14px;line-height:1.62}
+.wq.w1 h5{color:var(--cyan)}
+.wq.w2 h5{color:var(--purple)}
+.wq.w3 h5{color:var(--orange)}
+.wq.w3{background:#FFFBF7}
+@media(max-width:900px){.whygrid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 7px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--cyan)}
+.card p{margin:0;font-size:14.5px}
+.take{background:#E4F6EB;border-left:5px solid var(--green);border-radius:6px;padding:12px 16px;margin:14px 0}
+.take b.hd{color:var(--green);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.take b{color:var(--navy)}
+.warn{background:#FDEEEC;border-left:5px solid var(--orange);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn b.hd{color:var(--orange);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em}
+.warn b{color:var(--navy)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:13px}
+tbody tr:nth-child(even){background:#F2F7FB}
+td.hi{background:#FFF3E0;font-weight:700}
+code{background:#EEF3F8;padding:1px 5px;border-radius:4px;font-size:13.5px}
+footer{background:var(--navy);color:#9FB4CA;padding:22px 0;font-size:13.5px}
+
+/* ---------------- formula block ---------------- */
+.formula{background:#F3EEFB;border-left:5px solid var(--purple);border-radius:6px;
+         padding:14px 18px;margin:14px 0;overflow-x:auto}
+.formula .flabel{display:block;font-size:11.5px;font-weight:700;letter-spacing:.05em;
+                 text-transform:uppercase;color:var(--purple);margin-bottom:9px}
+.formula small{display:block;font:13.5px/1.55 "Segoe UI",sans-serif;color:var(--grey);margin-top:10px}
+
+/* ---------------- real maths ---------------- */
+.math{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;
+      font-size:20px;line-height:2.1;color:var(--navy);white-space:nowrap}
+.math i,.math .var{font-style:italic;font-family:inherit}
+.math .op{font-style:normal;padding:0 .22em}
+.math b.vecb{font-weight:700;font-style:normal}
+.math sub{font-size:.62em;vertical-align:-.3em}
+.math sup{font-size:.62em;vertical-align:.45em}
+.cases{display:inline-flex;align-items:center;vertical-align:middle;margin:0 .2em}
+.cases .cb{font-size:2.5em;font-weight:300;line-height:.86;margin-right:.14em}
+.cases table{border-collapse:collapse;margin:0;width:auto;box-shadow:none;font-size:.86em}
+.cases tbody tr,.cases tbody tr:nth-child(even){border:0;background:none}
+.cases td{border:0;padding:.14em .2em;background:none;white-space:nowrap;
+          line-height:1.5;vertical-align:middle}
+.cases td.cc{font-size:.8em;font-style:normal;color:var(--grey);padding-left:1.5em;
+             font-family:"Segoe UI",system-ui,sans-serif}
+.frac{display:inline-block;vertical-align:-.52em;text-align:center;margin:0 .26em}
+.frac .num{display:block;padding:0 .4em .12em;border-bottom:1.7px solid currentColor;line-height:1.22}
+.frac .den{display:block;padding:.12em .4em 0;line-height:1.22}
+.sqrt{display:inline-block;position:relative;margin:0 .15em}
+.sqrt .rad{font-size:1.12em;vertical-align:-.06em}
+.sqrt .rand{border-top:1.6px solid currentColor;padding:.1em .22em 0 .12em;margin-left:-.12em}
+.bigop{display:inline-block;text-align:center;vertical-align:-.5em;margin:0 .2em;line-height:1}
+.bigop .glyph{display:block;font-size:1.5em;line-height:.88}
+.bigop.int .glyph{font-size:1.75em}
+.bigop .lim{display:block;font-size:.5em;line-height:1.25;font-style:italic}
+.paren{font-size:1.18em;padding:0 .06em}
+.paren.big{font-size:1.5em;vertical-align:-.16em}
+.bar{padding:0 .09em}
+.hat{position:relative;display:inline-block;font-style:italic}
+.hat::after{content:"\0302";position:absolute;left:0;right:0;top:-.46em;
+            text-align:center;font-size:.72em;font-style:normal;line-height:1;
+            font-family:"Cambria Math",Cambria,serif}
+.matrix{display:inline-block;vertical-align:middle;margin:0 .18em}
+.matrix .mb{display:inline-block;font-size:2.1em;vertical-align:middle;font-weight:300}
+.matrix table{display:inline-table;width:auto;border:0;margin:0 .1em;vertical-align:middle}
+.matrix td{border:0;padding:.08em .38em;text-align:center;font-size:.86em;background:none}
+
+/* ---------------- visualisation ---------------- */
+.viz{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:14px;margin:16px 0}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+button{font:600 13.5px "Segoe UI",sans-serif;padding:8px 14px;border-radius:6px;
+       border:1px solid var(--cyan);background:var(--cyan);color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.ghost{background:#fff;color:var(--cyan)}
+button:disabled{opacity:.45;cursor:not-allowed}
+select{font:14px "Segoe UI";padding:7px 9px;border-radius:6px;border:1px solid var(--rule);background:#fff}
+svg{width:100%;height:auto;display:block;background:#fff;border-radius:6px;max-width:1040px;margin:0 auto}
+.status{font-size:15.5px;line-height:1.6;background:#EAF4FA;border-left:4px solid var(--cyan);
+        border-radius:6px;padding:12px 16px;margin-top:12px;min-height:48px;color:var(--navy)}
+.status b{color:var(--cyan)}
+.stepcount{font-size:12.5px;font-weight:700;color:var(--grey);letter-spacing:.03em;
+           margin-left:auto;padding-right:4px;white-space:nowrap}
+.stepcount em{font-style:normal;color:var(--cyan);font-size:14.5px}
+.viz.done .stepcount em{color:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--grey);margin-top:9px;justify-content:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.ptask{display:block;font-size:12.5px;font-weight:700;color:var(--purple);letter-spacing:.02em;margin-bottom:2px}
+.stars{color:#ED771F;font-weight:700;letter-spacing:1px;white-space:nowrap}
+.glance td:nth-child(4){font-family:Cambria,'Times New Roman',serif}
+</style>
+</head>
+<body class="quiet">
+<header><div class="wrap">
+  <div class="eyebrow">CSE563 &middot; Applied Mathematics &middot; Unit II</div>
+  <h1>Vectors and Matrices &mdash; Important Topics, Formulas and Solved Questions</h1>
+  <p>Only the topics that matter most for the exam. For each one: what it solves, the concept, the formula, how to solve it on paper, one fully worked question and practice with answers.</p>
+</div></header>
+<nav><div class="wrap"><ul><li><a href="#glance">At a glance</a></li><li><a href="#vec">1 &middot; Vectors</a></li><li><a href="#det">2 &middot; Determinant &amp; inverse</a></li><li><a href="#gauss">3 &middot; Gaussian elimination</a></li><li><a href="#eig">4 &middot; Eigenvalues</a></li><li><a href="#pca">5 &middot; PCA</a></li><li><a href="#lda">6 &middot; LDA</a></li><li><a href="#imgt">7 &middot; Image transforms</a></li><li><a href="#interp">8 &middot; Interpolation</a></li></ul></div></nav>
+<section id="glance"><div class="wrap"><h2><span class="num">&#9673;</span>Important topics at a glance</h2><p class="lede">&#9733;&#9733;&#9733; = asked in most papers (question bank, sample papers, final-exam practice, CA). &#9733;&#9733; = asked regularly. Learn the formula, know what it solves, and practise the worked question under each topic.</p><table class="glance"><thead><tr><th>#</th><th>Topic</th><th>What it solves</th><th>Key formula</th><th>Weight</th></tr></thead><tbody><tr><td>1</td><td><b>Vectors: dot product, norm, angle, projection and cross product</b></td><td>Measures length, distance and the angle between two vectors, and finds a vector perpendicular to two others.</td><td>a&middot;b = &Sigma;a<sub>i</sub>b<sub>i</sub> = |a||b|cos&theta;</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>2</td><td><b>Determinant, inverse and rank</b></td><td>Tells whether a matrix can be inverted (and a system has one solution), and finds the inverse.</td><td>A<sup>&minus;1</sup> = adj(A)/det A; det = 0 &rArr; no inverse</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>3</td><td><b>Solving linear systems by Gaussian elimination</b></td><td>Solves several linear equations at once, and shows whether there is one, none or infinitely many solutions.</td><td>Row operations &rarr; upper triangular &rarr; back-substitute</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>4</td><td><b>Eigenvalues and eigenvectors</b></td><td>Finds the special directions a matrix only stretches (never turns), and by how much.</td><td>det(A &minus; &lambda;I) = 0</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>5</td><td><b>Principal Component Analysis (PCA)</b></td><td>Reduces many correlated features to a few new ones that keep most of the information (variance).</td><td>C = X<sub>c</sub><sup>T</sup>X<sub>c</sub>/(n&minus;1); share = &lambda;<sub>i</sub>/&Sigma;&lambda;</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>6</td><td><b>Linear Discriminant Analysis (LDA)</b></td><td>Finds the one direction that best separates two labelled classes, and a threshold to classify new points.</td><td>w = S<sub>W</sub><sup>&minus;1</sup>(m<sub>1</sub> &minus; m<sub>2</sub>)</td><td><span class="stars">&#9733;&#9733;</span></td></tr><tr><td>7</td><td><b>Image transformations with homogeneous coordinates</b></td><td>Moves, resizes, rotates or shears an image (or shape) using one matrix multiplication per point.</td><td>Rotation [cos &minus;sin; sin cos]; translation in the last column</td><td><span class="stars">&#9733;&#9733;&#9733;</span></td></tr><tr><td>8</td><td><b>Image interpolation: nearest neighbour and bilinear</b></td><td>Estimates the colour of a pixel that falls between known pixels when an image is resized or rotated.</td><td>f(x,y) = (1&minus;x)(1&minus;y)f<sub>00</sub> + x(1&minus;y)f<sub>10</sub> + (1&minus;x)y f<sub>01</sub> + xy f<sub>11</sub></td><td><span class="stars">&#9733;&#9733;</span></td></tr></tbody></table></div></section>
+<section id="vec"><div class="wrap"><h2><span class="num">1</span>Vectors: dot product, norm, angle, projection and cross product &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Measures length, distance and the angle between two vectors, and finds a vector perpendicular to two others.</p></div><div class="wq w2"><h5>The concept</h5><p>The dot product multiplies matching parts and adds them; it is 0 when vectors are at right angles. The norm is the length. The cross product (3-D only) gives a vector perpendicular to both.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Cosine similarity, distances between data points (k-NN, clustering), normals in graphics.</p></div></div></div><div class="formula"><span class="flabel">Dot product and norm</span><div class="math"><b>a</b>&middot;<b>b</b> = <i>a</i><sub>1</sub><i>b</i><sub>1</sub> + <i>a</i><sub>2</sub><i>b</i><sub>2</sub> + &hellip; = |<b>a</b>| |<b>b</b>| cos &theta;; &nbsp; |<b>a</b>| = <span class="sqrt"><span class="rad">&#8730;</span><span class="rand"><b>a</b>&middot;<b>a</b></span></span></div><small>Dot product &rarr; angle; 0 means perpendicular (orthogonal).</small></div><div class="formula"><span class="flabel">Projection</span><div class="math">proj<sub><b>b</b></sub><b>a</b> = <span class="frac"><span class="num"><b>a</b>&middot;<b>b</b></span><span class="den">|<b>b</b>|<sup>2</sup></span></span> <b>b</b></div><small>The shadow of a on b.</small></div><div class="formula"><span class="flabel">Cross product</span><div class="math"><b>a</b> &times; <b>b</b> = (<i>a</i><sub>2</sub><i>b</i><sub>3</sub> &minus; <i>a</i><sub>3</sub><i>b</i><sub>2</sub>, &nbsp;<i>a</i><sub>3</sub><i>b</i><sub>1</sub> &minus; <i>a</i><sub>1</sub><i>b</i><sub>3</sub>, &nbsp;<i>a</i><sub>1</sub><i>b</i><sub>2</sub> &minus; <i>a</i><sub>2</sub><i>b</i><sub>1</sub>)</div><small>|a &times; b| = area of the parallelogram on a and b.</small></div><div class="ex"><div class="exhd">Worked example &mdash; angle, projection, distance and a cross product</div><div class="exgiven">a = (3, 4), b = (4, 3); and u = (1, 2, 3), v = (4, 5, 6).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Dot product</span><span class="exw">a&middot;b = 12 + 12 = 24; &nbsp;|a| = |b| = 5</span></div></li><li><div class="exb"><span class="exl">Angle</span><span class="exw">cos &theta; = 24/25 = 0.96 &rarr; &theta; &asymp; <b>16.26&deg;</b></span></div></li><li><div class="exb"><span class="exl">Projection of a on b</span><span class="exw">(24/25)(4, 3) = <b>(3.84, 2.88)</b></span></div></li><li><div class="exb"><span class="exl">Distance</span><span class="exw">|a &minus; b| = <span class="sqrt"><span class="rad">&#8730;</span><span class="rand">1 + 1</span></span> &asymp; <b>1.414</b></span></div></li><li><div class="exb"><span class="exl">Cross product</span><span class="exw">u &times; v = (2&middot;6 &minus; 3&middot;5, 3&middot;4 &minus; 1&middot;6, 1&middot;5 &minus; 2&middot;4) = <b>(&minus;3, 6, &minus;3)</b>; area = <span class="sqrt"><span class="rad">&#8730;</span><span class="rand">54</span></span> &asymp; 7.35</span></div></li></ol><div class="exans"><b>&theta; &asymp; 16.26&deg;, projection (3.84, 2.88), distance 1.414, u &times; v = (&minus;3, 6, &minus;3).</b></div></div><div class="warn"><b class="hd">Common trap</b><br>The dot product gives a <b>number</b>; the cross product gives a <b>vector</b>. Watch the middle sign of the cross product.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr9">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the norm and unit vector.</span>a = (1, 2, 2).</div><button class="ghost pbtn" data-ans="pr9-1">Show answer</button><div class="pa" id="pr9-1">|a| = <span class="sqrt"><span class="rad">&#8730;</span><span class="rand">1 + 4 + 4</span></span> = <b>3</b>; unit vector = <b>(1/3, 2/3, 2/3)</b>.</div></li><li><div class="pq"><span class="ptask">Answer: orthogonal? Give the reason.</span>a = (1, 2), b = (2, &minus;1).</div><button class="ghost pbtn" data-ans="pr9-2">Show answer</button><div class="pa" id="pr9-2">a&middot;b = 2 &minus; 2 = 0, so <b>yes</b>.</div></li></ol></div></div></section>
+<section id="det"><div class="wrap"><h2><span class="num">2</span>Determinant, inverse and rank &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Tells whether a matrix can be inverted (and a system has one solution), and finds the inverse.</p></div><div class="wq w2"><h5>The concept</h5><p>The determinant is a single number from a square matrix; if it is 0 the matrix is singular (no inverse). Rank is the number of independent rows or columns.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Solving linear systems, checking independence of features, transformations in graphics.</p></div></div></div><div class="formula"><span class="flabel">2 &times; 2</span><div class="math">det [<i>a b</i>; <i>c d</i>] = <i>ad</i> &minus; <i>bc</i>, &nbsp;&nbsp; A<sup>&minus;1</sup> = <span class="frac"><span class="num">1</span><span class="den"><i>ad</i> &minus; <i>bc</i></span></span> [<i>d</i> &minus;<i>b</i>; &minus;<i>c a</i>]</div><small>Swap the diagonal, change the signs of the other two, divide by the determinant.</small></div><div class="formula"><span class="flabel">3 &times; 3</span><div class="math">det A = <i>a</i><sub>11</sub>(<i>a</i><sub>22</sub><i>a</i><sub>33</sub> &minus; <i>a</i><sub>23</sub><i>a</i><sub>32</sub>) &minus; <i>a</i><sub>12</sub>(&hellip;) + <i>a</i><sub>13</sub>(&hellip;)</div><small>Expand along the first row with signs + &minus; +.</small></div><div class="formula"><span class="flabel">Rank</span><div class="math">rank = number of non-zero rows after row reduction; &nbsp; rank + nullity = number of columns</div></div><div class="ex"><div class="exhd">Worked example &mdash; a 2 &times; 2 inverse and a 3 &times; 3 determinant</div><div class="exgiven">A = [4 7; 2 6]. &nbsp; B = [2 0 1; 1 3 2; 1 1 1].</div><ol class="exsteps"><li><div class="exb"><span class="exl">det A</span><span class="exw">4 &times; 6 &minus; 7 &times; 2 = 24 &minus; 14 = <b>10</b></span></div></li><li><div class="exb"><span class="exl">A<sup>&minus;1</sup></span><span class="exw">(1/10) [6 &minus;7; &minus;2 4] = [0.6 &minus;0.7; &minus;0.2 0.4]</span></div></li><li><div class="exb"><span class="exl">det B, first row</span><span class="exw">2(3&middot;1 &minus; 2&middot;1) &minus; 0(&hellip;) + 1(1&middot;1 &minus; 3&middot;1) = 2(1) + 1(&minus;2) = <b>0</b></span></div></li><li><div class="exb"><span class="exl">What it means</span><span class="exw">B is singular: <b>no inverse</b>; its rank is <b>2</b> (rows are dependent)</span></div></li></ol><div class="exans"><b>det A = 10 and A<sup>&minus;1</sup> = (1/10)[6 &minus;7; &minus;2 4]; det B = 0, so B has no inverse (rank 2).</b></div></div><div class="warn"><b class="hd">Common trap</b><br>Check AA<sup>&minus;1</sup> = I. A common slip is forgetting to change the signs of b and c.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr10">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: det and inverse.</span>A = [3 2; 1 4].</div><button class="ghost pbtn" data-ans="pr10-1">Show answer</button><div class="pa" id="pr10-1">det = 12 &minus; 2 = <b>10</b>; A<sup>&minus;1</sup> = <b>(1/10)[4 &minus;2; &minus;1 3]</b>.</div></li><li><div class="pq"><span class="ptask">Find: the rank.</span>A = [1 2; 2 4].</div><button class="ghost pbtn" data-ans="pr10-2">Show answer</button><div class="pa" id="pr10-2">Row 2 = 2 &times; row 1, so <b>rank 1</b> and det = 0: no inverse.</div></li></ol></div></div></section>
+<section id="gauss"><div class="wrap"><h2><span class="num">3</span>Solving linear systems by Gaussian elimination &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Solves several linear equations at once, and shows whether there is one, none or infinitely many solutions.</p></div><div class="wq w2"><h5>The concept</h5><p>Write the augmented matrix, use row operations to make zeros below the diagonal (row-echelon form), then back-substitute from the last equation upwards.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Circuit analysis, fitting models, any “n equations, n unknowns” problem.</p></div></div></div><div class="formula"><span class="flabel">Method</span><div class="math">[A | b] &nbsp;&rarr;&nbsp; row operations &nbsp;&rarr;&nbsp; [U | c], then solve from the bottom row up</div><small>Allowed: swap rows, multiply a row by a non-zero number, add a multiple of one row to another.</small></div><div class="formula"><span class="flabel">How many solutions</span><div class="math">unique solution: rank A = rank [A|b] = <i>n</i>; &nbsp; none: rank A &lt; rank [A|b]; &nbsp; infinite: rank A = rank [A|b] &lt; <i>n</i></div></div><div class="ex"><div class="exhd">Worked example &mdash; three equations</div><div class="exgiven">x + y + z = 6, &nbsp; 2x + 3y + z = 11, &nbsp; x &minus; y + 2z = 5.</div><ol class="exsteps"><li><div class="exb"><span class="exl">R2 &larr; R2 &minus; 2R1</span><span class="exw">y &minus; z = &minus;1</span></div></li><li><div class="exb"><span class="exl">R3 &larr; R3 &minus; R1</span><span class="exw">&minus;2y + z = &minus;1</span></div></li><li><div class="exb"><span class="exl">R3 &larr; R3 + 2R2</span><span class="exw">&minus;z = &minus;3 &rarr; <b>z = 3</b></span></div></li><li><div class="exb"><span class="exl">Back-substitute</span><span class="exw">y &minus; 3 = &minus;1 &rarr; <b>y = 2</b>; &nbsp;x + 2 + 3 = 6 &rarr; <b>x = 1</b></span></div></li></ol><div class="exans"><b>x = 1, y = 2, z = 3</b> (check: 2 + 6 + 3 = 11 &#10003;).</div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr11">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: x and y.</span>x + y = 5, 2x &minus; y = 1.</div><button class="ghost pbtn" data-ans="pr11-1">Show answer</button><div class="pa" id="pr11-1">Add them: 3x = 6, so <b>x = 2, y = 3</b>.</div></li><li><div class="pq"><span class="ptask">Answer: what does it mean?</span>Elimination ends with the row 0 0 0 | 3.</div><button class="ghost pbtn" data-ans="pr11-2">Show answer</button><div class="pa" id="pr11-2">“0 = 3” is impossible: the system has <b>no solution</b>.</div></li></ol></div></div></section>
+<section id="eig"><div class="wrap"><h2><span class="num">4</span>Eigenvalues and eigenvectors &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds the special directions a matrix only stretches (never turns), and by how much.</p></div><div class="wq w2"><h5>The concept</h5><p>Av = &lambda;v: v is an eigenvector, &lambda; its eigenvalue. Solve det(A &minus; &lambda;I) = 0 for &lambda;, then solve (A &minus; &lambda;I)v = 0 for each v.</p></div><div class="wq w3"><h5>Where it is used</h5><p>PCA directions, Google PageRank, vibration and stability analysis.</p></div></div></div><div class="formula"><span class="flabel">Definition</span><div class="math"><i>A</i><b>v</b> = &lambda;<b>v</b> &nbsp;&rArr;&nbsp; det(<i>A</i> &minus; &lambda;<i>I</i>) = 0</div><small>The characteristic equation.</small></div><div class="formula"><span class="flabel">Check</span><div class="math">&lambda;<sub>1</sub> + &lambda;<sub>2</sub> = trace(<i>A</i>), &nbsp; &lambda;<sub>1</sub> &lambda;<sub>2</sub> = det(<i>A</i>)</div><small>A quick check for any 2 &times; 2 answer.</small></div><div class="ex"><div class="exhd">Worked example &mdash; A = [2 1; 1 2]</div><div class="exgiven">Find the eigenvalues and eigenvectors.</div><ol class="exsteps"><li><div class="exb"><span class="exl">Characteristic equation</span><span class="exw">(2 &minus; &lambda;)<sup>2</sup> &minus; 1 = 0 &rarr; &lambda;<sup>2</sup> &minus; 4&lambda; + 3 = 0</span></div></li><li><div class="exb"><span class="exl">Eigenvalues</span><span class="exw">(&lambda; &minus; 3)(&lambda; &minus; 1) = 0 &rarr; <b>&lambda; = 3, 1</b></span></div></li><li><div class="exb"><span class="exl">&lambda; = 3</span><span class="exw">(A &minus; 3I)v = 0 &rarr; &minus;v<sub>1</sub> + v<sub>2</sub> = 0 &rarr; <b>v = (1, 1)</b></span></div></li><li><div class="exb"><span class="exl">&lambda; = 1</span><span class="exw">(A &minus; I)v = 0 &rarr; v<sub>1</sub> + v<sub>2</sub> = 0 &rarr; <b>v = (1, &minus;1)</b></span></div></li><li><div class="exb"><span class="exl">Check</span><span class="exw">3 + 1 = 4 = trace &#10003;; 3 &times; 1 = 3 = det &#10003;</span></div></li></ol><div class="exans"><b>&lambda; = 3 with (1, 1); &lambda; = 1 with (1, &minus;1).</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr12">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the eigenvalues.</span>A = [4 1; 2 3].</div><button class="ghost pbtn" data-ans="pr12-1">Show answer</button><div class="pa" id="pr12-1">&lambda;<sup>2</sup> &minus; 7&lambda; + 10 = 0 &rarr; <b>&lambda; = 5, 2</b> (sum 7 = trace, product 10 = det).</div></li><li><div class="pq"><span class="ptask">Answer: what does it mean?</span>A matrix has eigenvalue 0.</div><button class="ghost pbtn" data-ans="pr12-2">Show answer</button><div class="pa" id="pr12-2">Then det A = 0: the matrix is <b>singular</b> (no inverse).</div></li></ol></div></div></section>
+<section id="pca"><div class="wrap"><h2><span class="num">5</span>Principal Component Analysis (PCA) &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Reduces many correlated features to a few new ones that keep most of the information (variance).</p></div><div class="wq w2"><h5>The concept</h5><p>Centre the data, build the covariance matrix, find its eigenvectors (the principal components) and eigenvalues (the variance along each). Keep the components with the largest eigenvalues.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Dimensionality reduction, compression, visualising high-dimensional data, noise removal.</p></div></div></div><div class="formula"><span class="flabel">Covariance and its eigenvectors</span><div class="math"><i>C</i> = <span class="frac"><span class="num">1</span><span class="den"><i>n</i> &minus; 1</span></span> <i>X</i><sub>c</sub><sup>T</sup><i>X</i><sub>c</sub>, &nbsp; <i>C</i><b>u</b> = &lambda;<b>u</b></div><small>X<sub>c</sub> is the data with the mean of each column subtracted.</small></div><div class="formula"><span class="flabel">Variance explained and projection</span><div class="math">variance explained by PC<i>i</i> = <span class="frac"><span class="num">&lambda;<sub><i>i</i></sub></span><span class="den">&lambda;<sub>1</sub> + &lambda;<sub>2</sub> + &hellip;</span></span>; &nbsp; score <i>z</i> = <b>u</b>&middot;(<b>x</b> &minus; <b>x&#772;</b>)</div><small>Keep components until the total reaches about 90&ndash;95 %.</small></div><div class="meth"><div class="methd">How to solve it in the exam</div><ol><li>Subtract the mean from every column (centre the data).</li><li>Compute the covariance matrix C.</li><li>Find the eigenvalues and eigenvectors of C; sort from largest eigenvalue.</li><li>Variance explained = each &lambda; / sum of all &lambda;; choose how many to keep.</li><li>Project: z = u&middot;(x &minus; mean) for each kept eigenvector u.</li></ol></div><div class="ex"><div class="exhd">Worked example &mdash; PCA on five points</div><div class="exgiven">Points (1,1), (2,3), (3,2), (4,5), (5,4).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Mean and centred data</span><span class="exw">mean (3, 3); centred (&minus;2,&minus;2), (&minus;1,0), (0,&minus;1), (1,2), (2,1)</span></div></li><li><div class="exb"><span class="exl">Covariance (divide by 4)</span><span class="exw">var(x) = 10/4 = 2.5, var(y) = 2.5, cov = 8/4 = 2 &rarr; C = [2.5 2; 2 2.5]</span></div></li><li><div class="exb"><span class="exl">Eigenvalues</span><span class="exw">(2.5 &minus; &lambda;)<sup>2</sup> &minus; 4 = 0 &rarr; <b>&lambda; = 4.5, 0.5</b></span></div></li><li><div class="exb"><span class="exl">PC1</span><span class="exw">u = (1, 1)/<span class="sqrt"><span class="rad">&#8730;</span><span class="rand">2</span></span> = (0.707, 0.707)</span></div></li><li><div class="exb"><span class="exl">Variance explained</span><span class="exw">4.5 / (4.5 + 0.5) = <b>90 %</b></span></div></li><li><div class="exb"><span class="exl">Project the first point</span><span class="exw">z = 0.707(&minus;2) + 0.707(&minus;2) = <b>&minus;2.828</b></span></div></li></ol><div class="exans"><b>PC1 = (0.707, 0.707) keeps 90 % of the variance; 2-D data can be described by 1 number per point.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>Always centre (and, if units differ, standardise) before PCA; otherwise the feature with the biggest numbers dominates.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr13">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the share kept.</span>Covariance eigenvalues are 6 and 2.</div><button class="ghost pbtn" data-ans="pr13-1">Show answer</button><div class="pa" id="pr13-1">PC1 keeps 6 / (6 + 2) = <b>75 %</b>.</div></li><li><div class="pq"><span class="ptask">Answer: why centre the data first?</span>Why subtract the mean before PCA?</div><button class="ghost pbtn" data-ans="pr13-2">Show answer</button><div class="pa" id="pr13-2">PCA looks for directions of <b>spread around the centre</b>; without centring, the first component just points at the mean.</div></li></ol></div></div></section>
+<section id="lda"><div class="wrap"><h2><span class="num">6</span>Linear Discriminant Analysis (LDA) &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Finds the one direction that best separates two labelled classes, and a threshold to classify new points.</p></div><div class="wq w2"><h5>The concept</h5><p>Project the data on a line w so that the class means are far apart and each class is tight. Fisher's solution: w = S<sub>W</sub><sup>&minus;1</sup>(m<sub>1</sub> &minus; m<sub>2</sub>). Unlike PCA, LDA uses the labels.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Face recognition, medical diagnosis, any two-class problem with numeric features.</p></div></div></div><div class="formula"><span class="flabel">Scatter</span><div class="math"><i>S</i><sub>W</sub> = &Sigma;<sub>class 1</sub>(<b>x</b> &minus; <b>m</b><sub>1</sub>)(<b>x</b> &minus; <b>m</b><sub>1</sub>)<sup>T</sup> + &Sigma;<sub>class 2</sub>(<b>x</b> &minus; <b>m</b><sub>2</sub>)(<b>x</b> &minus; <b>m</b><sub>2</sub>)<sup>T</sup></div><small>Within-class scatter: how spread each class is.</small></div><div class="formula"><span class="flabel">Fisher direction</span><div class="math"><b>w</b> = <i>S</i><sub>W</sub><sup>&minus;1</sup>(<b>m</b><sub>1</sub> &minus; <b>m</b><sub>2</sub>), &nbsp; threshold = midpoint of the projected means</div><small>Fisher's criterion: maximise (separation of means)<sup>2</sup> / (within-class spread).</small></div><div class="ex"><div class="exhd">Worked example &mdash; two classes of three points</div><div class="exgiven">Class A: (1,2), (2,1), (3,3). Class B: (6,5), (7,7), (8,6). Classify (4, 4).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Means</span><span class="exw">m<sub>A</sub> = (2, 2), m<sub>B</sub> = (7, 6)</span></div></li><li><div class="exb"><span class="exl">Scatter</span><span class="exw">S<sub>A</sub> = [2 1; 1 2], S<sub>B</sub> = [2 1; 1 2] &rarr; S<sub>W</sub> = [4 2; 2 4]</span></div></li><li><div class="exb"><span class="exl">Inverse</span><span class="exw">S<sub>W</sub><sup>&minus;1</sup> = (1/12)[4 &minus;2; &minus;2 4]</span></div></li><li><div class="exb"><span class="exl">Direction</span><span class="exw">w = (1/12)[4 &minus;2; &minus;2 4](&minus;5, &minus;4) = (&minus;1, &minus;0.5), i.e. along <b>(2, 1)</b></span></div></li><li><div class="exb"><span class="exl">Project the means on (2, 1)</span><span class="exw">A: 2&middot;2 + 2 = 6; &nbsp;B: 2&middot;7 + 6 = 20 &rarr; threshold <b>13</b></span></div></li><li><div class="exb"><span class="exl">Classify (4, 4)</span><span class="exw">2&middot;4 + 4 = 12 &lt; 13 &rarr; <b>class A</b></span></div></li></ol><div class="exans"><b>Project on w &prop; (2, 1); threshold 13; (4, 4) belongs to class A.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr14">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Answer: PCA or LDA? Give the reason.</span>You have labelled images of two classes and want the direction that best separates them.</div><button class="ghost pbtn" data-ans="pr14-1">Show answer</button><div class="pa" id="pr14-1"><b>LDA</b>: it uses the labels and maximises class separation. PCA ignores labels and maximises variance.</div></li><li><div class="pq"><span class="ptask">Find: which class?</span>Projected means 6 (A) and 20 (B). A new point projects to 15.</div><button class="ghost pbtn" data-ans="pr14-2">Show answer</button><div class="pa" id="pr14-2">Threshold (6 + 20)/2 = 13; 15 &gt; 13, so <b>class B</b>.</div></li></ol></div></div></section>
+<section id="imgt"><div class="wrap"><h2><span class="num">7</span>Image transformations with homogeneous coordinates &nbsp;<span class="stars">&#9733;&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Moves, resizes, rotates or shears an image (or shape) using one matrix multiplication per point.</p></div><div class="wq w2"><h5>The concept</h5><p>Write a 2-D point as (x, y, 1). Then translation becomes a matrix too, and several transformations combine into one matrix by multiplying them. The order matters.</p></div><div class="wq w3"><h5>Where it is used</h5><p>Image editing, computer graphics, game engines, augmenting training images.</p></div></div></div><div class="formula"><span class="flabel">Basic matrices</span><div class="math">T = [1 0 <i>t<sub>x</sub></i>; 0 1 <i>t<sub>y</sub></i>; 0 0 1], &nbsp; S = [<i>s<sub>x</sub></i> 0 0; 0 <i>s<sub>y</sub></i> 0; 0 0 1], &nbsp; R(&theta;) = [cos&theta; &minus;sin&theta; 0; sin&theta; cos&theta; 0; 0 0 1]</div><small>Shear: [1 <i>k</i> 0; 0 1 0; 0 0 1]. Reflection in the x-axis: diag(1, &minus;1, 1).</small></div><div class="formula"><span class="flabel">Composition</span><div class="math">“first S, then T” &nbsp;&rArr;&nbsp; M = T &middot; S &nbsp; (the first one goes on the right)</div><small>Matrix order is the reverse of the order you do them.</small></div><div class="ex"><div class="exhd">Worked example &mdash; rotation, and why order matters</div><div class="exgiven">(i) Rotate (2, 1) by 90&deg; about the origin. (ii) Scale by 2 and translate by (3, 4), in both orders, for the point (1, 1).</div><ol class="exsteps"><li><div class="exb"><span class="exl">R(90&deg;)</span><span class="exw">[0 &minus;1; 1 0] (2, 1) = <b>(&minus;1, 2)</b></span></div></li><li><div class="exb"><span class="exl">Scale first, then translate (M = T&middot;S)</span><span class="exw">(1, 1) &rarr; (2, 2) &rarr; <b>(5, 6)</b></span></div></li><li><div class="exb"><span class="exl">Translate first, then scale (M = S&middot;T)</span><span class="exw">(1, 1) &rarr; (4, 5) &rarr; <b>(8, 10)</b></span></div></li><li><div class="exb"><span class="exl">Lesson</span><span class="exw">same two steps, different order, <b>different result</b></span></div></li></ol><div class="exans"><b>(&minus;1, 2); (5, 6) vs (8, 10): the order of transformations changes the answer.</b></div></div><div class="warn"><b class="hd">Common trap</b><br>Without the extra 1 (homogeneous coordinate), translation cannot be written as a matrix product.</div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr15">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the new point.</span>Rotate (1, 0) by 90&deg;.</div><button class="ghost pbtn" data-ans="pr15-1">Show answer</button><div class="pa" id="pr15-1">[0 &minus;1; 1 0](1, 0) = <b>(0, 1)</b>.</div></li><li><div class="pq"><span class="ptask">Write: the matrix.</span>Translation by (2, &minus;1) in homogeneous form.</div><button class="ghost pbtn" data-ans="pr15-2">Show answer</button><div class="pa" id="pr15-2"><b>[1 0 2; 0 1 &minus;1; 0 0 1]</b>.</div></li></ol></div></div></section>
+<section id="interp"><div class="wrap"><h2><span class="num">8</span>Image interpolation: nearest neighbour and bilinear &nbsp;<span class="stars">&#9733;&#9733;</span></h2><div class="why"><div class="whyhd">In one minute</div><div class="whygrid"><div class="wq w1"><h5>What it solves</h5><p>Estimates the colour of a pixel that falls between known pixels when an image is resized or rotated.</p></div><div class="wq w2"><h5>The concept</h5><p>Nearest neighbour copies the closest pixel (fast, blocky). Bilinear takes a weighted average of the four surrounding pixels (smoother). Bicubic uses 16 pixels (smoothest, slowest).</p></div><div class="wq w3"><h5>Where it is used</h5><p>Zooming, resizing and rotating images; texture mapping.</p></div></div></div><div class="formula"><span class="flabel">Bilinear</span><div class="math"><i>f</i>(<i>x</i>, <i>y</i>) = (1&minus;<i>x</i>)(1&minus;<i>y</i>)<i>f</i><sub>00</sub> + <i>x</i>(1&minus;<i>y</i>)<i>f</i><sub>10</sub> + (1&minus;<i>x</i>)<i>y f</i><sub>01</sub> + <i>x y f</i><sub>11</sub></div><small>x and y are the fractional distances (0 to 1) inside the cell; the four weights add up to 1.</small></div><div class="ex"><div class="exhd">Worked example &mdash; one bilinear value</div><div class="exgiven">Corner values f(0,0) = 10, f(1,0) = 20, f(0,1) = 30, f(1,1) = 40. Find the value at (0.25, 0.75).</div><ol class="exsteps"><li><div class="exb"><span class="exl">Weights</span><span class="exw">(0.75)(0.25) = 0.1875; (0.25)(0.25) = 0.0625; (0.75)(0.75) = 0.5625; (0.25)(0.75) = 0.1875</span></div></li><li><div class="exb"><span class="exl">Weighted sum</span><span class="exw">0.1875&middot;10 + 0.0625&middot;20 + 0.5625&middot;30 + 0.1875&middot;40 = 1.875 + 1.25 + 16.875 + 7.5</span></div></li><li><div class="exb"><span class="exl">Bilinear value</span><span class="exw"><b>27.5</b></span></div></li><li><div class="exb"><span class="exl">Nearest neighbour</span><span class="exw">closest corner is (0, 1) &rarr; <b>30</b></span></div></li></ol><div class="exans"><b>Bilinear 27.5; nearest neighbour 30.</b></div></div><div class="prac"><div class="prhd">Practice<button class="ghost pall" data-all="pr16">Show all answers</button></div><ol><li><div class="pq"><span class="ptask">Find: the value.</span>Same corners (10, 20, 30, 40). Bilinear value at the centre (0.5, 0.5)?</div><button class="ghost pbtn" data-ans="pr16-1">Show answer</button><div class="pa" id="pr16-1">All weights 0.25 &rarr; <b>25</b>, the average.</div></li><li><div class="pq"><span class="ptask">Answer: which method?</span>Which interpolation makes a zoomed image look blocky?</div><button class="ghost pbtn" data-ans="pr16-2">Show answer</button><div class="pa" id="pr16-2"><b>Nearest neighbour</b>, because it copies pixels instead of blending them.</div></li></ol></div></div></section>
+<footer><div class="wrap">CSE563 &middot; Applied Mathematics &middot; Unit II &mdash; Vectors and Matrices &mdash; Important Topics, Formulas and Solved Questions &middot;
+School of Computer Science &amp; Engineering &middot; Session 2026&ndash;27</div></footer>
+<script>
+
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+var C={navy:"#182B49",cyan:"#0096C7",purple:"#5C2D91",orange:"#ED771F",
+       green:"#107C41",red:"#B42318",grey:"#9AA7B5",rule:"#D8DFE8",ice:"#7EC5E2"};
+function el(p,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+  p.appendChild(e);return e;}
+function clr(s){while(s.firstChild)s.removeChild(s.firstChild);}
+function line(s,A,B,col,w,dash){var l=el(s,"line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,
+  stroke:col,"stroke-width":w,"stroke-linecap":"round"});
+  if(dash)l.setAttribute("stroke-dasharray",dash);return l;}
+function dot(s,p,r,fill){return el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill});}
+function nodeC(s,p,label,fill,r){r=r||17;
+  el(s,"circle",{cx:p.x,cy:p.y,r:r,fill:fill,stroke:"#fff","stroke-width":2.5});
+  var t=el(s,"text",{x:p.x,y:p.y+5,"text-anchor":"middle",fill:"#fff","font-size":"14",
+    "font-weight":"600","font-family":"Segoe UI,sans-serif"});t.textContent=label;}
+function txt(s,x,y,str,col,size,anchor,weight){
+  var t=el(s,"text",{x:x,y:y,"text-anchor":anchor||"middle",fill:col||C.navy,
+    "font-size":size||12,"font-weight":weight||"600","font-family":"Segoe UI,sans-serif"});
+  t.textContent=str;return t;}
+function box(s,x,y,w,h,fill,stroke,rx){return el(s,"rect",{x:x,y:y,width:w,height:h,
+  rx:rx===undefined?6:rx,fill:fill,stroke:stroke||"none","stroke-width":1.6});}
+function badge(s,A,B,str){var mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  el(s,"circle",{cx:mx,cy:my,r:11,fill:"#fff",stroke:C.rule});
+  txt(s,mx,my+4,str,C.navy,12);}
+function arrow(s,A,B,col,w){
+  var dx=B.x-A.x,dy=B.y-A.y,L=Math.sqrt(dx*dx+dy*dy);if(!L)return;
+  var ux=dx/L,uy=dy/L,ex=B.x-ux*20,ey=B.y-uy*20;
+  el(s,"line",{x1:A.x+ux*20,y1:A.y+uy*20,x2:ex,y2:ey,stroke:col,"stroke-width":w||2.6,
+    "stroke-linecap":"round"});
+  var a=8;
+  el(s,"polygon",{points:[ex+","+ey,(ex-ux*a-uy*a*0.6)+","+(ey-uy*a+ux*a*0.6),
+    (ex-ux*a+uy*a*0.6)+","+(ey-uy*a-ux*a*0.6)].join(" "),fill:col});}
+
+/* ---- generic step player, wired to data-viz buttons ---- */
+var VIZ={};
+function register(id,build,render){
+  VIZ[id]={build:build,render:render,steps:[],i:0,timer:null};
+  resetViz(id);
+}
+function resetViz(id){var m=VIZ[id];if(!m)return;
+  m.steps=m.build();m.i=0;stopViz(id);drawViz(id);}
+function drawViz(id){var m=VIZ[id];
+  m.render(document.getElementById("svg-"+id),m.steps[m.i],m.i,m.steps);
+  var st=document.getElementById("st-"+id);
+  if(st)st.innerHTML=m.steps[m.i].msg||"";
+  syncViz(id);}
+/* keep the counter and the buttons honest about where we are */
+function syncViz(id){var m=VIZ[id],last=m.steps.length-1;
+  function btn(a){return document.querySelector(
+    'button[data-act="'+a+'"][data-viz="'+id+'"]');}
+  var b;
+  if((b=btn("step")))b.disabled=m.i>=last;
+  if((b=btn("back")))b.disabled=m.i<=0;
+  var sc=document.getElementById("sc-"+id);
+  if(sc)sc.innerHTML="step <em>"+m.i+"</em> of "+last;
+  var wrap=document.getElementById("wrap-"+id);
+  if(wrap){if(m.i>=last&&last>0)wrap.classList.add("done");
+           else wrap.classList.remove("done");}}
+function stepViz(id){var m=VIZ[id];
+  if(m.i<m.steps.length-1){m.i++;drawViz(id);}
+  if(m.i>=m.steps.length-1)stopViz(id);}
+/* step backwards, so a student can flip between before and after */
+function stepBackViz(id){var m=VIZ[id];
+  if(m.i>0){stopViz(id);m.i--;drawViz(id);}}
+function stopViz(id){var m=VIZ[id];if(m.timer){clearInterval(m.timer);m.timer=null;}
+  var b=document.querySelector('button[data-act="auto"][data-viz="'+id+'"]');
+  if(b)b.textContent="Auto-play";}
+/* ---- practice answers: reveal one, or all of a block ---- */
+document.addEventListener("click",function(e){
+  if(!e.target.closest)return;
+  var one=e.target.closest("button[data-ans]");
+  if(one){var p=document.getElementById(one.getAttribute("data-ans"));
+    if(p){var on=p.classList.toggle("on");
+      one.textContent=on?"Hide answer":"Show answer";}
+    return;}
+  var all=e.target.closest("button[data-all]");
+  if(all){var g=all.getAttribute("data-all"),
+      blk=all.closest(".prac"),show=all.textContent.indexOf("Show")===0;
+    blk.querySelectorAll(".pa").forEach(function(p){
+      p.classList.toggle("on",show);});
+    blk.querySelectorAll("button[data-ans]").forEach(function(b2){
+      b2.textContent=show?"Hide answer":"Show answer";});
+    all.textContent=show?"Hide all answers":"Show all answers";}
+});
+document.addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest("button[data-viz]"):null;if(!b)return;
+  var id=b.getAttribute("data-viz"),act=b.getAttribute("data-act"),m=VIZ[id];if(!m)return;
+  if(act==="step")stepViz(id);
+  else if(act==="back")stepBackViz(id);
+  else if(act==="reset")resetViz(id);
+  else if(act==="auto"){
+    if(m.timer){stopViz(id);return;}
+    if(m.i>=m.steps.length-1)resetViz(id);
+    b.textContent="Pause";
+    m.timer=setInterval(function(){if(m.i>=m.steps.length-1)stopViz(id);else stepViz(id);},950);
+  }});
+
+
+</script>
+</body>
+</html>
